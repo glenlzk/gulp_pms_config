@@ -1,0 +1,216 @@
+<div id="uncheckinOrder" class="clearfix" v-cloak>
+	<div class="right-content-header">
+		<div class="right-content-header-searchlabel tb-color form-inline">
+			<span class="mr10">
+				<label class="inline-block-middle">入住日期</label>
+				<mz-datepicker format="yyyy-MM-dd" :start-time.sync="initdata.fromDate" :end-time.sync="initdata.toDate" range en confirm :on-confirm="finaDepositDate"></mz-datepicker>
+			</span>
+			<span class="slide-out">
+				<label class="inline-block-middle">渠道</label>
+				<iselect-name :list.sync="uncheckinChannelList" :select-val.sync="channleCodelist" :elem-id.sync="uncheckinChannelElemId" :is-multiple.sync="isMultiple" :is-selected.sync="isSelected" :text.sync="selectText"></iselect-name>
+    			<!--<select name="" id="channelCode">
+    				<option id=""></option>
+    				<option id="{{item.code}}" v-for="item in orderMessage.channelList">
+    					<input type="checkbox" />{{item.name}}
+    				</option>
+    			</select>-->
+    			<!--<div class="slide-layout-box" id="slide_layout_box" @click="channelSlideDown($event)">
+					<label class="slide-layout" id="slide_layout">
+						-&#45;&#45;请选择-&#45;&#45;
+					</label>
+					<ul class="slide-inner" id="slide_inner" style="display:none;">
+						<li>
+							<label>
+								<input type="checkbox" id="channelCheckAll" @click="bindChannelCheckAll($event)"/>全选
+							</label>
+						</li>
+						<li v-for="item in uncheckinChannelList" id="channelSecondLi">
+							<label>
+								<input type="checkbox" id="{{item.code}}" />{{item.name}}
+							</label>
+						</li>
+					</ul>
+				</div>-->
+				<!--<input type="text" class="form-control input-sm w140 mr10" v-model="initdata.channelOrderNo"/>-->
+			</span>
+			<span>
+				<label class="inline-block-middle ml8">房间号</label>
+				<input type="text" id="roomNo" class="form-control input-sm w140 mr10" v-model="initdata.roomNo"/>
+			</span>
+			<span>
+				<label class="inline-block-middle">入住人</label>
+				<input type="text" id="customer" class="form-control input-sm w140 mr10" v-model="initdata.customer"/>
+			</span>
+			<button class="btn-primary btn-sm w80" v-on:click="searchOrder">查询</button>
+			<button class="ExportTableBtn btn-primary btn-sm w80 ml10" v-if="orderMessage.list.length != 0">
+				<a href="javascript:;" class="color-white fz12">导出表格</a>
+			</button>
+		</div>
+	</div>
+	<div class="right-content-bottom" id="rightContentBottom">
+		<!--<ul class="untreatedOrdertable">
+		<li class="table-list">
+			<span>状态</span>
+			<span>订单号</span>
+			<span>渠道</span>
+			<span>入住人</span>
+			<span>入住人手机</span>
+			<span>房型</span>
+			<span>房间号</span>
+			<span>入住日期</span>
+			<span>天数</span>
+			<span>房费</span>
+			<span>订单总额</span>
+			<span>需补交</span>
+			<span>已收押金</span>
+		</li>
+		<li class="table-list" v-for="item in orderInfo">
+			<span>
+				{{item.orderStatusName}}
+			</span>
+			<span>
+				<a href="javascript:;" v-if="uncheckinOrderResourceInfo.cloudHotelOrderDetail" @click="openRoomOrderDetails(item.orderId)">{{item.orderNo}}</a>
+				<em v-else >{{item.orderNo}}</em>
+				<i v-show="item.customerList.length>1">+</i>
+			</span>
+			<span>
+				{{item.channelName}}
+			</span>
+			<span>
+				{{item.customerList[0].customerName}}
+			</span>
+			<span>
+				{{item.customerList[0].customerMobile}}
+			</span>
+			<span>
+				{{item.customerList[0].roomTypeName}}
+			</span>
+			<span>
+				{{item.customerList[0].roomNo}}
+			</span>
+			<span>
+				{{item.customerList[0].checkinDate}}
+			</span>
+			<span>
+				{{item.customerList[0].nights}}
+			</span>
+			<span>
+				{{item.customerList[0].roomAmount}}
+			</span>
+			<span>
+				{{item.orderAmount}}
+			</span>
+			<span>
+				{{item.needPayAmount}}
+			</span>
+			<span>
+				{{item.depositAmount}}
+			</span>
+			<div class="slideDownbox">
+				<div v-for="items in item.customerList | limitBy item.customerList.length 1">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span>{{items.customerName}}</span>
+					<span>{{items.customerMobile}}</span>
+					<span>{{items.roomTypeName}}</span>
+					<span>{{items.roomNo}}</span>
+					<span>{{items.checkinDate}}</span>
+					<span>{{items.nights}}</span>
+					<span>{{items.roomAmount}}</span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</li>
+	</ul>-->
+	<table id="tbl" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="5%">
+	            <col width="7%">
+	            <col width="6%">
+	            <col width="6%">
+                <col width="6%">
+	            <col width="10%">
+	            <col width="7%">
+	            <col width="5%">
+	            <col width="7%">
+                <col width="5%">
+	            <col width="5%">
+	            <col width="5%">
+	            <col width="5%">
+	            <col width="5%">
+	            <col width="5%">
+	            <col width="5%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	                <td class="pb10 pt10">状态 </td>
+	                <td class="pb10 pt10">订单号</td>
+	                <td class="pb10 pt10">渠道</td>
+	                <td class="pb10 pt10">入住人</td>
+	                <td class="pb10 pt10">入住人手机</td>
+	                <td class="pb10 pt10">房型</td>
+                    <td class="pb10 pt10">房间号</td>
+                    <td class="pb10 pt10">入住日期</td>
+                    <td class="pb10 pt10">天数</td>
+                    <td class="pb10 pt10">售价</td>
+                    <td class="pb10 pt10">原价</td>
+                    <td class="pb10 pt10">差额</td>
+                    <td class="pb10 pt10">订单总额</td>
+                    <td class="pb10 pt10">需补交</td>
+                    <td class="pb10 pt10">已收押金</td>
+                    <td class="pb10 pt10">建单人</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in orderInfo">
+					<tr class="tb-linebm">
+						<td class="pb10 pt10">{{item.orderStatusName}}</td>
+						<td class="pb10 pt10">
+							<a href="javascript:;" class="btn-link fz12" v-bind:class="item.customerList.length>1? 'ml10':''" v-if="uncheckinOrderResourceInfo.cloudHotelOrderDetail" @click="openRoomOrderDetails(item.orderId)">{{item.orderNo}}</a>
+							<em v-else class="fz12" >{{item.orderNo}}</em>
+							<span class="w12 btn-inlineblock"><i v-show="item.customerList.length>1" class="iconfont icon-chevron-down tb-updownIcon fz12 pointer" @click="slideDownMoreDetail($index)"></i></span>
+						</td>
+						<td class="pb10 pt10">{{item.channelName}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].customerName}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].customerMobile}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].roomTypeName}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].roomNo}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].checkinDate}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].nights}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].roomAmount}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].roomOriginalAmount}}</td>
+						<td class="pb10 pt10">{{item.customerList[0].roomDiscountAmount}}</td>
+						<td class="pb10 pt10">{{item.orderAmount}}</td>
+						<td class="pb10 pt10">{{item.needPayAmount}}</td>
+						<td class="pb10 pt10">{{item.depositAmount}}</td>
+						<td class="pb10 pt10">{{item.userName}}</td>
+					</tr>
+					<tr v-if="item.customerList.length > 1 && $index > 0" v-for="secItem in item.customerList" class="tb-hide" v-bind:class="'tb-close' + $parent.$index">
+						<td class="pb10 pt10 tb-linebm"></td>
+						<td class="pb10 pt10 tb-linebm"></td>
+						<td class="pb10 pt10 tb-linebm"></td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.customerName}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.customerMobile}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.roomTypeName}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.roomNo}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.checkinDate}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.nights}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.roomAmount}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.roomOriginalAmount}}</td>
+						<td class="pb10 pt10 tb-linebm">{{secItem.roomDiscountAmount}}</td>
+						<td class="pb10 pt10 tb-linebm"></td>
+						<td class="pb10 pt10 tb-linebm"></td>
+						<td class="pb10 pt10 tb-linebm"></td>
+						<td class="pb10 pt10 tb-linebm"></td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	<div class="table-page" v-if="orderMessage.list.length != 0">
+        <span class="key-manage-pagemsg fl">共<span>{{orderMessage.total}}</span>个未入住订单</span>
+        <vue-nav :cur.sync="cur" :all.sync="all" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav>
+    </div>
+</div>

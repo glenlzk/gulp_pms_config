@@ -1,0 +1,270 @@
+/*基本样式 start*/
+.AddNewNavigation-title{
+	line-height: 30px;
+}
+.roomNavList {
+	margin-top: 12px;
+	width: 100%;
+	text-align: center;
+}
+.nav-pagination {
+	margin-top: 10px;
+}
+.nav-room-opreate a {
+	font-size: 14px;
+	color: #006cca;
+}
+.roomNavList li:nth-child(1){
+	background: #28679B;
+	color: #fff;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	padding: 0px;
+}
+.roomNavList li:nth-child(1) span{
+	padding: 0px;
+}
+.roomNavList li {
+	background: #FFF4ED;
+	color: #696969;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	margin-top: 5px;
+}
+.roomNavList span{
+	display: inline-block;
+	word-wrap: break-word
+}
+.roomNavList ul li span:nth-child(1){
+	width: 42%;
+}
+.roomNavList ul li span:nth-child(2){
+	width: 10%;
+}
+.roomNavList ul li span:nth-child(3){
+	width: 28%;
+}
+.roomNavList ul li span:nth-child(4){
+	width: 18%;
+}
+.roomCodeList{
+	position: relative;
+}
+.roomnav-list-pics:hover {
+	text-decoration: underline;
+}
+.roomnav-list-pics,
+.roomCodeList a{
+	color: #006CCA;
+	font-size: 12px;
+	text-decoration: underline;
+}
+.roomListTip{
+    width: 360px;
+    display: none;
+    position: absolute;
+    left: -106px;
+    top: 20px;
+    z-index: 2;
+    background:rgba(0,0,0,0.5);
+    border-radius: 6px;
+    border: 1px solid #fff;
+}
+.roomListTip i{
+	display: inline-block;
+	width: 20%;
+	line-height: 22px;
+	float: left;
+	color: #fff;
+	overflow: hidden;  /*溢出隐藏*/
+    text-overflow: ellipsis;
+    white-space: nowrap;  /*强制不换行*/
+}
+.roomCodeList-layout{
+	position: relative;
+}
+.roomCodeList-layout:hover .roomListTip{
+	display: block;
+}
+.key-manage-pagemsg{
+	margin-bottom: 10px;
+}
+.table-page span{
+	margin: 0 5px;
+}
+/*基本样式 end*/
+/*新增模态窗、地图导航模态窗 start*/
+.addNewRoomNav-content{
+	padding: 12px;
+	position: relative;
+}
+.addNewRoomNav-content span{
+	position: absolute;
+	right: 70px;
+	top: 18px;
+	cursor: pointer;
+	color: #5cb85c;
+}
+.addNewRoomNav-content label{
+	display: block;
+	margin-bottom: 10px;
+}
+.addNewRoomNav-content input{
+	border: 1px solid #c6c6c6;
+	height: 28px;
+	width: 250px;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.roomImgList{
+	width: 100%;
+	height: 280px;
+	border-radius: 3px 3px 0 0;
+	border-top: 2px dashed #e8e8e8;
+}
+.roomImgList .uploadify-button {
+	height: 100%;
+	width: 100%;
+	visibility: hidden;
+	font-size: 0;
+}
+.roomguide-images-last {
+	background: url('../../../images/page_template/setting/add_pics.png') center center no-repeat;
+	border: 1px dashed #CCC!important;
+}
+.roomguide-images-last .vueUploadfyBtn-button,
+.roomguide-images-last #vueUploadfyBtn {
+	width: 100%!important;
+	height: 100%!important;
+	padding: 0px!important;
+	margin: 0px!important;
+	cursor: pointer;
+}
+.guide-room-btn {
+	padding-left: 20px;
+	height: 30px;
+}
+.guide-room-btn #guideRoomUploadImgsBtn-button {
+	width: 82px !important;
+	height: 34px !important;
+	background: #3ca3f9;
+	color: #fff;
+	border-radius: 4px;
+}
+.roomImgList li{
+	float: left;
+	width: 29%;
+	height: 118px;
+	border: 1px solid #CCCCCC;
+	margin: 10px 2%;
+	position: relative;
+	overflow: hidden;
+	border-radius: 5px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+}
+.roomImgList li img {
+	width: 100%;
+}
+.roomImgList li em{
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 22px;
+	background: rgba(0, 0, 0, 0.5);
+	text-align: center;
+	color: #fff;
+	display: none;
+}
+.roomImgList li em i {
+	position: absolute;
+	right: 5px;
+	top: 3px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.roomImgList li:hover em {
+	display: block;
+}
+.addNewRoomNav-footer{
+	text-align: center;
+	padding-top: 10px;
+}
+
+.NavigationMap-content{
+	position: relative;
+}
+.NavigationMap-content .nav-cur-pos {
+	height: 24px;
+	background: #fff;
+	line-height: 24px;
+}
+
+/*.naviconBtn{
+	width: 26px;
+	height: 26px;
+	display: inline-block;
+	background: url(../../../images/page_template/setting/navicon.png) no-repeat center;
+}*/
+/*新增模态窗、地图导航模态窗 end*/
+/*导航地图窗口 start*/
+	#l-map{height:400px;width:100%;}
+	#r-result{
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	#r-result input {
+		vertical-align: middle;
+	}
+	#tangram-suggestion--TANGRAM__1c-main, .tangram-suggestion-main {
+		z-index: 999;
+		max-height: 260px;
+		overflow-y: scroll;
+		overflow-x: hidden;
+	}
+/*导航地图窗口 end*/
+/*编辑房间模态窗 start*/
+.EditRoomWindow-content{
+	padding: 12px;
+	position: relative;
+}
+.EditRoomWindow-content button{
+	float: right;
+	width: 72px;
+	height: 26px;
+	background: #169BD5;
+	color: #fff;
+	border-radius: 4px;
+	margin-bottom: 12px;
+}
+.EditRoomWindow-select button {
+	float: right;
+	width: 72px;
+	height: 26px;
+	background: #169BD5;
+	color: #fff;
+	border-radius: 4px;
+	margin-top: 12px;
+	margin-right: 12px;
+}
+.EditRoomWindow-content li{
+	float: left;
+	width: 33%;
+	margin: 5px 0;
+	padding-left: 68px;
+}
+/*.EditRoomWindow-btn button {
+	width: 90px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #3ca3f9;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
+}*/
+/*编辑房间模态窗 end*/
+
+

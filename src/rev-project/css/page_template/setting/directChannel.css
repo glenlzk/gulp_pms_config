@@ -1,0 +1,593 @@
+#directChannel{
+	display: none;
+}
+.channel-contact{
+	padding-top: 8px;
+	background: white;
+	position: relative;
+}
+/*.channel-contact li{
+	display: none;
+}*/
+.channel-contact li.active{
+	display: block;
+}
+.hotelBasicSetting span{
+	display: inline-block;
+	width: 30%;
+	margin: 10px 0;
+}
+/*.channel-contact label{
+	line-height: 38px;
+	padding-left: 30px;
+}*/
+.channel-contact input[type='checkbox']{
+	width: 28px;
+    height: 16px;
+}
+.hotel-info-editable{
+	border-top: 1px solid #dadada;
+	margin-top: 10px;
+	padding-top: 10px;
+	margin-bottom: 20px;
+}
+.hotel-server-form{
+	height: 398px;
+}
+.hotel-server-form span{
+	margin-right: 35px;
+}
+.channel-contact .hotel-logo{
+	width: 110px;
+    height: 110px;
+    text-align: center;
+    line-height: 110px;
+    border: 1px solid #C0C0C0;
+    position: absolute;
+    right: 315px;
+    top: 45px;
+	
+}
+.channel-contact .hotel-logo img{
+	max-width: 100%;
+	max-height: 100%;
+	float: left;
+}
+.channel-contact textarea{
+	height: 145px;
+	box-sizing: border-box;
+	vertical-align: middle;
+	font-family: "microsoft yahei";
+}
+.channel-contact .label-info{
+	margin-top: -75px;
+    vertical-align: middle;
+}
+/*酒店设置*/
+.hotel-server-form .checkOut-time,
+.hotel-server-form .checkIn-time{
+    width: 187px;
+    position: absolute;
+    left: 1px;
+    top: 35px;
+    border: 1px solid #696969;
+    background-color: #fff;
+    padding: 5px;
+    z-index: 1;
+    font-size: 12px;
+    color: #333;
+    display: none;
+}
+.hotel-server-form .checkOut-time li,
+.hotel-server-form .checkIn-time li{
+    float: left;
+    width: 55px;
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: normal;
+}
+.hotel-server-form .checkOut-time li:hover,
+.hotel-server-form .checkIn-time li:hover{
+    background-color: #3fa4f9;
+    color: #fff;
+}
+server-info-editable{
+	position: relative;
+}
+.showCheckInTime,.showCheckOutTime{
+	width: 100px;
+    height: 125px;
+    max-height: 125px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    left: -1px;
+    top: 28px;
+    border: 1px solid #CCCCCC;
+    background: #fff;
+    position: absolute;
+    z-index: 3;
+    display: none;
+}
+.showCheckOutTime{
+	left: -1px;
+    top: 28px;
+}
+#checkinTime,#checkoutTime{
+	padding-left: 5px;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+#checkinTime .checkinTime-span,#checkoutTime .checkoutTime-span{
+	margin-right: 12px;
+	text-align: center;
+	display: inline-block;
+	width: 81%;
+}
+#checkinTime i,#checkoutTime i{
+	width:0; 
+    height:0; 
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:5px solid #006C99;
+    position: absolute;
+    top: 13px;
+    right: 4px;
+    cursor: pointer;
+}
+.showCheckInTime span,.showCheckOutTime span{
+	float: left;
+	display: inline-block;
+	width: 100%;
+	height: 31px;
+	line-height: 31px;
+	text-align: center;
+	margin: 0;
+	cursor: pointer;
+	padding-right: 12px;
+}
+.showCheckInTime span:hover,.showCheckOutTime span:hover{
+	background: #EEEEEE;
+}
+.presaleDays input{
+	width: 16px;
+    height: 16px;
+}
+.presaleDays label{
+	width: 65px;
+	margin-right: 40px;
+}
+.presaleDays label input{
+	margin-right: 5px;
+}
+.presaleDays .presaleDaysTitle{
+	width: 80px;
+	margin-right: 30px;
+}
+/*酒店设置*/
+
+
+/*房型信息 start*/
+#shuangchuang{
+	cursor: pointer;
+}
+.hotel-room{
+	height: 400px;
+}
+.hotel-room-left{
+	padding-right: 336px;
+	width: 100%;
+	display: inline-block;
+}
+.hotel-room-tabel{
+	border: none;
+	border-collapse: separate;
+    border-spacing:  0 5px;
+}
+.hotel-room-tabel a{
+	color: #696969;
+}
+.hotel-room-tabel .roomStyle-edit{
+	text-decoration: underline;
+	color: #006CCA;
+}
+.hotel-room-tabel thead{
+	background: #28679b;
+	height: 32px;
+	line-height: 32px;
+	color:#fff;
+	white-space: nowrap;
+}
+.hotel-room-tabel tbody tr{
+	color: #696969;
+	background: #FFF4ED;
+	height: 32px;
+}
+
+.hotel-room-tabel tr.active{
+	background: #67baff;
+	color: #fff;
+}
+.hotel-room-tabel tr.active .roomStyle-edit{
+	color: #fff;
+}
+.hotel-room-tabel td{
+	padding: 0 10px;
+	text-align: center;
+}
+.hotel-room-right{
+    display: inline-block;
+    width: 300px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 20px;
+}
+.room-image{
+    border: 1px solid #e1e1e2;
+    width: 282px;
+    height: 167px;
+    line-height: 140px;
+    text-align: center;
+    margin: 11px auto;
+    overflow: hidden;
+}
+.room-image img{
+	width: 100%;
+}
+.room-right-table{
+	width: 100%;
+}
+.room-right-table tr{
+	padding: 10px 0;
+}
+
+.room-right-table td{
+	padding: 10px;
+	width: 50%;
+	border: 1px solid #e1e1e2;
+}
+
+.room-right-table tr td:first-child{
+	text-align: right;
+	background: #F2F2F2;
+	padding-right: 8px;
+}
+
+.right-addRoom-mask input[type=file]{
+	width: 80px;
+	border: none;
+}
+.upload-left{
+	margin-top: 20px;
+	margin-left: 6px;
+	position: relative;
+}
+.upload-left ul li{
+	border: 2px solid white;
+	display: block;
+	width: 135px;
+	height: auto;
+	margin:0 0 10px 5px;
+	position: relative;
+	overflow: hidden;
+}
+.upload-left ul li span{
+	width: 16px;
+    height: 16px;
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    background-color: #d81d06;
+    border-radius: 50%;
+    line-height: 16px;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    display: none;
+    text-align: center;
+}
+.upload-left ul li:hover{
+	border:2px solid #CD0A0A;
+}
+.upload-left ul li:hover span{
+	display: block;
+}
+.right-addRoomTag-cotent ul li img{
+	max-width: 100%;
+}
+.upload-right{
+	position: relative;
+}
+.upload-right .banner-prev,.upload-right .banner-next{
+	display: none;
+}
+.upload-right .imgshow-banner{
+    width: 493px;
+    position: relative;
+    margin: 0px 52px 15px 0;
+    overflow: hidden;
+}
+.upload-right ul{
+	width: 4930px;
+	position: relative;
+	overflow: hidden;
+}
+.upload-right .imgshow-banner li{
+	width: 493px;
+	position: relative;
+}
+.upload-right .imgshow-banner li img{
+	width: 100%;
+	display: inline-block;
+}
+.upload-right a{
+	color: #fff;
+	display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.6);
+    position: absolute;
+    text-align: center;
+    line-height: 40px;
+    top: 50%;
+    left: -57px;
+    font-family: cursive;
+    margin-top: -10px;
+}
+.upload-right .banner-next{
+	right: 0px;
+	left: initial;
+}
+.upload-right a:hover{
+	background: rgba(0,0,0,0.7);
+}
+.upload-right ul li{
+	display: block;
+	float: left;
+}
+.upload-right-bottom{
+	padding: 0px 0 10px 2px;
+    color: #666666;
+    font-size: 12px;
+}
+.upload-bottom{
+	position: relative;
+	height: 40px;
+}
+.upload-bottom .btn-tem,.upload-bottom .btn-save{
+	height: 38px;
+	width: 96px;
+	border-radius: 6px;
+	line-height: 38px;
+	text-align: center;
+	background: #6CA9E2;
+	color: white;
+	position: absolute;
+	left: 40%;
+	margin-left: -48px;
+	top: -8px;
+	cursor: pointer;
+}
+.upload-bottom .btn-save{
+	left: 50%;
+	background: #2577E3;
+}
+#tbl tbody tr{
+	cursor: pointer;
+}
+/*房型信息 end*/
+
+/*图片信息 start*/
+.image-header{
+	height: 50px;
+	line-height: 50px;
+}
+.image-header button{
+	width: 90px;
+	height: 32px;
+	line-height: 32px;
+	background: #3385FF;
+	text-align: center;
+	color: white;
+	margin: 0 0 0 20px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.image-header button:first-child{
+	margin: 0 0 0 65px;
+}
+.image-content li{
+	display: block;
+	float: left;
+	border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+	margin: 20px 0 20px 65px;
+	overflow: hidden;
+}
+.image-content li p{
+	height: 36px;
+	width: 246px;
+	line-height: 36px;
+	background-color: #f6f6f6;
+    border-radius: 0 0 3px 3px;
+    border-top: 1px solid #e7e7e7;
+    box-shadow: 0 1px 0 0 #fff inset;
+    color: #8B8B8C;
+    padding: 0 8px;
+}
+.image-content li p i{
+	float: left;
+}
+.image-content li p span{
+	float: right;
+}
+.image-content .img-show{
+	width: 246px;
+	height: 131px;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	overflow: hidden;
+}
+.image-content .img-show img{
+	width: 100%;
+	transform: scale(1); 
+	opacity: 1;
+	transition: all 0.8s ease 0s;
+}
+.image-content .img-show:hover img{
+	
+	transform: scale(1.2); 
+	opacity: 0.9;
+}
+.image-content .img-show span{
+	position: absolute;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+.right-addRoom-mask .imgshow-banner span{
+	height: 28px;
+	line-height: 28px;
+	font-size: 12px;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	color: white;
+	background: rgba(0,0,0,0.5);
+	padding: 0 10px;
+}
+.right-addRoom-mask .imgshow-banner span i{
+	float: right;
+	color: red;
+}
+.img-show .no-picture{
+	width: 100%;
+	height: 187px;
+	line-height: 187px;
+	text-align: center;
+	color: #0099FF;
+}
+.ulbox{
+	position: relative;
+}
+.ullayout{
+	height: 430px;
+}
+.ul-next,.ul-prev{
+	position: absolute;
+	left: 50%;
+	top: -30px;
+}
+.ul-next{
+	top: initial;
+	bottom: -30px;
+}
+.upload-left .hotelbtn-down,.upload-left .hotelbtn-up{
+	position: absolute;
+    left: 44%;
+    top: 32px;
+    margin-left: 0px;
+    font-size: 30px;
+    display: none;
+}
+.upload-left .hotelbtn-down{
+    top: 382px;
+}
+.roomTypeImgupload .hotelbtn-down{
+	top: 321px;
+}
+.hotel-ul{
+	position: absolute;
+	margin-left: -6px;
+}
+.hoteluploadLayout{
+	position: relative;
+	margin-top: 32px;
+	overflow: hidden;
+    width: 136px;
+    text-align: center;
+}
+.hotelimage-upload .right-addRoomTag-cotent{
+	padding: 10px 20px 36px;
+}
+/*图片信息 end*/
+.editRoomType .right-l-addRoom-tag{
+	width: 800px;
+	margin-left: -400px;
+}
+.editRoomType .upload-left{
+	margin-left: 3px;
+}
+.editRoomType .upload-left ul{
+	margin-left: -6px;
+}
+.editRoomType .upload-right{
+	margin-right: 3px;
+	margin-top: 20px;
+} 
+.upload-leftSeat{
+	width: 120px;
+	height: 30px;
+	margin-bottom: 16px;
+	background: #ccc;
+	text-align: center;
+	line-height: 30px;
+	font-size: 12px;
+	color: #fff;
+}
+.uploadhotel-leftSeat{
+	width: 120px;
+	height: 30px;
+	background: #ccc;
+	text-align: center;
+	line-height: 30px;
+	font-size: 12px;
+	color: #fff;
+}
+.hotelimage-upload .imgshow-banner{
+	margin: 84px 52px 24px 0;
+}
+.hotelroomtype-show .right-r-addRoom-tag{
+	height: 570px;
+}
+.hotelroomtype-show .imgshow-banner{
+	margin: 88px 60px 15px 0;
+}
+.hotelroomtype-show .banner-next{
+	right: 9px
+}
+.hotelroomtype-show .upload-right a{
+	top: 58%;
+}
+.hotelroomtype-show .right-addRoomTag-cotent{
+	height: 484px;
+}
+.channel-contact-box{
+	position: relative;
+	min-height: 652px;
+	display: none;
+}
+.channel-contact .image-content li p i{
+	display: inline-block;
+	width: 85%;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+}

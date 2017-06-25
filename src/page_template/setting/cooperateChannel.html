@@ -1,0 +1,252 @@
+<div class="cooperate-channel" id="cooperate_channel" v-cloak>
+    <div class="cooperate-merchants">
+        <ul class="clearfix">
+            <li class="cooperate-per-merchant ac fz14" v-for="item in channelList" @click="oepnEditChannelTag(item)">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img v-bind:src="item.channelImgUrl" alt=""/>
+                    </div>
+                    <p class="fn-txt-overflow" v-bind:title="item.channelName">{{item.channelName}}</p>
+                    <i class="iconfont icon-shanchu fz14" v-if="item.channelType == 2 && settingResourceInfo.cloudHotelDeleteCoChannel" @click.stop="delCooperateMerchant(item)"></i>
+                </div>
+                <div class="cooperate-status-on" v-if="item.isDisabled == 0">已启用</div>
+                <div class="cooperate-status-on cooperate-status-shutdown" v-else >未启用</div>
+            </li>
+            <!--<li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-off">未启用</div>
+            </li>
+            <li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-on">已启用</div>
+            </li>
+            <li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-on">已启用</div>
+            </li>
+            <li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-on">已启用</div>
+            </li>
+            <li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-off">未启用</div>
+            </li>
+            <li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-off">未启用</div>
+            </li>
+            <li class="cooperate-per-merchant ac fz14">
+                <div class="cooperate-per-box">
+                    <div >
+                        <img src="images/page_template/setting/merchants_xiechen.png" alt=""/>
+                    </div>
+                    <p>携程</p>
+                    <i>×</i>
+                </div>
+                <div class="cooperate-status-off">未启用</div>
+            </li>-->
+            <li class="cooperate-per-merchant ac fz14" id="addChannelMerchant" @click="clickAddMerchantBtn" v-if="settingResourceInfo.cloudHotelAddCoChannel">
+                <div class="cooperate-per-box">
+                   <div class="cooperate-add-channel ac">
+                       添加
+                   </div>
+                </div>
+                <div class="cooperate-status">添加渠道</div>
+            </li>
+
+        </ul>
+    </div>
+    <!--glenlzk 编辑渠道弹窗 start -->
+    <div class="modal editChannelMask" id="editChannelMask" v-if="settingResourceInfo.cloudHotelEditCoChannel">
+       	<div class="modal-dialog modal-md w500 maxheight478">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock">渠道编辑</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeEditChannelMask"></i>
+	        </div>
+		    <div class="modal-body h385">
+                <div class="editChannel-content-logo ac">
+                    <a href="javascript:;">
+                        <img v-bind:src="updateMerchantSms.channelImgUrl" alt=""/>
+                    </a>
+                </div>
+                <div class="editChannel-content-table">
+                    <table class="tb-block form-inline">
+                    	<colgroup>
+				            <col width="20%">
+				            <col width="80%">
+				        </colgroup>
+                        <tbody class="tb-color">
+                            <tr>
+                                <td class="pb10 pt10 pr10 ar">渠道名称</td>
+                                <td class="pb2 pt al">{{updateMerchantSms.channelName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="pb10 pt10 pr10 ar">是否启用</td>
+                                <td class="pb10 pt10 al">
+                                    <v-radio :list.sync="updateMerInitList" :val.sync="updateMerchantSms.isDisabled" :css-obj.once="updateMerCssObj"></v-radio>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td class="pb2 pt2 pr10 ar">联系人</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="updateMerchantSms.contact"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">手机</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="updateMerchantSms.contactMobile"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">网址</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="updateMerchantSms.channelWeb"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">登陆账号</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="updateMerchantSms.channelAccount"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">登陆密码</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="updateMerchantSms.channelPassword"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">备注</td>
+                                <td class="pb2 pt2 al">
+                                	<textarea name="" id="" class="textarea-box fz12 w335" rows="3" v-model="updateMerchantSms.remark" v-on:focus="focusTextFun"  placeholder="备注..."></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="editChannel-errorMsg-tips ac fz12"></div>
+            </div>
+            <div class="modal-footer">
+		        <button class="btn-primary btn-sm w80" @click="updateCooperateMerchantSms">确定</button>
+		    </div> 
+        </div>
+    </div>
+    <!-- 编辑渠道弹窗 end -->
+    <!--glenlzk 编辑渠道弹窗 start -->
+    <div class="modal addChannelMask" id="addChannelMask">
+       	<div class="modal-dialog modal-md w500 maxheight478">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock">新增渠道</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeAddChannelMask"></i>
+	        </div>
+		    <div class="modal-body h385">
+                <div class="addChannel-content-logo ac">
+                    <a href="javascript:;" class="fz18">
+                    	<img src="images/page_template/setting/cooperateIcon.png" alt="" />
+                    </a>
+                </div>
+                <div class="addChannel-content-table">
+                    <table class="tb-block form-inline">
+                    	<colgroup>
+				            <col width="20%">
+				            <col width="80%">
+				        </colgroup>
+                        <tbody class="tb-color">
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">渠道名称</td>
+                                <td class="pb2 pt al">
+                                	<input type="text" class="form-control input-sm w335" v-model="customChannelSms.channelName"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb10 pt10 pr10 ar">是否启用</td>
+                                <td class="pb10 pt10 al">
+                                    <v-radio :list.sync="addMerInitList" :val.sync="customChannelSms.isDisabled" :css-obj.once="addMerCssObj"></v-radio>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">联系人</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="customChannelSms.contact"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">手机</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="customChannelSms.contactMobile"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">网址</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="customChannelSms.channelWeb"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">登陆账号</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="customChannelSms.channelAccount"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">登陆密码</td>
+                                <td class="pb2 pt2 al">
+                                	<input type="text" class="form-control input-sm w335" v-model="customChannelSms.channelPassword"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb2 pt2 pr10 ar">备注</td>
+                                <td class="pb2 pt2 al">
+                                	<textarea name="" id="" class="textarea-box fz12 w335" rows="3" v-model="customChannelSms.remark" v-on:focus="focusTextFun" placeholder="备注..."></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="customChannel-errorMsg-tips ac fz12"></div>
+            </div>
+            <div class="modal-footer">
+		        <button class="btn-primary btn-sm w80" @click="submitCustomChannel">确定</button>
+		    </div> 
+        </div>
+    </div>
+    <!-- 编辑渠道弹窗 end -->
+</div>

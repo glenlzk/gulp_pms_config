@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+	<!-- 优先切换webkit内核 -->
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+	<!-- 优先切换webkit内核 -->
+    <meta http-equiv="expires" content="0">
+    <!--<name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+	<!--<meta http-equiv="Content-Security-Policy" content="ws://192.168.7.79:8080/">-->
+    <title>KK管家</title>
+    <link rel="shortcut icon" href="images/index/logo-icon-e16f8c6d71.png" type="image/vnd.microsoft.icon">
+	<!-- build:css css/global/global.css -->
+    <link rel="stylesheet" href="css/global/reset.css"/>
+    <link rel="stylesheet" href="css/global/global.css"/>
+	<link rel="stylesheet" href="js/plugin/viewer/viewer.min.css"/>
+    <link rel="stylesheet" href="js/plugin/vue_datepicker/vue.datepicker.css"/>
+    <link rel="stylesheet" href="js/plugin/uploadify/uploadify.css" />
+    <link rel="stylesheet" href="js/plugin/jcrop/jquery.Jcrop.css"/>
+    <link rel="stylesheet" href="js/plugin/sumoselect/sumoselect.css"/>
+	<!-- endbuild -->
+</head>
+<body class="hide-flash-block">
+    <!-- header -->
+    <div class="header" id="header" v-cloak>
+		<div style="width: 100%; height: 58px; position: absolute; left: 0; top: 0;z-index: 300; background: #60CDF5; min-width: 1000px;">
+			<div class="logo fl clearfix">
+				<a href="javascript:;" class="logo-image fl img-rounded mr10" style="cursor: default;" id="hotel_img_radius">
+					<img v-bind:src="noImageUrlProcessFun(getUserInfo.hotelLogoUrl)" onerror="yzlObj.replaceErrorImg(event)" alt=""/>
+				</a>
+				<!--<h5 class="fl color-white lh58 fz18" v-on:mouseover="hotelListStatus = true" v-on:mouseout="hotelListStatus = false">
+					{{getUserInfo.hotelName}}<i v-if="getUserInfo.hotelList.length > 1"></i>
+					<ol class="hotel-list ac lh35" v-show="hotelListStatus">
+						<li v-for="item in getUserInfo.hotelList">
+							<a href="javascript:;" @click="setCurrentHotel(item)">{{item.hotelName}}</a>
+						</li>
+					</ol>
+				</h5>-->
+				<h5 class="fl color-white lh58 fz18 pointer" v-on:click.stop.prevent="hotelListStatus = !hotelListStatus" >
+					{{getUserInfo.hotelName}}<i v-if="getUserInfo.hotelList.length > 1"></i>
+					<template v-if="getUserInfo.hotelList.length > 1">
+						<ol class="hotel-list ac lh35" v-show="hotelListStatus">
+							<li v-for="item in getUserInfo.hotelList">
+								<a href="javascript:;" @click="setCurrentHotel(item)">{{item.hotelName}}</a>
+							</li>
+						</ol>
+					</template>
+				</h5>
+			</div>
+			<div class="fl pl230 pugongying">
+				<img src="images/index/bluebg-51e54e8406.png" alt="" />
+			</div>
+			<div class="account fr mr20 pl20">
+				<a href="javascript:;" class="account-image fl mr10">
+					<img v-bind:src="getUserInfo.headImgUrl" onerror="yzlObj.replaceErrorPersonImg(event)" alt=""/>
+				</a>
+				<div class="fl account-namebox pr10">
+					<!--<a href="javascript:;" class="account-name fz14">{{getUserInfo.userName}}<i></i></a>-->
+					<div href="javascript:;" class="account-name fz14 color-white">
+						{{getUserInfo.userName}}
+						<ul class="account-dropdown ac lh35" style="display:none;">
+							<!--<li v-on:mouseover="showHotelList($event)" v-on:mouseout="hiddenHotelList($event)">
+								<a href="javascript:;" >切换酒店</a>
+								<ol class="hotel-list" style="display:none;" v-bind:style="{left:saveHoteListWidth}" >
+									<li v-for="item in getUserInfo.hotelList">
+										<a href="javascript:;" @click="setCurrentHotel(item)">{{item.hotelName}}</a>
+									</li>
+								</ol>
+							</li>-->
+							<li>
+								<a href="javascript:;" @click="showPersonalWindow">个人设置</a>
+							</li>
+							<li>
+								<a href="javascript:;" @click="clickLogout">退出</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- 个人设置 start -->
+					<div class="personal-setting-mask" style="display: none;">
+						<div class="personal-setting-box">
+							<div class="personal-setting-header">
+								<div class="personal-setting-settingbox ac">个人设置</div>
+								<i @click="closePersonalSettingMask">×</i>
+							</div>
+							<div class="personal-setting-body">
+								<div class="clearfix">
+									<div class="Personal-window-cotent-left fl">
+										<div>
+											<span class="common-txt">手机号</span>
+											{{getPersonalSet.mobile}}
+										</div>
+										<div>
+											<span class="common-txt">KK号</span>
+											<input type="text" readonly="true" value="{{getPersonalSet.userAccount}}"/>
+										</div>
+										<div>
+											<span class="common-txt">密码</span>
+											<input type="password" readonly="true" value="**********" />
+											<i @click="showchangePassword">修改</i>
+										</div>
+										<div>
+											<span class="common-txt">姓名</span>
+											<input type="text" readonly="true" value="{{getPersonalSet.userName}}"  />
+										</div>
+										<div class="personal-cardNo">
+											<span class="common-txt">身份证号</span>
+											<input type="text"  readonly="true" value="{{getPersonalSet.idNumber}}" />
+											<!--<i>未认证</i>-->
+										</div>
+										<div>
+											<span class="common-txt">性别</span>
+											<!--<input type="radio" name="personal-sex" value="1" v-model="getPersonalSet.sex"/>男
+											<input type="radio" name="personal-sex" value="2" v-model="getPersonalSet.sex"/>女-->
+											<v-radio :list.sync="roomStatusInitList" :val.sync="getPersonalSet.sex" :css-obj.once="roomStatusCssObj"></v-radio>
+										</div>
+									</div>
+									<div class="Personal-window-cotent-right fr">
+										<div class="Personal-image">
+											<a href="javascript:;" @click="changePersonalImages">
+												<img v-bind:src="getPersonalSet.headImgUrl" alt=""/>
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="personal-address">
+									<span>地区</span>
+									<select v-model="getPersonalSet.provinceId" v-on:change="getPersonalCityList(getPersonalSet.provinceId)">
+										<option value="">请选择</option>
+										<option v-for="item in getPersonalSet.provinceList" value="{{item.areaId}}">{{item.areaName}}</option>
+									</select>
+									<select v-model="getPersonalSet.cityId" v-on:change="getPersonalAreaList(getPersonalSet.cityId)">
+										<option value="">请选择</option>
+										<option v-for="item in getPersonalSet.cityList" value="{{item.areaId}}">{{item.areaName}}</option>
+									</select>
+									<select v-model="getPersonalSet.areaId">
+										<option value="">请选择</option>
+										<option v-for="item in getPersonalSet.areaList" value="{{item.areaId}}">{{item.areaName}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="Personal-window-footer">
+								<button class="btn-primary btn-sm w80" @click="savePersonalData">保存</button>
+							</div>
+							<!--修改密码弹窗 start-->
+							<div class="model personalPassword-window-mask" style="display: none;">
+								<div class="modal-dialog modal-sm personalPassword-window">
+									<div class="modal-header personalPassword-window-title clearfix">
+										<h3 class="fz14 fl">修改密码</h3>
+										<i class="close iconfont icon-cuowu fr fz12" @click="closePersonalPswdWin"></i>
+									</div>
+									<div class="modal-body personalPassword-window-content form-inline">
+										<div>
+											<span>新密码</span>
+											<input type="password" class="form-control input-sm w175" v-model="changePersonalPswd.password" placeholder="请输入新的密码" maxlength="11" autocomplete="off" v-on:focus="clearPswdErrorTip"/>
+											<em class="personal-pswd-error-tip"></em>
+										</div>
+										<div>
+											<span>手机号</span>
+											<!--<select v-model="changePersonalPswd.mobile">
+                                                <option value="">请选择</option>
+                                                <option value="">13525154515</option>
+                                            </select>-->
+											<input type="text" class="form-control input-sm w140" v-model="changePersonalPswd.mobile" class="form-control input-sm w175" readonly="readonly"/>
+										</div>
+										<div>
+											<span>验证码</span>
+											<input type="text"  class="form-control input-sm w70" v-model="changePersonalPswd.code" v-on:focus="clearVerifiedCodeErrorTip"/>
+											<button class="btn-warning btn-sm w80" @click="getSmsCode($event)" id="getSmsCodeBtn">获取验证码</button>
+											<em class="personal-valid-code-error-tip"></em>
+										</div>
+									</div>
+									<div class="modal-footer personalPassword-window-footer">
+										<button  class="btn-primary btn-sm w70" @click="updatePasswordBtn">确定</button>
+									</div>
+								</div>
+							</div>
+							<!--修改密码弹窗 end-->
+							<!--修改密码弹窗 start-->
+							<!--<div class="personalPassword-window-mask" style="display: none;">
+                                <div class="personalPassword-window">
+                                    <div class="personalPassword-window-title">
+                                        <h3 class="fz16">修改密码</h3>
+                                        <i>×</i>
+                                    </div>
+                                    <div class="personalPassword-window-content">
+                                        <div>
+                                            <span>新密码</span>
+                                            <input type="password" />
+                                        </div>
+                                        <div>
+                                            <span>手机号</span>
+                                            <select name="" id="">
+                                                <option value="">13525154515</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <span>验证码</span>
+                                            <input type="text" class="changePasswordCode"/>
+                                            <button>获取验证码</button>
+                                        </div>
+                                    </div>
+                                    <div class="personalPassword-window-footer">
+                                        <button>确定</button>
+                                    </div>
+                                </div>
+                            </div>-->
+							<!--修改密码弹窗 end-->
+							<!--头像上传插件弹窗 start-->
+							<div class="personal-upload-image-mask" style="display:none;">
+								<div class="upload-image-win">
+									<div class="upload-image-content">
+										<div class="jc-demo-box">
+											<img src="images/index/hotel_preview-bef9270b7c.png" id="personal_preview_target" alt="[Jcrop Example]" />
+											<div id="personal_preview_pane">
+												<div class="preview-container">
+													<img src="images/index/hotel_preview-bef9270b7c.png" class="jcrop-preview" alt="Preview" />
+												</div>
+											</div>
+										</div>
+										<div class="upload-img-box">
+											<div class="upload-img-btn">
+												<div id="filePickerBtn">选择文件</div>
+											</div>
+											<p class="fz12">仅支持jpg、jpeg、png图片格式最大1.5M</p>
+										</div>
+										<div class="upload-img-bottombtn">
+											<button class="upload-btn" id="personal_upload_btn">确　定</button>
+											<button class="personal_cancel_btn" @click="cancelPersonalUploadBtn">取 消</button>
+										</div>
+									</div>
+									<i class="personal-upload-win-close" @click="closePersonalUploadImage">×</i>
+								</div>
+							</div>
+							<!--头像上传插件弹窗 end-->
+						</div>
+					</div>
+					<!-- 个人设置 end -->
+				</div>
+			</div>
+			<ul class="nav fr clearfix mr20">
+				<li v-for="item in navListInitList" v-if="item.isHasResource"><!-- class="active"-->
+					<a class="fz12 pt10 pb10" href="{{item.dir}}" v-bind:class="{active: item.isActive? true: false}">
+						<i class="iconfont btn-block fz24" v-bind:class="[item.icon]"></i>
+						<em class="btn-block ac">{{item.zh_cn}}</em>
+					</a>
+				</li>
+				<!--<li>
+					<a href="#dir={roomstatus|basicStatus|initStatus}" v-if="headerResourceInfo.cloudHotelRoomState">房态</a>
+				</li>
+				<li>
+					<a href="#dir={orders|waitingOrder|initOrder}" v-if="headerResourceInfo.cloudHotelOrder">订单</a>
+				</li>
+				<li>
+                    <a href="#dir={lodger|basicLodger|initLodger}" v-if="resourceInfo.cloudHotelCustomer">住客</a>
+                </li>
+				<li>
+					<a href="#dir={finance|turnoverForm|initFinance}" v-if="headerResourceInfo.cloudHotelFinance">财务</a>
+				</li>
+				<li>
+					<a href="#dir={reportforms|businessStatistics|initReportforms}" v-if="headerResourceInfo.cloudHotelReports">报表</a>
+				</li>
+				<li>
+					<a href="#dir={setting|basicSetting|initSetting}" v-if="headerResourceInfo.cloudHotelSettings" >设置</a>
+				</li>-->
+			</ul>
+		</div>
+		<!-- glenlzk 设置>左边导航列表 css > global > global.css -->
+		<div class="left-nav al" id = "leftsideSetting" v-if="sideBarInitList.length > 0">
+			<ul>
+				<template v-for="item in sideBarInitList" v-if="item.isHasResource">
+					<li>
+						<a class="fz14 btn-block h37 pl30" href="{{item.dir}}" v-bind:class="{active: item.isActive? true: false}" @click="sideBarSlideToggle(item)">
+							<i class="iconfont w16 h16" v-bind:class="[item.icon]"></i>
+							{{item.zh_cn}}
+							<i class="iconfont icon-chevron-down fz12 pointer color-main" v-if="item.secBar.length > 0"></i>
+						</a>
+						<div class="channel_sec " v-if="item.secBar.length > 0" v-bind:class="{'btn-hide': item.isSpread? false: true}">
+							<template v-for="items in item.secBar" v-if="items.isHasResource">
+								<a class="fz14 btn-block h30 pl30 lh30" href="{{items.dir}}" v-bind:class="{active: items.isActive? true: false}">
+									<i class="btn-inlineblock w16 h16"></i>
+									{{items.zh_cn}}
+								</a>
+							</template>
+						</div>
+					</li>
+				</template>
+			</ul>
+			<!--<ul>
+				<li>
+					<a href="#dir={setting|basicSetting}" class="active" >基本设置</a>
+				</li>
+				<li>
+					<a href="#dir={setting|roomTypeManage}">房型管理</a>
+				</li>
+				<li>
+					<a href="javascript:;">渠道管理</a>
+					<div class="channel_sec">
+						<a href="#dir={setting|directChannel}" >直连渠道</a>
+						<a href="#dir={setting|cooperateChannel}">合作渠道</a>
+					</div>
+				</li>
+				<li>
+					<a href="#dir={setting|paymentManage}">支付管理</a>
+				</li>
+				<li>
+					<a href="#dir={setting|smsManage}">短信管理</a>
+				</li>
+				<li>
+					<a href="#dir={setting|keyManage}">锁具管理</a>
+				</li>
+				<li>
+					<a href="#dir={setting|authorityManage}">权限设置</a>
+				</li>
+				<li>
+					<a href="#dir={setting|navigation}">导航设置</a>
+				</li>
+				<li>
+					<a href="#dir={setting|proprietor}">房东管理</a>
+				</li>
+			</ul>-->
+		</div>
+    </div>
+    <!-- header end -->
+    <!-- content -->
+    <div class="content" id="content">
+        <div id="mianContent"></div>
+        <!--lv 侧边小模块-->
+        <div class="rightsideBox">
+            <div class="Sideturnoverbox" @click="showSideturnoverForm" v-if="roomStatusResourceInfo.cloudHotelAddShift">
+                <span></span>
+                	交班
+            </div>
+            <div class="noticebox" @click="initNoticeCotent">
+				<i v-if="unreadCount>0" v-cloak>{{unreadCount}}</i>
+                <span></span>
+                	公告栏
+            </div>
+        </div>
+        <!--侧边小模块-->
+        <!--lv 交班单弹窗 start-->
+	    <div class="Sideturnover-window-mask" style="display:none;">
+		    <div class="Sideturnover-window" id="Sideturnover-window">
+		        <div class="Sideturnover-window-title">
+		            <h3 class="fz14">{{SideturnoverformInfo.changeDate}} {{SideturnoverformInfo.userName}} 交班报表</h3>
+		            <i>×</i>
+		        </div>
+		        <div class="Sideturnover-window-cotent">
+		        	<div class="Sideturnover-window-cotent-top">
+		        		<label>
+		        			营业时段：<span>{{SideturnoverformInfo.fromDate}}</span>~<span>{{SideturnoverformInfo.toDate}}</span>
+		        		</label>
+		        		<label class="fr">
+		        			交班人：<span>{{SideturnoverformInfo.userName}}</span>
+		        		</label>
+		        	</div>
+		        	<div class="Sideturnover-window-cotent-bottom">
+		        		<div class="Sideturnover-cotent-bottom-title">
+		        			<label>
+		        			总收款：<span>¥{{SideturnoverformInfo.income}}</span>
+			        		</label>
+			        		<label>
+			        			押金：<span>¥{{SideturnoverformInfo.deposit}}</span>
+			        		</label>
+			        		<label class="fr" v-if="SideturnoverformStatus==1">
+			        			交班单号：{{SideturnoverformInfo.changeShiftNo}}
+			        		</label>
+		        		</div>
+			        	<div class="Sideturnover-cotent-bottom-Receiv">
+			        		<div class="Receiv-title">
+			        			收款统计
+			        		</div>
+			        		<!--<table>
+			        			<thead>
+			        				<tr>
+			        					<td>序号</td>
+			        					<td>收款类型</td>
+			        					<td>收款单数</td>
+			        					<td>收款金额</td>
+			        				</tr>
+			        			</thead>
+			        			<tbody>
+			        				<tr v-for="item in SideturnoverformInfo.incomeStatisticsList">
+			        					<td>{{item.index}}</td>
+			        					<td>{{item.payTypeName}}</td>
+			        					<td>{{item.billCount}}</td>
+			        					<td>¥{{item.income}}</td>
+			        				</tr>
+			        			</tbody>
+			        		</table>-->
+			        		<table id="tbl" class="tb-block tb-line ac">
+								<colgroup>
+						            <col width="25%">
+						            <col width="25%">
+						            <col width="25%">
+						            <col width="25%">
+						        </colgroup>
+						        <thead>
+						            <tr class="tb-titlebg tb-linebm color-main font-bold">
+						                <td class="pb10 pt10">序号 </td>
+						                <td class="pb10 pt10">收款类型</td>
+						                <td class="pb10 pt10">收款单数</td>
+						                <td class="pb10 pt10">收款金额</td>
+						            </tr>
+						        </thead>
+								<tbody class="tb-color">
+									<template v-for="item in SideturnoverformInfo.incomeStatisticsList">
+										<tr class="tb-linebm">
+											<td class="pb10 pt10">{{item.index}}</td>
+											<td class="pb10 pt10">{{item.payTypeName}}</td>
+											<td class="pb10 pt10">{{item.billCount}}</td>
+											<td class="pb10 pt10">¥{{item.income}}</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+			        	</div>	
+			        	<div class="Sideturnover-cotent-bottom-ReceivDetail">
+			        		<div class="Receiv-title">
+			        			收款明细
+			        		</div>
+			        		<!--<table>
+			        			<thead>
+			        				<tr>
+			        					<td>序号</td>
+			        					<td>订单号</td>
+			        					<td>渠道</td>
+			        					<td>客人</td>
+			        					<td>手机号</td>
+			        					<td>收款类型</td>
+			        					<td>收款金额</td>
+			        					<td>支付编号</td>
+			        				</tr>
+			        			</thead>
+			        			<tbody>
+			        				<tr v-for="item in SideturnoverformInfo.incomeList">
+			        					<td>{{item.index}}</td>
+			        					<td>{{item.orderNo}}</td>
+			        					<td>{{item.channelName}}</td>
+			        					<td>{{item.customerName}}</td>
+			        					<td>{{item.customerMobile}}</td>
+			        					<td>{{item.payTypeName}}</td>
+			        					<td>¥{{item.payAmount}}</td>
+			        					<td>{{item.payNo}}</td>
+			        				</tr>
+			        			</tbody>
+			        		</table>-->
+			        		<table id="tbl" class="tb-block tb-line ac">
+								<colgroup>
+						            <col width="8%">
+						            <col width="12%">
+						            <col width="12%">
+						            <col width="10%">
+						            <col width="8%">
+						            <col width="10%">
+						            <col width="10%">
+						            <col width="10%">
+						        </colgroup>
+						        <thead>
+						            <tr class="tb-titlebg tb-linebm color-main font-bold">
+						                <td class="pb10 pt10">序号 </td>
+						                <td class="pb10 pt10">订单号</td>
+						                <td class="pb10 pt10">渠道</td>
+						                <td class="pb10 pt10">客人</td>
+						                <td class="pb10 pt10">手机号 </td>
+						                <td class="pb10 pt10">收款类型</td>
+						                <td class="pb10 pt10">收款金额</td>
+						                <td class="pb10 pt10">支付编号</td>
+						            </tr>
+						        </thead>
+								<tbody class="tb-color">
+									<template v-for="item in SideturnoverformInfo.incomeList">
+										<tr class="tb-linebm">
+											<td class="pb10 pt10">{{item.index}}</td>
+											<td class="pb10 pt10">{{item.orderNo}}</td>
+											<td class="pb10 pt10">{{item.channelName}}</td>
+											<td class="pb10 pt10">{{item.customerName}}</td>
+											<td class="pb10 pt10">{{item.customerMobile}}</td>
+											<td class="pb10 pt10">{{item.payTypeName}}</td>
+											<td class="pb10 pt10">¥{{item.payAmount}}</td>
+											<td class="pb10 pt10">{{item.payNo}}</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+			        	</div>
+			        	<div class="Sideturnover-cotent-bottom-DepositDetail">
+			        		<div class="Receiv-title">
+			        			押金明细
+			        		</div>
+			        		<!--<table>
+			        			<thead>
+			        				<tr>
+			        					<td>序号</td>
+			        					<td>订单号</td>
+			        					<td>渠道</td>
+			        					<td>客人</td>
+			        					<td>手机号</td>
+			        					<td>押金名称</td>
+			        					<td>押金类型</td>
+			        					<td>押金金额</td>
+			        				</tr>
+			        			</thead>
+			        			<tbody>
+			        				<tr v-for="item in SideturnoverformInfo.depositList">
+			        					<td>{{item.index}}</td>
+			        					<td>{{item.orderNo}}</td>
+			        					<td>{{item.channelName}}</td>
+			        					<td>{{item.customerName}}</td>
+			        					<td>{{item.customerMobile}}</td>
+			        					<td>{{item.depositTypeName}}</td>
+			        					<td>{{item.isIncome}}</td>
+			        					<td>¥{{item.depositAmount}}</td>
+			        				</tr>
+			        			</tbody>
+			        		</table>-->
+			        		<table id="tbl" class="tb-block tb-line ac">
+								<colgroup>
+						            <col width="8%">
+						            <col width="12%">
+						            <col width="12%">
+						            <col width="10%">
+						            <col width="8%">
+						            <col width="10%">
+						            <col width="10%">
+						            <col width="10%">
+						        </colgroup>
+						        <thead>
+						            <tr class="tb-titlebg tb-linebm color-main font-bold">
+						                <td class="pb10 pt10">序号 </td>
+						                <td class="pb10 pt10">订单号</td>
+						                <td class="pb10 pt10">渠道</td>
+						                <td class="pb10 pt10">客人</td>
+						                <td class="pb10 pt10">手机号 </td>
+						                <td class="pb10 pt10">押金名称</td>
+						                <td class="pb10 pt10">押金类型</td>
+						                <td class="pb10 pt10">押金金额</td>
+						            </tr>
+						        </thead>
+								<tbody class="tb-color">
+									<template v-for="item in SideturnoverformInfo.depositList">
+										<tr class="tb-linebm">
+											<td class="pb10 pt10">{{item.index}}</td>
+											<td class="pb10 pt10">{{item.orderNo}}</td>
+											<td class="pb10 pt10">{{item.channelName}}</td>
+											<td class="pb10 pt10">{{item.customerName}}</td>
+											<td class="pb10 pt10">{{item.customerMobile}}</td>
+											<td class="pb10 pt10">{{item.depositTypeName}}</td>
+											<td class="pb10 pt10">{{item.isIncome}}</td>
+											<td class="pb10 pt10">¥{{item.depositAmount}}</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+			        	</div>
+		        	</div>
+                    <div class="Sideturnover-window-cotent-footer">
+                        <button class="sidebtn-turnover btn-primary btn-sm w80 mt10" @click="addturnoverChange" v-if="SideturnoverformStatus==0">交班</button>
+                        <button class="sidebtn-print btn-primary btn-sm w80 mt10" v-show="SideturnoverformStatus==1" @click="printIframe">打印</button>
+                    </div>
+		        </div>
+		    </div>
+		</div>
+		<iframe class="printIframe" src="" width="" height=""></iframe>
+        <!--交班单弹窗 end-->
+        <!--lv 公告栏弹窗 start-->
+        <div class="Sidenotice-window-mask" style="display:none;">
+            <div class="Sidenotice-window">
+                <div class="Sidenotice-window-title">
+                    <h3 class="fz14">公告栏</h3>
+                    <i @click="closeSideNoticeTagOpera">×</i>
+					<div class="ac fz12 notice-txt"></div><!--仅显示<i>72</i>小时内的内容-->
+                </div>
+                <div class="Sidenotice-window-cotent">
+					<div class="Sidenotice-publish-box clearfix" id="showPublishBtnOperate" v-if="publishBtnShift">
+						<button class="fz16" @click="showPublishNoticeOperateBox">发布公告</button>
+					</div>
+                    <div class="Sidenotice-window-cotent-header clearfix" v-if="!publishBtnShift">
+                        <textarea name="" rows="" cols="" placeholder="发布公告的时候，最多输入250个字符哦..." v-model="addNewNoticeContent" ></textarea><!--v-on:focus="addNewNoticeTextaeraFocus"-->
+						<div class="Sidenotice-window-cotent-tips">{{sidenoticeErrorCotentTips}}</div>
+						<button class="fr publish-btn" v-bind:class="{disabled: publishIsDisabled}" @click="publishNewNotice" disabled="disabled">发布</button>
+						<button class="fr cancelpublish-btn" @click="showPublishNoticeOperateBox">取消</button>
+                    </div>
+                    <div class="Sidenotice-cotent-box" id="sidenoticeContentBox">
+						<template v-if="getNoticeList.length>0">
+							<div v-for="item in getNoticeList" >
+								<div class="box-layout-dayline" v-if="item.isShowDayDivingLine">{{noticeShowDateRang(item)}}</div>
+								<div class="box-layout clearfix" v-if="item.noticeType == 2">
+									<div class="box-layout-left fl">
+										<i class="box-layout-radio" v-if="item.isRead == 0"></i>
+									</div>
+									<div class="box-layout-right fr">
+										<div class="box-layout-ctnt-title box-layout-height">
+											<ul class="box-layout-ctnt-lists clearfix">
+												<li class="al fn-txt-overflow" style="min-width:30%;max-width: 40%;" title="{{item.orderMessage.customerName}}">{{item.orderMessage.customerName}}</li>
+												<li style="width:20%;">{{item.orderMessage.customerMobile}}</li>
+												<li style="color:#656565;width:15%;">{{getNoticeDate(item.createTime)}}</li>
+												<li style="color:#656565;width:10%;">{{getNoticeTime(item.createTime)}}</li>
+												<li style="width:15%;"><a href="javascript:;"  class="checkfor-order-details fz12" @click="openRoomOrderDetails(item.orderMessage.orderId)">查看详情</a></li>
+											</ul>
+										</div>
+										<div class="box-layout-ctnt-details box-layout-height">
+											<ul class="box-layout-ctnt-lists clearfix">
+												<li style="width:35%;">入住日期：<i>{{item.orderMessage.checkinDate}}</i></li>
+												<li style="width:15%;">天数：<i>{{item.orderMessage.nights}}</i></li>
+												<li style="color:#656565;width:20%;">房间数：<i>{{item.orderMessage.rooms}}间</i></li>
+												<li style="color:#656565;width:30%;">总房费：<i style="color:red;">¥ {{item.orderMessage.roomAmount}}</i></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="box-layout clearfix" v-if="item.noticeType == 1">
+									<div class="box-layout-left fl">
+										<i class="box-layout-radio" v-if="item.isRead == 0"></i>
+									</div>
+									<div class="box-layout-right box-layout-box fr box-layout-comment" style="overflow:hidden;">
+										<div class="box-layout-ctnt-title box-layout-height">
+											<ul class="box-layout-ctnt-lists clearfix">
+												<li style="width: 50%;">{{item.userMessage.userName}}</li>
+												<li style="color:#656565;width: 25%;">{{getNoticeDate(item.createTime)}}</li>
+												<li style="color:#656565;width: 15%;">{{getNoticeTime(item.createTime)}}</li>
+												<li style="color:#656565;width: 10%;"></li>
+											</ul>
+										</div>
+										<div class="box-layout-ctnt-details box-layout-height box-layout-text">
+											<template v-if="item.userMessage.content.length >= 30">
+												<div class="clearfix box-layout-text-collapse" v-if="item.spreadStatus">
+													<p class="fl">{{(item.userMessage.content).substr(0, 30)+ '...'}} </p>
+													<a href="javascript:;" class="fr" @click="spreadLayoutTextOperate(item)">展开</a>
+												</div>
+												<p class="box-layout-text-spreed" v-if="!item.spreadStatus">
+													{{item.userMessage.content}}
+													<a href="javascript:;" @click="spreadLayoutTextOperate(item)">收起</a>
+												</p>
+											</template>
+											<div class="clearfix box-layout-text-collapse" v-else>
+												<p class="fl">{{item.userMessage.content}} </p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="Sidenotice-loading ac fz12" v-if="!swiftLoadingStatus && hideLoadingStatus">
+								<img src="images/index/sm_loading-03ce3dcc84.gif" style="display: inline-block;" alt=""/>加载中...
+							</div>
+							<div class="Sidenotice-loading-more ac fz12" v-if="swiftLoadingStatus && hideLoadingStatus" @click="sideNoticeLoadingMoreBtn">
+								点击加载更多...
+							</div>
+						</template>
+						<div class="Sidenotice-cotent-noinfo" v-else></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--公告栏弹窗 end-->
+		<!--glenlzk 订单详情 start-->
+		<div class="modal wholeorder-tag-mask" @click="hideAllBillTypeNameDropDownFun">
+	    	<div class="modal-dialog modal-lg addneworder-title-box" id="showOrderDetailTag" v-bind:class="roomOrderBottomBtnStatus.isEditabel_order_btn?'maxheight610':'maxheight570'">
+				<div class="modal-header ac">
+		            <h4 class="btn-inlineblock fl">{{addneworderTitle}}</h4>
+		            <span class="fz12 ac" v-if="roomOrderDetails.orderNo != ''">
+							&nbsp;订单号:&nbsp;{{roomOrderDetails.orderNo}}
+					</span>
+		            <i class="close iconfont icon-cuowu fr fz12" @click="closeWholeOrderTag"></i>
+		        </div>
+		        <div class="modal-body">
+		        	<div class="show-order-box" id="show_order_box" style="display:none;"><!---->
+					<div class="show-order-cotent">
+						<!--tag栏-->
+						<div class="show-order-cotent-header">
+                                <span class="active" @click="clickOrderDetails">
+                                    订单详情
+                                </span>
+								<span @click="getGuestInformation">
+                                    住客信息
+                                </span>
+                                <span @click="showLog">
+                                    日志
+                                </span>
+						</div>
+						<div class="show-order-cotent-bottom">
+							<!-- 订单详情 start -->
+							<div class="show-order-orderDetail show-box active fz12">
+								<div class="addneworder-box">
+									<div class="addneworder-box-content">
+										<div class="addneworder-channel-box pt15">
+											<div class="addneworder-wrap addneworder-channel-ctnt clearfix">
+												<div class="ano-channel-icon fl">
+													<i></i>
+												</div>
+												<div class="ano-channel-iconctnt fl fz12">
+													<div class="ano-channel-ctntup clearfix">
+														<div class="ano-ctntup-xzqd fl">
+															{{roomOrderDetails.channelName}}
+														</div>
+														<div class="ano-ctntup-qddh fl">
+															{{roomOrderDetails.channelOrderNo}}
+														</div>
+														<div class="ano-ctntup-upload fl" v-if="roomOrderDetails.imageUrl != null">
+															<a href="javascript:;" @click="previewUploadImage(roomOrderDetails.imageUrl)">预览</a>
+														</div>
+														<div class="ano-ctntup-ydr fl">
+															{{roomOrderDetails.customerName}}
+														</div>
+														<div class="ano-ctntup-ydrmb fl">
+															{{roomOrderDetails.customerMobile}}
+														</div>
+													</div>
+													<div class="ano-channel-ctntremark">
+														{{roomOrderDetails.remark}}
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="addneworder-checkin-box">
+											<div class="addneworder-wrap addneworder-checkin-ctnt clearfix">
+												<div class="ano-checkin-icon fl">
+													<i></i>
+												</div>
+												<div class="ano-checkin-ctnt fr">
+													<div class="ano-checkin-row clearfix fz12 orderdetail-ano-checkin-row" v-for="item in roomOrderDetails.orderRoomStayList">
+														<div class="show-order-starttime fl">
+															<span>入住</span>
+															<span>{{item.checkinDate}}</span>
+														</div>
+														<div class="show-order-endtime fl">
+															<span>离店</span>
+															<span>{{item.checkoutDate}}</span>
+														</div>
+														<div class="ano-checkin-roomtype fl" title="{{item.roomTypeName}}">
+															{{orderDetailRmTypeLenLimit(item.roomTypeName)}}
+														</div>
+														<div class="ano-checkin-roomname fl">
+															{{item.roomNo}}
+														</div>
+														<div class="ano-checkin-nights fl fz14">
+															{{item.nights}}晚
+														</div>
+														<div class="ano-checkin-perdayprice fl fz14" v-on:mouseover="showRoomOrderDayPrice($event)" v-on:mouseout="hiddenRoomOrderDayPrice($event)">
+															每日房价
+															<!--<div class="day-prices-list" style="display:none;">
+																<ul class="clearfix">
+																	<li v-for="perday in item.dayPriceList">
+																		<div class="perday-date fz12 ac">{{perday.day}}</div>
+																		<div class="">
+																			<input type="text" v-model="perday.price" readonly/>
+																		</div>
+																	</li>
+																</ul>
+															</div>-->
+															<div class="day-prices-list" v-bind:style="{left:getPriceListBoxLeft(item.nights)}">
+																<div class="triangle_border_top" v-bind:style="{left:getPriceListTriangleLeft(item.nights)}">
+																	<em>&#9670;</em>
+																	<span>&#9670;</span>
+																</div>
+																<!--<div class="buyout-price"  v-if="item.totalDays > 1">一口价 &nbsp;<input type="text" v-model="item.fixedPrice" readonly/></div>-->
+																<div class="buyout-price-list">
+																	<ul class="clearfix" v-bind:style="{width: getPriceListBoxWidth(item.nights)}">
+																		<li v-for="perday in item.dayPriceList">
+																			<div class="perday-date fz12">
+																				<em>{{formateDayPricesDate(perday.day)}}</em>
+																				<i v-if="$index<=6">{{whatDay(perday.day,'showWeekend')}}</i>
+																			</div>
+																			<div class="perday-date-price">
+																				<input type="text" v-model="perday.price" readonly number/>
+																				<!--<i>{{getBackupPerdayPrice(item, $index)}}</i>-->
+																			</div>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+														<div class="ano-checkin-realprice fl fz14">
+															¥{{item.totalPrice}}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="addneworder-servicefee-box" v-if="roomOrderDetails.orderBillList.length > 0">
+											<div class="addneworder-wrap addneworder-servicefee-ctnt clearfix">
+												<div class="ano-servicefee-icon fl">
+													<i></i>
+												</div>
+												<div class="ano-servicefee-ctnt fl clearfix">
+													<div class="ano-servicefee-title clearfix ac">
+														<div class="ano-service-name  fl">
+															服务名称
+														</div>
+														<div class="ano-service-fee fl">
+															服务费用
+														</div>
+														<div class="ano-service-remark fl">
+															备注
+														</div>
+														<div class="ano-service-operater fl">
+															操作人
+														</div>
+														<div class="ano-service-operatetime fl">
+															操作时间
+														</div>
+													</div>
+													<div class="ano-service-row ac clearfix" v-for="item in roomOrderDetails.orderBillList">
+														<div class="ano-service-serviecName fl">
+															{{item.billTypeName}}
+														</div>
+														<div class="ano-service-charge fl">
+															¥{{item.amount}}
+														</div>
+														<div class="ano-service-remark fl">
+															{{item.remark}}
+														</div>
+														<div class="ano-service-operater fl">
+															{{item.userName}}
+														</div>
+														<div class="ano-service-operatetime fl">
+															{{item.updateTime}}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="addneworder-collection-box" v-if="roomOrderDetails.orderPaymentList.length > 0">
+											<div class="addneworder-wrap addneworder-collection-ctnt clearfix">
+												<div class="ano-payment-name fl fz16">
+													收款
+												</div>
+												<div class="ano-payment fl">
+													<div class="ano-payment-title fz12 ac color-gray">
+														<ul>
+															<li>支付方式</li>
+															<li>支付金额</li>
+															<li>附件</li>
+															<li>支付编号</li>
+															<li>操作人</li>
+															<li>操作时间</li>
+															<li>备注</li>
+														</ul>
+													</div>
+													<div class="ano-payment-row ac" v-for="item in roomOrderDetails.orderPaymentList">
+														<div class="ano-payment-select-box fl">
+															{{item.payTypeName}}
+														</div>
+														<div class="ano-payment-charge fl">
+															¥{{item.payAmount}}
+														</div>
+														<div class="ano-payment-upload fl">
+															<a href="javascript:;" class="fz12" v-if="item.imageUrl != null" @click="previewUploadImage(item.imageUrl)">预览</a>
+														</div>
+														<div class="ano-payment-payno fl">
+															{{item.payNo}}
+														</div>
+														<div class="ano-payment-operator fl">
+															{{item.userName}}
+														</div>
+														<div class="ano-payment-operatortime fl">
+															{{item.updateTime}}
+														</div>
+														<div class="ano-payment-remark fl" title="{{item.remark}}">
+															{{item.remark}}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="addneworder-deposit-box " v-if="roomOrderDetails.orderDepositList.length > 0">
+											<div class="addneworder-wrap addneworder-deposit-ctnt clearfix">
+												<div class="ano-deposit-name fl fz16">
+													押金
+												</div>
+												<div class="ano-deposit fl">
+													<div class="ano-deposit-title fz12 ac color-gray">
+														<ul class="clearfix">
+															<li>押金名称</li>
+															<li class="w105">收支类型</li>
+															<li>支付金额</li>
+															<li>操作人</li>
+															<li>操作时间</li>
+														</ul>
+													</div>
+													<div class="ano-payment-row ano-deposit-row ac" v-for="item in roomOrderDetails.orderDepositList">
+														<div class="ano-payment-select-box fl">
+															{{item.depositTypeName}}
+														</div>
+														<div class="ano-payment-upload fl" v-bind:class="returnDepositAccount(item.isIncome)">
+															{{item.isIncome==1?'收现金':'退现金'}}
+														</div>
+														<div class="ano-payment-charge fl">
+															¥{{item.depositAmount}}
+														</div>
+														<div class="ano-payment-operator fl">
+															{{item.userName}}
+														</div>
+														<div class="ano-payment-operatortime fl">
+															{{item.updateTime}}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 订单详情 end -->
+							<!-- 住客信息 start -->
+							<div class="show-order-liverInfo show-box">
+								<div class="show-order-ctnt-box pb10">
+									<div class="customer-per-room" v-for="item in orderCustomerList">  <!--orderCustomerList[i].orderCustomerList-->
+										<div class="per-room-header" style="width:100%;">
+											<ul class="per-room-header-box clearfix fz14">
+												<li class="ac" style="min-width:10%;"><em class="liverInfo-lock-status" v-bind:class="liverLockStatus(item)"></em>{{item.roomNo}}</li>
+												<li class="ac" style="width:37%;">{{item.checkinDate}}  ~  {{item.checkoutDate}}</li>
+												<li class="ac" style="width:27%;" ><!---->
+													<div v-if="saveOrderStatus==2 && item.lockStatus == 1 && item.isShowSendDelaypswd">
+														延时动态密码&nbsp;
+														<select v-model="item.getAssignKeyCodeDelayHours">
+															<option value="1">1&nbsp;小时</option>
+															<option value="2">2&nbsp;小时</option>
+															<option value="3">3&nbsp;小时</option>
+															<option value="4">4&nbsp;小时</option>
+															<option value="5">5&nbsp;小时</option>
+														</select>&nbsp;
+														<button class="send-psw-delay" @click="sendAssignKeyCodeDelay(item)">发送</button>
+													</div>
+												</li>
+												<li style="width:12%;" >
+													<div v-if="saveOrderStatus == 1 || saveOrderStatus == 2">
+														<button class="btn-primary btn-sm w120"  @click="addGuestInformationRoom(item)">添加同住人</button>
+													</div>
+												</li>
+											</ul>
+										</div>
+										<div class="per-room-detail fz12 clearfix">
+											<ul class="per-room-tablebox clearfix ac" style="width: 95%;float:left;">
+												<li class="room-detail-title room-detail-tr color-main font-bold clearfix">
+													<div class="room-detail-td" style="width:15%;">同住人</div>
+													<div class="room-detail-td" style="width:20%;">手机号</div>
+													<div class="room-detail-td" style="width:15%;">入住动态密码</div>
+													<div class="room-detail-td" style="width:20%;">证件类型</div>
+													<div class="room-detail-td" style="width:30%;">证件号码</div>
+												</li>
+												<li class="room-detail-tr frist-row clearfix" v-for="per in item.orderCustomerList">
+													<div class="room-detail-td tb-color" style="width:15%;"><span class="customer-name">{{per.customerName}}</span></div>
+													<div class="room-detail-td tb-color" style="width:20%;">
+														<span class="customer-remark" v-bind:class="iskkCustomer(per)" >{{per.customerId == null? '':'K'}}</span>{{per.customerMobile}}
+													</div>
+													<div class="room-detail-td tb-color" style="width:15%;">
+														<template v-if="per.countDown <= 0">
+															<button class="btn-primary btn-xs w50" v-if="saveOrderStatus==2 && item.lockStatus == 1" @click.stop="sendAssignKeyCode(per)">发送</button>
+														</template>
+														<template v-else>
+															<button class="disabled-btn" v-if="saveOrderStatus==2 && item.lockStatus == 1" disabled="disabled" >剩{{per.countDown}}秒</button>
+														</template>
+													</div>
+														<div class="room-detail-td tb-color" style="width:20%;">{{showLiveInforIdName(per)}}</div>
+													<div class="room-detail-td tb-color" style="width:30%;">
+														{{per.idNumber}}
+														<span class="remove-tr-row"  v-if="saveOrderStatus == 1 || saveOrderStatus == 2"><em @click="deleteGuestInformationRoom(per)"></em></span>
+													</div>
+												</li>
+											</ul>
+											<div style="width: 5%;"></div>
+										</div>
+										<!--<table class="tb-block tb-line ac per-room-detail">
+											 <colgroup>
+									            <col width="15%">
+									            <col width="20%">
+									            <col width="15%">
+									            <col width="20%">
+								                <col width="30%">
+									        </colgroup>
+									        <thead>
+									            <tr class="tb-titlebg tb-linebm font-bold">
+									                <td class="pb10 pt10">同住人 </td>
+									                <td class="pb10 pt10">手机号</td>
+									                <td class="pb10 pt10">入住动态密码</td>
+									                <td class="pb10 pt10">证件类型</td>
+									                <td class="pb10 pt10">证件号码</td>
+									            </tr>
+									        </thead>
+											<tbody class="tb-color room-detail-tr">
+												<template v-for="per in item.orderCustomerList">
+													<tr class="tb-linebm">
+														<td class="pb10 pt10"><span class="customer-name">{{per.customerName}}</span></td>
+														<td class="pb10 pt10"><span class="customer-remark" v-bind:class="iskkCustomer(per)" >{{per.customerId == null? '':'K'}}</span>{{per.customerMobile}}</td>
+														<td class="pb10 pt10">
+															<template v-if="per.countDown <= 0">
+																<button v-if="saveOrderStatus==2 && item.lockStatus == 1" @click.stop="sendAssignKeyCode(per)">发送</button>
+															</template>
+															<template v-else>
+																<button class="disabled-btn" v-if="saveOrderStatus==2 && item.lockStatus == 1" disabled="disabled" >剩{{per.countDown}}秒</button>
+															</template>
+														</td>
+														<td class="pb10 pt10">{{showLiveInforIdName(per)}}</td>
+														<td class="pb10 pt10">
+															{{per.idNumber}}
+															<span class="remove-tr-row"  v-if="saveOrderStatus == 1 || saveOrderStatus == 2"><em @click="deleteGuestInformationRoom(per)"></em></span>
+														</td>
+													</tr>
+												</template>
+												<div style="width: 5%;"></div>
+											</tbody>
+										</table>-->
+									</div>
+								</div>
+							</div>
+							<!-- 添加同住人 start-->
+							<div class="modal add-resident-operate-mask" style="display:none;">
+								<div class="modal-dialog modal-md add-resident-box maxheight169">
+									<div class="modal-header ac clearfix">
+										<h4 class="fl">添加同住人</h4>
+										<i class="close iconfont icon-cuowu fr fz12" @click="closeAddResidentOperateTag"></i>
+									</div>
+									<div class="add-resident-ctnt clearfix modal-body h77">
+										<input type="text" class="fl" placeholder="姓名" v-model="addGuestInformation.customerName" v-on:focus="clearGuestInforErrorTips"/>
+										<input type="text" class="fl" placeholder="手机号码" v-model="addGuestInformation.customerMobile" v-on:focus="clearGuestInforErrorTips" maxlength="11"/>
+										<div class="add-resident-id-num clearfix">
+											<select class="fl" v-model="addGuestInformation.idType" v-on:change="clearGuestInforErrorTips">
+												<option value="">请选择</option>
+												<option v-for="item in addGuestInformation.getCertificateTypeList" value="{{item.code}}">{{item.name}}</option>
+											</select>
+											<input type="text" class="fl" placeholder="证件号" v-model="addGuestInformation.idNumber"/>
+										</div>
+										<div style="color: red;" class="ac fz12 mt10">{{addGuestInforErrorTips}}</div>
+									</div>
+									<div class="modal-footer">
+										<button @click="closeAddResidentOperateTag" class="btn-default btn-sm w70 mr10">取消</button>
+										<button class="btn-primary btn-sm w70 ml10" :class="isDisabledAddResident?'disabled-btn':''":disabled="isDisabledAddResident" @click="addResidentOperate" >保存</button>
+							        </div>
+								</div>
+							</div>
+							<!-- 添加同住人 end-->
+							<!-- 住客信息 end -->
+							<!--日志弹窗 start-->
+							<div class="show-order-log show-box">
+								<div class="show-order-log-ctnt mb15">
+									<table id="tbl01" class="tb-block tb-line ac">
+										<colgroup>
+											<col width='15%'/>
+											<col width='20%'/>
+											<col width='15%'/>
+											<col width='50%'/>
+										</colgroup>
+										<thead>
+										<tr class="tb-titlebg tb-linebm color-main font-bold">
+											<td class="pb10 pt10">
+												操作人
+											</td>
+											<td class="pb10 pt10">
+												操作日期
+											</td>
+											<td class="pb10 pt10">
+												操作项
+											</td>
+											<td class="pb10 pt10">
+												操作日志
+											</td>
+										</tr>
+										</thead>
+										<tbody class="tb-color">
+										<tr class="tb-linebm" v-for="item in showLoginfo">
+											<td class="pb10 pt10" >{{item.userName}}</td>
+											<td class="pb10 pt10">{{item.createTime}}</td>
+											<td class="pb10 pt10">{{item.operationType}}</td>
+											<td class="pb10 pt10">
+												<template v-if="item.detailList != null">
+                                                            <span v-for="items in item.detailList" class="showLoginfospan" style="display:inline-block;width: 100%; text-align: left;">
+                                                                <i class="pt5 pb5 btn-inlineblock" style="color: dodgerblue;">{{items.item}}&nbsp;&nbsp;</i>
+                                                                <i class="pt5 pb5 btn-inlineblock">{{items.before}}</i>&nbsp;&nbsp;
+                                                                <i class="pt5 pb5 btn-inlineblock" style="color: red;">{{items.operate}}&nbsp;&nbsp;</i>
+                                                                <i class="pt5 pb5 btn-inlineblock">{{items.after}}</i>
+                                                            </span>
+												</template>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!--日志弹窗 end-->
+						</div>
+						<!--内容加在这里面-->
+					</div>
+					<!-- 入住，未入住 -->
+					<div class="show-order-bottom" v-if="roomOrderBottomBtnStatus.isEditabel_order_btn">
+						<ul class="addneworder-fee-lists clearfix ac fz14">
+							<li>
+								<span>应收款</span>
+								<em>¥{{(orderDetailsCount.receivables).toFixed(2)}}</em>
+							</li>
+							<li>
+								<span>已收款</span>
+								<em>¥{{(orderDetailsCount.alreadyCollection).toFixed(2)}}</em>
+							</li>
+							<li class="pr60">
+								<button @click="receivablesOperate" v-if="roomOrderBottomBtnStatus.isEditabel_order_btn && roomStatusResourceInfo.cloudHotelPaymentProcess">收/退款</button>
+								<span>需补款</span>
+								<em>¥{{(orderDetailsCount.markUpCollection).toFixed(2)}}</em>
+							</li>
+							<li class="pr60">
+								<button @click="receivedDepositOperate" v-if="roomOrderBottomBtnStatus.isEditabel_order_btn && roomStatusResourceInfo.cloudHotelDepositProcess">收/退押</button>
+								<span>押金</span>
+								<em>¥{{(orderDetailsCount.receivedDeposit).toFixed(2)}}</em>
+							</li>
+						</ul>
+						<a href="javascript:;" class="btn-cancleorder fl fz14" @click="cancleOrderDetails" v-if="roomOrderBottomBtnStatus.editabel_isCheckIn && roomStatusResourceInfo.cloudHotelCancelOrder">取消订单</a>
+						<!--roomOrderDetails.orderStatus != 2-->
+						<button class="btn-primary btn-sm w70" @click="checkInBtnOperate" v-if="roomOrderBottomBtnStatus.editabel_isCheckIn && roomStatusResourceInfo.cloudHotelCheckin">入住</button>
+						<button class="btn-primary btn-sm w70" @click="checkOutOperate" v-if="!roomOrderBottomBtnStatus.editabel_isCheckIn">退房</button>
+						<a href="javascript:;" class="btn-changeorder fr fz14" @click="changeOrderDetails(roomOrderDetails.channelCode)" v-if="roomStatusResourceInfo.cloudHotelEditOrder">修改订单</a>
+					</div>
+					<!-- 已离店 orderStatus== 3-->
+					<div class="show-order-bottom show-order-else" v-else>
+						<button class="btn-primary btn-sm w70" @click="recoverCheckInStatus" v-if="roomOrderDetails.orderStatus == 3">恢复入住</button>
+					</div>
+					<!-- 取消订单 start-->
+					<div class="modal show-order-cancell-tag-mask">
+				    	<div class="modal-dialog modal-md show-order-cancell-tag maxheight295">
+							<div class="modal-header ac addneworder-title clearfix">
+								<h3 class="fz14 fl">取消订单</h3>
+								<i class="close iconfont icon-cuowu fr fz12" @click="hiddenShowOrderCancellTag"></i>
+							</div>
+							<div class="show-order-cancell-orderdetails modal-body ac h200">
+								<ul class="clearfix">
+									<li>
+										<span>订单总费用</span>
+										<span>¥{{(orderDetailsCount.roomSumPrice + orderDetailsCount.payAmount).toFixed(2)}}</span>
+									</li>
+									<li>
+										<span>已收款</span>
+										<span>¥{{(orderDetailsCount.alreadyCollection).toFixed(2)}}</span>
+									</li>
+									<li>
+										<span>需补交</span>
+										<span>¥{{(orderDetailsCount.markUpCollection).toFixed(2)}}</span>
+									</li>
+								</ul>
+								<div class="show-order-cancell-textarea">
+									<textarea name="" id="" cols="55" rows="8" v-model="cancelOrderOperate.cancelRemark" v-on:focus="clearOrderCancelTextArea" placeholder="备注..."></textarea>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn-primary btn-sm w70" @click="confirmCancelOrderOperate">确定</button>
+					        </div>
+						</div>
+					</div>
+					<!-- 取消订单 end-->
+					<div class="modal show-order-deposit-tag-mask" style="display:none;" @click="depositTagMask(e)">
+						<div class="modal-dialog  modal-md maxheight275 show-order-deposit-tag">
+							<div class="modal-header addneworder-title clearfix">
+								<h4 class="fz14 fl">收/退押金</h4>
+								<i class="close iconfont icon-cuowu fr fz12" @click="closeOrderDepositTag"></i>
+							</div>
+							<!--<div class="receive-refund-tag">
+								<span @click="swfitReceiveReund = !swfitReceiveReund" v-bind:class="{active:swfitReceiveReund}">收款</span>
+								<span @click="swfitReceiveReund = !swfitReceiveReund"  v-bind:class="{active:!swfitReceiveReund}">退款</span>
+							</div>-->
+							<div class="fz14 modal-body h180 pd0">
+								<div class="deposit-back-tab">
+									<span @click="swiftDepositTag = !swiftDepositTag" v-bind:class="{active:swiftDepositTag}">收押</span>
+									<span @click="swiftDepositTag = !swiftDepositTag"  v-bind:class="{active:!swiftDepositTag}">退押</span>
+								</div>
+								<div class="deposit-back-rceivables ac" v-if="swiftDepositTag">
+									<div class="deposit-name-box form-inline">
+										<span>押金名称</span>
+										<input type="text" class="form-control input-sm w120" class="deposit-name" v-model="updateDeposit.depositTypeName" v-on:focus="showDepositDropDown = true" v-on:click.stop.prevent="clickDeposit"/><!---->
+										<div class="deposit-dropdown" id="depositDropdown" v-if="showDepositDropDown" v-on:click.stop.prevent="clickDeposit">
+											<ul class="clearfix">
+												<template v-for="item in showDepositDropDownList">
+													<li @click="selectDepositDropDownItem(item)">{{item}}</li>
+												</template>
+											</ul>
+										</div>
+									</div>
+									<div class="deposit-name-amount form-inline">
+										<span>金额</span>
+										<input type="text" class="form-control input-sm w120" class="deposit-amount" v-model="updateDeposit.depositAmount" />
+									</div>
+								</div>
+								<div class="deposit-back-refund"  v-if="!swiftDepositTag">
+									<div class="show-order-selectdeposit-title" >
+										<span>选择退款押金</span>
+										<span>退款总额:</span>
+										<span>¥{{receiveDepositTotal}}</span>
+									</div>
+									<div class="show-order-abandon-deposit of-y">
+										<!--
+										<label v-for="item in updateDeposit.orderDepositList">
+											<input type="checkbox" v-model="updateDeposit.depositIdReturnList" value="{{item.orderDepositId}}"/>
+											<span>{{item.depositTypeName}}</span>
+											<span>¥{{item.depositAmount}}</span>
+										</label>
+										-->
+										<span v-for="item in updateDeposit.orderDepositList" class="fl wp33 lh26 pointer" @click="selectDepositReturn(item)">
+											<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+											<span>{{item.depositTypeName}}</span>
+											<span>¥{{item.depositAmount}}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer ac">
+								<button class="btn-primary btn-sm w70" @click="confirmUpdateDeposit">确定</button>
+							</div>
+						</div>
+					</div>
+					<!-- 收押金窗口 end -->
+					<!-- 收款窗口 start-->
+					<div class="modal show-order-receivables-tag-mask">
+						<div class="modal-dialog modal-md maxheight325 show-order-cancell-tag show-order-deposit-tag show-order-receivables-tag" id="orderReceivableTag">
+							<div class="modal-header ac addneworder-title clearfix">
+								<h3 class="fz14 fl">收/退款</h3>
+								<i class="close iconfont icon-cuowu fr fz12" @click="closeOrderreceivablesTag"></i>
+							</div>
+							<div class="show-order-cancell-orderdetails modal-body fz14 h230 pd0">
+								<div class="receive-refund-tag">
+									<span @click="swfitReceiveReund = !swfitReceiveReund" v-bind:class="{active:swfitReceiveReund}">收款</span>
+									<span @click="swfitReceiveReund = !swfitReceiveReund"  v-bind:class="{active:!swfitReceiveReund}">退款</span>
+								</div>
+								<div class="show-order-add-deposit ac form-inline">
+									<label>
+										支付方式&nbsp;
+										<div class="show-order-receivables-select">
+											<select v-model="addPayment.payTypeCode" @change="getAddPaymentSelectName($event)">
+												<option value="">请选择</option>
+												<option v-for="item in addPayment.payTypeList" value="{{item.code}}">{{item.name}}</option>
+											</select>
+										</div>
+									</label>
+									<label>
+										<template v-if="swfitReceiveReund"><!--addPayment.payAmount-->
+											<span >收款金额</span>&nbsp;
+											<input type="text" class="form-control input-sm w125" v-model="receiveAccount"  @focus="focusClearAddPayAmount"/>
+										</template>
+										<template v-else>
+											<span >退款金额</span>&nbsp;
+											<input type="text" class="form-control input-sm w125" v-model="refundAccount" @focus="focusClearAddPayAmount"/>
+										</template>
+									</label>
+									<!--<label>
+										<span>收款金额</span>&nbsp;
+										<input type="text" v-model="addPayment.payAmount" number @focus="focusClearAddPayAmount"/>
+									</label>-->
+								</div>
+								<div class="show-order-selectdeposit-title form-inline">
+									<span>附件</span>&nbsp;
+									<!--<a href="javascript:;" class="fz14" id="uploadOrderPaymentFiles">点击上传</a>-->
+									<v-uploadify :elem-id.sync="smPayTypeImgBtn" :param.sync="smPayTypeParam" :img-infor.sync="smPayTypeBackImgInfor"></v-uploadify>
+									<a href="javascript:;" id="uploadOrderPaymentFiles_view" v-if="uploadOrderPaymentFilesUrl != null" @click="previewUploadImage(uploadOrderPaymentFilesUrl)">查看</a>
+									<label>
+										<span>支付编号</span>&nbsp;
+										<input type="text" class="form-control input-sm w125" v-model="addPayment.payNo"/>
+									</label>
+								</div>
+								<div class="show-order-remark">
+									<textarea v-model="addPayment.remark" placeholder="备注..."></textarea>
+								</div>
+								<div class="show-order-receivables-errortips" v-if="addPaymentErrorTip != ''">{{addPaymentErrorTip}}</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn-primary btn-sm w70" @click="addPaymentOperate" >确定</button>
+					        </div>
+						</div>
+					</div>
+					<!-- 收款窗口 end -->
+					<!-- 退房设置脏房 start-->
+					<div class="modal checkout-setdirtyroom-tag-mask" style="display:block" v-if="isOpensetDirtyroomTag">
+						<div class="modal-dialog modal-md setdirtyroom-tag-box maxheight345">
+							<div class="modal-header ac setdirtyroom-tag-title clearfix">
+								<h4 class="fl fzb14">脏房确认</h4>
+								<i class="close iconfont icon-cuowu fr fz12 setdirtyroom-tag-close" @click="closeSetDirtyRoomTag"></i>
+							</div>
+							<div class="setdirtyroom-tag-content modal-body h250">
+								<div class="setdirtyroom-tag-list fz14 ac">
+									<ul class="clearfix" style="width: 100%;">
+										<li style="width: 23%;" v-for="item in dirtyRoomList" @click="clickPerDirtyRoom(item)" v-bind:class="item.isDirty?'is-dirtyroom': ''">
+											<div class="dirtyroom-no"  v-bind:class="item.isDirty?'al': ''" title="{{item.roomNo}}">{{item.roomNo}}</div>
+											<p class="dirtyroom-staydate fz12">{{item.date}}</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button class="fz14 setdirtyroom-confirm-btn btn-primary btn-sm w70" @click="confirmSetDirtyRoomTag">确定</button>
+					        </div>
+						</div>
+					</div>
+					<!-- 退房设置脏房 end-->
+				</div>
+				<!-- 订单详情 end-->
+				<!-- 修改订单 start -->
+				<div class="addneworder-tag-content modefy-order-content" id="modefy_order_details" style="display:none;">
+					<div class="addneworder-box h502">
+						<div class="addneworder-box-content">
+							<div class="addneworder-channel-box pt15">
+								<div class="addneworder-wrap addneworder-channel-ctnt clearfix">
+									<div class="ano-channel-icon fl">
+										<i></i>
+									</div>
+									<div class="ano-channel-iconctnt fl">
+										<div class="ano-channel-ctntup clearfix">
+											<div class="ano-ctntup-xzqd fl">
+												<select class="ano-ctntup-xzqd-select ano-iptselect-common" v-model="changeOrderDetailsData.channelCode" v-on:change="getChangeOrderChannelName($event)" :disabled="roomOrderDetails.channelCode == 'kkapp'">
+													<option value="">选择渠道</option>
+													<option v-for="item in channelList" value="{{item.code}}">{{item.name}}</option>
+												</select>
+											</div>
+											<div class="ano-ctntup-qddh fl">
+												<input type="text" class="ano-iptselect-common" v-model="changeOrderDetailsData.channelOrderNo" placeholder="渠道单号" :disabled="roomOrderDetails.channelCode == 'kkapp'"/>
+											</div>
+											<div class="ano-ctntup-upload fl">
+												<!--<div id="uploadModifyOrderDataBtn"></div>-->
+												<v-uploadify :elem-id.sync="modefyChannelTypeImgBtn" :param.sync="modefyChannelTypeParam" :img-infor.sync="modefyChannelTypeBackImgInfor"></v-uploadify>
+												<a href="javascript:;" id="uploadModifyOrderData_view" v-if="uploadModifyOrderDataUrl != null" @click="previewUploadImage(uploadModifyOrderDataUrl)">查看</a>
+											</div>
+											<div class="ano-ctntup-ydr fl">
+												<input type="text" class="ano-iptselect-common" v-model="changeOrderDetailsData.customerName"  placeholder="预定人"  :disabled="roomOrderDetails.channelCode == 'kkapp'"/>
+											</div>
+											<div class="ano-ctntup-ydrmb fr">
+												<input type="text" class="ano-iptselect-common" v-model="changeOrderDetailsData.customerMobile"  placeholder="预订人手机"  :disabled="roomOrderDetails.channelCode == 'kkapp'" maxlength="11"/>
+											</div>
+										</div>
+										<div class="ano-channel-ctntremark"><!--cols="30" rows="20"-->
+											<textarea name="" id="" cols="119" rows="3" class="fz12" v-model="changeOrderDetailsData.remark"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="addneworder-checkin-box">
+								<div class="addneworder-wrap addneworder-checkin-ctnt clearfix">
+									<div class="ano-checkin-icon fl">
+										<i></i>
+									</div>
+									<div class="ano-checkin-ctnt fr">
+										<div class="ano-checkin-row clearfix" v-for="item in changeOrderDetailsData.orderRoomStayList" ><!-- | filterBy filterOperateType(item) in 'operationType'-->
+											<div class="fl">
+												<mz-datepicker format="yyyy-MM-dd" :start-time.sync="item.checkinDate" :end-time.sync="item.checkoutDate" range en confirm :on-confirm="confrim2" :item="item"></mz-datepicker>
+											</div>
+											<div class="ano-checkin-roomtype fl">
+												<select class="ano-checkin-roomtype-select ano-iptselect-common" v-model="item.roomTypeId" v-on:change="getchangeOrderRoomList(item.roomTypeId,item, $event)" > <!--  v-on:change="getRoomList(item,item.roomTypeId, $event)" -->
+													<option value="">请选择</option>
+													<option v-for="optns in item.roomTypeList" v-bind:value="optns.roomTypeId">
+														{{optns.roomTypeName}}
+													</option>
+												</select>
+											</div>
+											<div class="ano-checkin-roomname fl">
+												<select class="ano-checkin-roomname-select ano-iptselect-common"  v-model="item.roomId" v-on:change="getChangeOrderRoomNo(item.roomId, item, $event)">
+													<option value="">请选择</option>
+													<option v-for="optns in item.roomList" v-bind:value="optns.roomId">
+														{{optns.roomNo}}
+													</option>
+												</select>
+											</div>
+											<div class="ano-checkin-nights fl fz14" >
+												{{item.totalDays}}晚
+											</div>
+											<div class="ano-checkin-perdayprice fl fz14" v-on:mouseover="showChangeOrderPerdayPriceBox($event, item.dayPriceList)"
+												 v-on:mouseout="hiddenChangeOrderPerdayPriceBox($event)">
+												每日房价
+												<!--<div class="day-prices-list" style="display:none;">
+													<ul class="clearfix">
+														<li v-for="perday in item.dayPriceList">
+															<div class="perday-date fz12">{{perday.day}}</div>
+															<div class="">
+																<input type="text" v-model="perday.price" v-on:keyup="changeOrderSumPrice(item)" number/>
+															</div>
+														</li>
+													</ul>
+												</div>-->
+												<div class="day-prices-list" v-bind:style="{left:getPriceListBoxLeft(item.totalDays)}">
+													<div class="triangle_border_top" v-bind:style="{left:getPriceListTriangleLeft(item.totalDays)}">
+														<em>&#9670;</em>
+														<span>&#9670;</span>
+													</div>
+													<div class="buyout-price"  v-if="item.totalDays > 1">
+														<div class="buyout-price-box">
+															一口价
+															<input type="text" v-model="item.fixedPrice" v-on:keyup="changePerDayPrices(item)" v-on:blur="formateNumFixedPrice(item)"/>
+															<i @click="restoreDefaultsDayPriceList(item)"></i>
+														</div>
+													</div>
+													<div class="buyout-price-list">
+														<ul class="clearfix" v-bind:style="{width: getPriceListBoxWidth(item.totalDays)}">
+															<li v-for="perday in item.dayPriceList">
+																<div class="perday-date fz12">
+																	<em>{{formateDayPricesDate(perday.day)}}</em>
+																	<i v-if="$index<=6">{{whatDay(perday.day,'showWeekend')}}</i>
+																</div>
+																<div class="perday-date-price">
+																	<input type="text" v-model="item.dayPriceList[$index].price" v-on:keyup="changeSumPrice(item,perday)" v-on:blur="formateNumPriceList(perday)" number/>
+																	<i>{{item.origDayPriceList[$index].price}}</i>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="ano-checkin-realprice fl fz14">
+												¥{{item.fixedPrice}}<!--(item.totalPrice).toFixed(2)-->
+											</div>
+											<div class="ano-checkin-addremove fl">
+												<span class="ano-checkin-remove" v-if="isShowremoveChangeOrderBtn(changeOrderDetailsData.orderRoomStayList)" @click="removeChangeOrderCheckinRow(item)"></span>
+												<span class="ano-checkin-add" @click="addChangeOrderCheckinRow()" v-if="isShowAddChangeOrderBtn(changeOrderDetailsData.orderRoomStayList, $index)"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="addneworder-servicefee-box">
+								<div class="addneworder-wrap addneworder-servicefee-ctnt clearfix">
+									<div class="ano-servicefee-icon fl">
+										<i></i>
+									</div>
+									<div class="ano-servicefee-ctnt fl">
+										<ul class="ano-servicefee-modefy-title clearfix fz12 color-gray">
+											<li>服务名称</li>
+											<li>服务费用</li>
+											<li>备注</li>
+											<li v-if="changeOrderDetailsData.orderBillList.length == 0" class="al"><a href="javascript:;" @click="addChangeOderBillList">新增</a></li>
+										</ul>
+										<div class="ano-servicefee-ctnt-row clearfix" v-for="item in changeOrderDetailsData.orderBillList">
+											<div class="ano-service-name pos-rel fl">
+												<input type="text" class="ano-iptselect-common" v-model="item.billTypeName" placeholder="服务名称" v-on:focus="focusBillTypeNameDropDownIpt(item)"  v-on:click.stop.prevent="stopPropagationFun"/>
+												<div class="bill-typename-dropdown pos-abs"  v-if="item.showBillTypeNameDropDown" v-on:click.stop.prevent="stopPropagationFun">
+													<ul class="clearfix">
+														<template v-for="perBillList in showBillTypeNameDropDownList">
+															<li class="fl wp33 fz12 h30 lh30 pointer ac" @click="selectBillTypeNameDropDownItem(perBillList, item)">{{perBillList}}</li>
+														</template>
+													</ul>
+												</div>
+											</div>
+											<div class="ano-service-fee fl">
+												<input type="text" class="ano-iptselect-common" v-model="item.amount" placeholder="服务费用"  />
+											</div>
+											<div class="ano-service-remark fl">
+												<input type="text" class="ano-iptselect-common" v-model="item.remark" placeholder="备注" />
+											</div>
+											<div class="ano-service-addremove fl">
+												<span class="ano-service-remove" @click="removeChnageOrderBillList(item)"></span>       <!--v-if="$index == 0 ?false:true"-->
+												<span class="ano-service-add" @click="addChangeOderBillList" v-if="changeOrderDetailsData.orderBillList.length-1 == $index"></span><!--lastOrderBillListShowAdd(changeOrderDetailsData.orderBillList, $index)-->
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button @click="changeOrderCancellAllmsgs" class="btn-default btn-sm w70 mr10">取消</button>
+						<button @click="changeOrderUpateAllmsgs" id="modefy_order_confirm" class="btn-primary btn-sm w70 ml10">确定</button>
+			        </div>
+				</div>
+				<!-- 修改订单 end -->
+		        </div>
+		    </div>
+	    </div>
+		<!-- preview img plugin start -->
+		<v-preview :img-list.sync="previewImagesList"></v-preview>
+		<!-- preview img plugin end -->
+	</div>
+
+    <!-- content end -->
+    <!-- glenlzk 脚部公共区域 -->
+    <!--<div class="footer">
+        <div class="wrapper ac">
+            <p class="fz12">版本号：v1.0.0 &nbsp; 粤ICP备16107624号 &nbsp;</p>
+        </div>
+    </div>-->
+    <!-- 插件弹窗html start -->
+    <div class="yzl-dialog" id="yzl_dialog">
+        <div class="yzl-dialog-titlebar">
+            <span class="yzl-dialog-title" id="yzl_dialog_title">消息提醒</span>
+            <i class="yzl-close-btn" id="yzl_close_btn">&#xd7;</i>
+        </div>
+        <div class="yzl-dialog-content" id="yzl_dialog_content">
+            <p> </p>
+        </div>
+        <div class="yzl-dialog-button">
+            <button type="button" class="btn-primary btn-sm w70" id="dialog_button">确定</button>
+        </div>
+    </div>
+    <!-- 插件弹窗html end -->
+    <!-- 插件弹窗:遮罩层确定和取消窗口 start-->
+    <div class="mask-dialog" id="maskDialog" style="display:none;">
+        <div class="mask-dialog-box">
+            <div class="mask-dialog-content" id="mask_dialog_content">
+                <p class="fz14 ac"></p>
+            </div>
+            <div class="mask-dialog-button ac">
+                <button type="button" id="mask_dialog_cancel">取消</button>
+                <button type="button" id="mask_dialog_confirm">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 插件弹窗:遮罩层确定和取消窗口 end-->
+	<!-- build:js js/global/global.js -->
+    <script src="js/lib/vue/vue.min.js"></script>
+    <script src="js/lib/jQuery/jquery.min.js"></script>
+    <script src="js/lib/jQuery/jquery.cookie.js"></script>
+    <script src="js/plugin/vue_datepicker/vue.datepicker.js"></script>
+    <script src="js/login/md5.js"></script>
+	<script type="text/javascript" src="js/lib/sockjs.min.js"></script>
+	<script src="js/plugin/viewer/viewer.min.js"></script>
+    <script src="js/plugin/underscore.js"></script>
+    <script src="js/lib/jquery.ba-hashchange.min.js"></script>
+    <script src="js/plugin/uploadify/jquery.uploadify.min.js"></script>
+    <script src="js/plugin/jcrop/jquery.Jcrop.js"></script>
+    <script src="js/plugin/echarts/echarts.min.js"></script>
+	<script src="js/plugin/sumoselect/jquery.sumoselect.js"></script>
+	<script src="js/global/config.js"></script>
+    <script src="js/global/sideBarData.js"></script>
+    <script src="js/global/base.js"></script>
+	<!-- endbuild -->
+	<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=0Ll3qBhFKxWfCegYNox5PBGDAy2p1p8p"></script>-->
+	<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=dkFyM2ArUOLr1rkRsTYj2kYtuvq7KI6m&services=&t=20170207140543"></script>
+
+</body>
+</html>

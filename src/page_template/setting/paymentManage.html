@@ -1,0 +1,32 @@
+<div class="paymentManage" id="paymentManage" v-cloak>
+	<ul class="clearfix">
+		<li v-for="todo in paymentMethod.payTypeList">
+			{{todo}}
+		</li>
+		<li class="abledel" v-for="item in paymentMethod.hotelPayTypelist">
+			<span class="word-wrap pt14" v-text="item.payTypeName"></span>
+			<i class="iconfont icon-shanchu fz14" v-on:click="delPayment(item)" v-if="settingResourceInfo.cloudHotelDeletePayType"></i>
+		</li>
+		<li class="add-btn" v-if="settingResourceInfo.cloudHotelAddPayType">
+			<input type="text" placeholder="请输入..." v-model="addpaymentMethod"/>
+			<button class="btn-primary btn-sm w80" v-on:click="addPayment">添加</button>
+		</li>
+	</ul>
+	<!--提示弹窗-->
+	<div class="window-mask">
+		<div class="window-checkdel">
+			<div class="window-head">
+				<h4>注意</h4>
+				<i v-on:click="closeWindowmask">×</i>
+			</div>
+			<div class="window-contact">
+				<p>确认删除该支付方式吗？</p>
+			</div>
+			<div class="window-footer">
+				<button v-on:click="closeWindowmask">取消</button>
+				<button v-on:click="delWindowmask">确定</button>
+			</div>
+		</div>
+	</div>
+	<!--提示弹窗-->
+</div>

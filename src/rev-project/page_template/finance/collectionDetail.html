@@ -1,0 +1,178 @@
+<div id="collectionDetail" v-cloak>
+	<div class="right-content-header">
+		<div class="right-content-header-searchlabel form-inline">
+			<span class="mr10">
+				<label class="inline-block-middle">操作时间</label>
+				<mz-datepicker format="yyyy-MM-dd" :start-time.sync="finaReceiptList.fromDate" :end-time.sync="finaReceiptList.toDate" range en confirm :on-confirm="finaReceiptDate"></mz-datepicker>
+			</span>
+			<span class="mr10">
+				<label class="inline-block-middle">操作人</label>
+				<!--<select v-model="finaReceiptList.receiptUserId">
+					<option value="">请选择</option>
+					<option v-for="item in receiptuserList" value="{{item.userId}}">{{item.userName}}</option>
+				</select>-->
+				<iselect-name :list.sync="receiptuserList" :select-val.sync="finaReceiptList.receiptUserId" :elem-id.sync="receiptuserElemId" ></iselect-name>
+			</span>
+			<span class="slide-out mr10">
+				<label class="inline-block-middle">渠道</label>
+				<iselect-name :list.sync="searchChannelList" :select-val.sync="channleCodelist" :elem-id.sync="searchChannelElemId" :is-multiple.sync="isMultiple" :is-selected.sync="isSelected" :text.sync="selectText" ></iselect-name>
+				<!--<div class="slide-layout-box" id="slide_layout_box" @click="channelSlideDown($event)">
+					<label class="slide-layout" id="slide_layout">
+						-&#45;&#45;请选择-&#45;&#45;
+					</label>
+					<ul class="slide-inner" id="slide_inner" style="display:none;">
+						<li>
+							<label >
+								<input type="checkbox"  @click="bindChannelCheckAll($event)" id="channelCheckAll" />全选
+							</label>
+						</li>
+						<li v-for="item in searchChannelList" id="channelSecondLi">
+							<label>
+								<input type="checkbox" value="{{item.channelCode}}" v-on:change="checkoutIpts"/>{{item.channelName}}
+							</label>
+						</li>
+					</ul>
+				</div>-->
+			</span>
+			<span class="mr10">
+				<label class="inline-block-middle">支付方式</label>
+				<!--<select class="border-right" placeholder="请选择" required="required" v-model="finaReceiptList.payTypeCode">
+					<option value="">请选择</option>
+					<option v-for="item in payTypeList" value="{{item.payTypeCode}}">{{item.payTypeName}}</option>
+			    </select>-->
+				<iselect-name :list.sync="payTypeList" :select-val.sync="finaReceiptList.payTypeCode" :elem-id.sync="payTypeElemId" ></iselect-name>
+			</span>
+				<!--<select class="SlectBox " placeholder="请选择" required="required" v-model="finaReceiptList.queryTerms">
+					<option value="">请选择</option>
+					<option value="customerName">预订人</option>
+					<option value="customerMobile">手机号</option>
+					<option value="payNo">支付编号</option>
+					<option value="orderNo">订单号</option>
+				</select>-->
+			<iselect-name :list.sync="otherSearchList" :select-val.sync="finaReceiptList.queryTerms" :elem-id.sync="otherSearchElemId" :selected-elem.sync="otherSearchSelectedElem" :is-null-select.sync="isNullSelect"></iselect-name>
+			<input type="text" class="form-control input-sm w140" placeholder="预订人/手机号/支付编号/订单号" v-model="finaReceiptList.queryTermsVal"/>
+			<button class="btn-primary btn-sm w80 mr10 ml10" v-on:click="getfinaReceiptList">查询</button>
+			<button class="ExportTableBtn btn-primary btn-sm w80" v-if="orderReceiptListlength != 0">
+				<a href="javascript:;" class="color-white fz12">导出表格</a>
+			</button>
+		</div>
+	</div>
+	<div class="right-content-bottom" id="rightContentBottom">
+		<!--<ul class="untreatedOrdertable">
+			<li class="table-list">
+				<span>支付方式</span>
+				<span>收款金额</span>
+				<span>支付编号</span>
+				<span>操作人</span>
+				<span>操作时间</span>
+				<span>订单号</span>
+				<span>渠道</span>
+				<span>渠道编号</span>
+				<span>预订人</span>
+				<span>手机号</span>
+				<span>入住日期</span>
+			</li>
+			<li class="table-list" v-for="item in orderReceiptList">
+				<span>
+					{{item.payTypeName}}
+				</span>
+				<span>
+					{{item.payAmount}}
+				</span>
+				<span >
+					{{formatePayNo(item.payNo)}}
+				</span>
+				<span>
+					{{item.receiptUserName}}
+				</span>
+				<span>
+					{{item.updateTime}}
+				</span>
+				<span v-if="collectionDetailResourceInfo.cloudHotelOrderDetail" @click="openRoomOrderDetails(item.orderId)" style="color: dodgerblue; text-decoration: underline;cursor: pointer;">
+					{{item.orderNo}}
+				</span>
+				<span v-else>
+					{{item.orderNo}}
+				</span>
+				<span>
+					{{item.channelName}}
+				</span>
+				<span>
+					{{item.channelOrderNo}}
+				</span>
+				<span>
+					{{item.customerName}}
+				</span>
+				<span>
+					{{item.customerMobile}}
+				</span>
+				<span>
+					{{item.checkinDate}}
+				</span>
+			</li>
+		</ul>-->
+		<table id="tbl" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="7%">
+	            <col width="7%">
+	            <col width="8%">
+	            <col width="8%">
+                <col width="8%">
+	            <col width="15%">
+	            <col width="8%">
+	            <col width="8%">
+	            <col width="8%">
+	            <col width="10%">
+                <col width="9%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	                <td class="pb10 pt10">支付方式 </td>
+	                <td class="pb10 pt10">收款金额</td>
+	                <td class="pb10 pt10">支付编号</td>
+	                <td class="pb10 pt10">操作人</td>
+	                <td class="pb10 pt10">操作时间</td>
+                    <td class="pb10 pt10">订单号</td>
+                    <td class="pb10 pt10">渠道</td>
+                    <td class="pb10 pt10">房间号</td>
+                    <td class="pb10 pt10">预订人</td>
+                    <td class="pb10 pt10">手机号</td>
+                    <td class="pb10 pt10">入住日期</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in orderReceiptList">
+					<tr class="tb-linebm">
+						<td class="pb10 pt10">{{item.payTypeName}}</td>
+						<td class="pb10 pt10">{{item.payAmount}}</td>
+						<td class="pb10 pt10">{{formatePayNo(item.payNo)}}</td>
+						<td class="pb10 pt10">{{item.receiptUserName}}</td>
+						<td class="pb10 pt10">{{item.updateTime}}</td>
+						<td class="pb10 pt10">
+							<a href="javascript:;" v-if="collectionDetailResourceInfo.cloudHotelOrderDetail" class="btn-link fz12" @click="openRoomOrderDetails(item.orderId)">{{item.orderNo}}</a>
+							<span v-else class="fz12">{{item.orderNo}}</span>
+						</td>
+						<td class="pb10 pt10">{{item.channelName}}</td>
+						<td class="pb10 pt10">
+							<i class="pt3 pb3 btn-block" v-for="items in item.roomNoList">
+								{{items}}<br />
+							</i>
+						</td>
+						<td class="pb10 pt10">{{item.customerName}}</td>
+						<td class="pb10 pt10">{{item.customerMobile}}</td>
+						<td class="pb10 pt10">{{item.checkinDate}}</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+		<!--
+			<div class="right-content-bottom-total">
+				共计<i>234</i>个订单  累计订单总额<i> ¥512331.00</i>
+			</div>
+		-->
+		<div class="table-page" v-if="orderReceiptList.length != 0">
+			<span class="key-manage-pagemsg ar pd5 pt5 mb10 fl">共<span>{{total}}</span>个收款明细</span>
+			<span class="fr"><vue-nav :cur.sync="cur" :all.sync="all" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav></span><!--v-on:btn-click="listen"-->
+		</div>	
+	</div>
+</div>

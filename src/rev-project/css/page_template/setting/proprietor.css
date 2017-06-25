@@ -1,0 +1,209 @@
+/*基本样式 start*/
+.AddNewProprietor-title{
+	line-height: 30px;
+}
+.proprietorList{
+	margin-top: 12px;
+	width: 100%;
+	text-align: center;
+}
+.nav-room-opreate a {
+    font-size: 14px;
+    color: #006cca;
+}
+.proprietorListInfo li:nth-child(1){
+	background: #28679B;
+	color: #fff;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	padding: 0px;
+}
+.proprietorListInfo li:nth-child(1) span{
+	padding: 0px;
+}
+.proprietorListInfo li{
+	background: #FFF4ED;
+	color: #696969;
+	font-size: 12px;
+	padding: 10px 0;
+	line-height: 22px;
+	margin-top: 5px;
+	position: relative;
+}
+.proprietorListInfo span{
+	/*display: inline-block;*/
+	display:block;
+	word-wrap: break-word
+}
+.edit-operate-nowrap {
+	word-break:keep-all;
+	white-space:nowrap;
+}
+.proprietorListInfo li span {
+	float:left;
+}
+.proprietorListInfo li span:nth-child(1){
+	width: 6%;
+}
+.proprietorListInfo li span:nth-child(2){
+	width: 15%;
+}
+.proprietorListInfo li span:nth-child(3){
+	width: 15%;
+}
+.proprietorListInfo li span:nth-child(4){
+	width: 20%;
+}
+.proprietorListInfo li span:nth-child(5){
+	width: 32%;
+}
+.proprietorListInfo li span:nth-child(6){
+	width: 10%;
+}
+.roomCodeList-layout{
+	position: relative;
+}
+.roomCodeList a{
+	color: #006CCA;
+	font-size: 12px;
+	text-decoration: underline;
+}
+.roomListTip{
+    width: 360px;
+    display: none;
+    position: absolute;
+    left: -106px;
+    top: 20px;
+    z-index: 2;
+    background:rgba(0,0,0,0.5);
+    border-radius: 6px;
+    border: 1px solid #fff;
+}
+.roomListTip i{
+	display: inline-block;
+	width: 20%;
+	line-height: 22px;
+	float: left;
+	color: #fff;
+	overflow: hidden;  /*溢出隐藏*/
+    text-overflow: ellipsis;
+    white-space: nowrap;  /*强制不换行*/
+}
+.roomCodeList-layout:hover .roomListTip{
+	display: block;
+}
+/*基本样式 end*/
+
+/*底部分页样式 Start*/
+.table-page{
+	text-align: right;
+	margin-top: 15px;
+	line-height: 24px;
+}
+.key-manage-pagemsg{
+	margin-bottom: 10px;
+}
+.table-page button{
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	color: #8c8c8c;
+	margin: 0 3px;
+	background: #fff;
+}
+.table-page span{
+	margin: 0 5px;
+}
+.table-page input{
+	width: 30px;
+	height: 24px;
+	line-height: 24px;
+	margin: 0 8px;
+}
+.table-page .btn-next,.table-page .btn-prev{
+	box-sizing:border-box;
+	padding-left: 8px;
+	font-family: fantasy;
+}
+.table-page-layout{
+	display: inline-block;
+}
+.pageList{
+	display: inline-block;
+	width: 300px;
+}
+.pageList button.active{
+	color: #0099FF;
+	font-weight: bold;
+}
+.btn-prev,.btn-next{
+	display: none;
+}
+.table-page .btn-Go{
+	color: #fff;
+	background: #3ca4f9;
+}
+.ExportTableBtn{
+	height: 32px;
+}
+.ExportTableBtn a{
+	float: right;
+	display: inline-block;
+	width: 120px;
+	height: 32px;
+	text-align: center;
+	line-height: 32px;
+	color: #fff;
+	background: #F0A42F;
+}
+/*底部分页样式 End*/
+
+/*添加业主模态框 start*/
+
+
+/*编辑房间模态窗 start*/
+.EditRoomWindow-content button{
+	float: right;
+	width: 72px;
+	height: 26px;
+	background: #169BD5;
+	color: #fff;
+	border-radius: 4px;
+	margin-bottom: 12px;
+}
+.EditRoomWindow-select button {
+	float: right;
+	width: 72px;
+	height: 26px;
+	background: #169BD5;
+	color: #fff;
+	border-radius: 4px;
+	margin-top: 12px;
+	margin-right: 12px;
+}
+.EditRoomWindow-content li{
+	float: left;
+	width: 33%;
+	margin: 5px 0;
+	padding-left: 68px;
+}
+/*.EditRoomWindow-btn button {
+	width: 90px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #3ca3f9;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
+}*/
+.EditRoomWindow-content ul{
+	min-height: 130px;
+	max-height: 300px;
+	overflow-y: auto;
+}
+/*编辑房间模态窗 end*/
+
+

@@ -1,0 +1,319 @@
+<div class="proprietorLayot" id="proprietorLayot" v-cloak>
+	<div class="AddNewProprietor clearfix">
+		<div class="">
+			<div class="tb-color form-inline">
+				<span>
+					<label class="inline-block-middle">房东手机</label>
+					<input type="text" class="form-control input-sm w140 mr10 ml10" v-model="initDataInfo.mobile"/>
+				</span>
+				<span>
+					<label class="inline-block-middle ml8">姓名</label>
+					<input type="text" class="form-control input-sm w140 mr10 ml10" v-model="initDataInfo.userName"/>
+				</span>
+					<span>
+					<label class="inline-block-middle ml8">房间号</label>
+					<input type="text" id="customer" class="form-control input-sm w140 mr10 ml10" v-model="initDataInfo.roomNo"/>
+				</span>
+				<button class="btn-primary btn-sm w80" @click="searchOwner">查询</button>
+				<button class="btn-primary btn-sm w80 mr10 fr" @click="AddNewRoomNav">添加房东</button>
+			</div>
+		</div>
+	</div>
+	<div class="proprietorList clearfix" id="proprietorList">
+		<table id="tbl" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="5%">
+	            <col width="10%">
+	            <col width="8%">
+	           	<col width="14%">
+	            <col width="10%">
+	            <col width="8%">
+	            <col width="33%">
+	            <col width="13%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	                <td class="pb10 pt10">序号 </td>
+	                <td class="pb10 pt10">姓名</td>
+	                <td class="pb10 pt10">证件类型</td>
+	                <td class="pb10 pt10">证件号码</td>
+	                <td class="pb10 pt10">手机号</td>
+	                <td class="pb10 pt10">房间数</td>
+	                <td class="pb10 pt10">房间</td>
+	                <td class="pb10 pt10">操作</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in proprietorList">
+					<tr class="tb-linebm">				
+						<td class="pb10 pt10">{{$index+1}}</td>
+						<td class="pb10 pt10">{{item.userName}}</td>
+						<td class="pb10 pt10">{{item.idType}}</td>
+						<td class="pb10 pt10">{{item.idNumber}}</td>
+						<td class="pb10 pt10">{{item.mobile}}</td>
+						<td class="pb10 pt10">{{item.roomList.length}}间</td>			
+						<td class="pb3 pt3 al">
+							<i class="iconfont icon-add fz16 color-primary pointer" title="添加房间" @click="editNavRooms(item.ownerUserId, 'add')" v-bind:class="{mr10: item.roomList.length != 0}"></i>
+							<i class="iconfont icon-reduce fz16 color-primary pointer mr10" title="删除房间" @click="editNavRooms(item.ownerUserId, 'del')" v-if="item.roomList.length !== 0"></i>
+							<i class="iconfont icon-renminbi fz16 color-primary pointer mr10" title="设置佣金" @click="editCommission(item)" v-if="item.roomList.length !== 0"></i>
+							<i class="roomCodeList-layout btn-inlineblock mt5">
+								<i class="roomCodeList-i btn-inlineblock maxwidth90 fn-txt-overflow" :title="items.roomNo" v-for="items in item.roomList" v-if="$index <= 2">{{transformRoomNo(item,items, $index) + '&nbsp;&nbsp;&nbsp;'}}</i><!---->
+								<div v-if="item.roomList.length > 3" class="roomListTip clearfix ac">
+									<i v-for="items in item.roomList" class="btn-inlineblock maxwidth60 fn-txt-overflow">{{items.roomNo}}</i>
+								</div>
+							</i>
+							<!--<button class="btn-delicateDEL btn-xs w60 ac fr ml5" @click="editNavRooms(item, 'del')" v-if="item.roomList.length !== 0">
+								<i class="iconfont icon-shanchu fl fz12 color-primary"></i>
+								<span class='ml5 fl'>删除</span>
+							</button>
+							<button class="btn-delicate btn-xs w60 ac fr" @click="editNavRooms(item, 'add')">
+								<i class="iconfont icon-tianjia fl fz12 color-primary"></i>
+								<span class='ml5 fl'>添加</span>
+							</button>-->
+						</td>
+						<td class="pb3 pt3">
+							<button class="btn-delicate btn-xs w60" @click="editOwnerInfo(item)">
+								<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+								<span class="ml4 fl">修改</span>
+							</button>
+							<button class="btn-delicateDEL btn-xs w60 ac ml2" @click="delRoomNav(item)">
+								<i class="iconfont icon-shanchu fl fz12 color-primary"></i>
+								<span class='ml5 fl'>删除</span>
+							</button>
+						</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+		<div class="table-page" v-if="total != 0">
+        	<span class="key-manage-pagemsg fl">共<span>{{total}}</span>个房东</span>
+        	<vue-nav :cur.sync="cur" :all.sync="all" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav>
+    	</div>
+	</div>
+	<!--添加业主模态窗 start-->
+    <div class="modal addNewOwner-mask" id="addNewOwner-mask">
+    	<div class="modal-dialog modal-sm">
+			<div class="modal-header addNewOwner-title">
+	            <h4 class="btn-inlineblock">添加房东</h4>
+	            <i class="close iconfont icon-cuowu fr fz12"></i>
+	        </div>
+	        <div class="modal-body">
+	            <div class="addNewOwner-content form-inline tb-color ac">
+					请输入房东的KK号或手机号
+					<input type="text" v-model="NewOwnerUserAccount " class="form-control input-sm w200 mt5"/>
+	            </div>
+            </div>
+            <div class="modal-footer">
+            	<button @click="AddNewOwnerSubmit" class="btn-primary btn-sm w80">保存</button>
+            </div>
+        </div>
+	</div>
+	<!--添加业主模态窗 end-->
+	<!--编辑房间模态窗 start-->
+	<div class="modal EditRoomWindow-mask" id="EditRoomWindow-mask">
+    	<div class="modal-dialog modal-md maxheight460">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock" v-if="operateType == 'add'">添加房东房间</h4>
+	            <h4 class="btn-inlineblock" v-else>删除房东房间</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeEditRoomWindow"></i>
+	        </div>
+	        <div class="modal-body">
+	            <div class="pd10 pt15 tb-color" style="height: 337px;">
+					<icheck-box :list.sync="roomNumList" :val.sync="saveRoomsList" :css-obj.once="checkBoxCss" :listall.sync="roomSelectAll"></icheck-box>
+				</div>
+            </div>
+            <div class="modal-footer">
+            	<button class="right-btn-cancel btn-default btn-sm w80 mr10" @click="closeEditRoomWindow">取消</button>
+            	<button @click="submitAddOrDelRoomsList" class="btn-primary btn-sm w80">确认</button>
+            </div>
+        </div>
+	</div>
+	<!--编辑房间模态窗 end-->
+	<!--编辑房间维护佣金 start-->
+	<div class="modal EditRoomCommission-mask" id="EditRoomCommission-mask" style="display: block;" v-if="roomCommissionStatus">
+    	<div class="modal-dialog modal-md maxheight460">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock">编辑房间维护佣金</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeEditRoomCommission"></i>
+	        </div>
+	        <div class="modal-body ac h368 of-y pd0">
+	            <table id="tbl" class="tb-block tb-line ac tbl-none tbr-none">
+					<colgroup>
+			            <col width="5%">
+			            <col width="5%">
+			        </colgroup>
+			        <thead>
+			            <tr class="tb-titlebg tb-linebm font-bold">
+			                <td class="pb10 pt10">房间号</td>
+			                <td class="pb10 pt10">维护佣金</td>
+			            </tr>
+			        </thead>
+					<tbody class="tb-color">
+						<template v-for="item in roomCommissionList">
+							<tr class="tb-linebm">
+								<td class="pb10 pt10">{{item.roomNo}}</td>
+								<td class="pb5 pt5 form-inline">
+									<span class="ml5 pos-relative">
+					                    <input type="text" maxlength="8" class="form-control input-sm w70 pr15 ac" v-model="item.rate" @blur="regcommission(item.rate)" v-on:input="commissionOnlyNumber(item)">
+					                    <label class="input-ico-r">%</label>
+					                </span>
+								</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+            </div>
+            <div class="modal-footer">
+            	<button class="right-btn-cancel btn-default btn-sm w80 mr10" @click="closeEditRoomCommission">取消</button>
+            	<button @click="submitCommission" class="btn-primary btn-sm w80">确认</button>
+            </div>
+        </div>
+	</div>
+	<!--编辑房间维护佣金 end-->
+	<!-- 添加房东 start -->
+	<div id="" class="modal add-landlord-mask" style="display: block;" v-if="isShowAddLandLordMask">
+		<div class="modal-dialog modal-md maxheight403">
+			<div class="modal-header">
+				<h4 class="btn-inlineblock">添加房东</h4>
+				<i class="close iconfont icon-cuowu fr fz12" @click="hideAddLandLordMaskFun"></i>
+			</div>
+			<div class="modal-body h308">
+				<table class="tb-block form-inline">
+					<colgroup>
+						<col width="30%">
+						<col width="70%">
+					</colgroup>
+					<tbody class="tb-color">
+						<tr>
+							<td class="pb10 pr10 ar">手机号</td>
+							<td class="pb10 al" v-if="auditStatus !=3">
+								<input type="text" maxlength="11" class="form-control input-sm w335" v-model="NewOwnerUserAccount.mobile" @blur="getInfoByMobile" v-on:input="checkPhoneNo">
+							</td>
+							<td class="pb10 lh30 al" v-else>
+								{{NewOwnerUserAccount.mobile}}
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar">证件类型</td>
+							<td class="pb10 pt10 al" v-if="auditStatus !=3">
+								<select class="form-control input-sm w335" v-model="NewOwnerUserAccount.idType">
+									<option value="">请选择</option>
+									<option value="1">二代身份证</option>
+									<option value="4">港澳回乡证</option>
+									<option value="5">台胞回乡证</option>
+									<option value="6">外籍护照</option>
+								</select>
+							</td>
+							<td class="pb10 pt10 lh30 al" v-else>
+								{{idTypeName}}
+								<img class="btn-inlineblock ml10" style="margin-top: -5px;" src="images/page_template/setting/certificate-a6a08d6708.png" alt="" />
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar">姓名</td>
+							<td class="pb10 pt10 al" v-if="auditStatus !=3">
+								<input type="text" class="form-control input-sm w335" v-model="NewOwnerUserAccount.userName">
+							</td>
+							<td class="pb10 pt10 lh30 al" v-else>
+								{{NewOwnerUserAccount.userName}}
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar">证件号码</td>
+							<td class="pb10 pt10 al" v-if="auditStatus !=3">
+								<input type="text" class="form-control input-sm w335" v-model="NewOwnerUserAccount.idNumber">
+							</td>
+							<td class="pb10 pt10 lh30 al" v-else>
+								{{NewOwnerUserAccount.idNumber}}
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar va-t">备注</td>
+							<td class="pb10 pt10 al">
+								<textarea name="" id="" class="textarea-box fz12 w335" rows="3" v-model="NewOwnerUserAccount.remark"></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="color-danger ac" v-if="showTips">
+					提示：此房东登录密码为手机号后六位
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="right-btn-cancel btn-default btn-sm w80 mr10" @click="hideAddLandLordMaskFun">取消</button>
+				<button class="btn-primary btn-sm w80" @click="AddNewOwnerSubmit">确定</button>
+			</div>
+		</div>
+	</div>
+	<!-- 添加房东 end -->
+	<!-- 编辑房东 start -->
+	<div id="" class="modal edit-landlord-mask" style="display: block;" v-if="isShowEditLandLordMask">
+		<div class="modal-dialog modal-md maxheight398">
+			<div class="modal-header">
+				<h4 class="btn-inlineblock">编辑房东</h4>
+				<i class="close iconfont icon-cuowu fr fz12" @click="hideEditLandLordMaskFun"></i>
+			</div>
+			<div class="modal-body h303">
+				<table class="tb-block form-inline">
+					<colgroup>
+						<col width="30%">
+						<col width="70%">
+					</colgroup>
+					<tbody class="tb-color">
+						<tr>
+							<td class="pb10 pr10 ar">手机号</td>
+							<td class="pb10 lh30 al">
+								{{editOwnerAccount.mobile}}
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar">证件类型</td>
+							<td class="pb10 pt10 al" v-if="editAuditStatus !=3">
+								<select class="form-control input-sm w335" v-model="editOwnerAccount.idType">
+									<option value="">请选择</option>
+									<option value="1">二代身份证</option>
+									<option value="4">港澳回乡证</option>
+									<option value="5">台胞回乡证</option>
+									<option value="6">外籍护照</option>
+								</select>
+							</td>
+							<td class="pb10 pt10 lh30 al" v-else>
+								{{idTypeName}}
+								<img class="btn-inlineblock ml10" style="margin-top: -5px;" src="images/page_template/setting/certificate-a6a08d6708.png" alt="" />
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar">姓名</td>
+							<td class="pb10 pt10 al" v-if="editAuditStatus !=3">
+								<input type="text" class="form-control input-sm w335" v-model="editOwnerAccount.userName">
+							</td>
+							<td class="pb10 pt10 lh30 al" v-else>
+								{{editOwnerAccount.userName}}
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar">证件号码</td>
+							<td class="pb10 pt10 al" v-if="editAuditStatus !=3">
+								<input type="text" class="form-control input-sm w335" v-model="editOwnerAccount.idNumber">
+							</td>
+							<td class="pb10 pt10 lh30 al" v-else>
+								{{editOwnerAccount.idNumber}}
+							</td>
+						</tr>
+						<tr>
+							<td class="pb10 pt10 pr10 ar va-t">备注</td>
+							<td class="pb10 pt10 al">
+								<textarea name="" id="" class="textarea-box fz12 w335" rows="3" v-model="editOwnerAccount.remark"></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button class="right-btn-cancel btn-default btn-sm w80 mr10" @click="hideEditLandLordMaskFun">取消</button>
+				<button class="btn-primary btn-sm w80" @click="editOwnerInfoSave">确定</button>
+			</div>
+		</div>
+	</div>
+	<!-- 编辑房东 end -->
+</div>

@@ -1,0 +1,70 @@
+ <div class="right-content-report" id="gatheringStatistics">
+	 <div class="report-header">
+		 日期
+		 <div class="inline-block pl10">
+			 <iselect-name :list.sync="getStartDateEndDateList" :select-val.sync="getStartDateEndDate" :elem-id.sync="getStartDateEndDateElemId" :selected-elem.sync="dateSelectedElem" :is-null-select.sync="0"></iselect-name>
+		 </div>
+		 <div class="inline-block pl10">
+			 <mz-datepicker format="yyyy-MM-dd" :start-time.sync="getGatheringStatistics.fromDate" :end-time.sync="getGatheringStatistics.toDate" range en confirm :on-confirm="gatheringStatisticsDate"></mz-datepicker>
+		 </div>
+		 <button class="btn-primary btn-sm w80 ml10" @click="checkoutGatheringStatisticsData">查询</button>
+		 <div class="right-content-specialTips">说明：仅对已离店、已取消的订单房费进行营收统计。</div>
+	 </div>
+	 <div class="report-content-form" id="gatheringStatisticsForm">
+
+	 </div>
+	 <div class="report-content-table" id="reprotContentTable">
+		 <!--<table>
+			 <thead>
+				 <tr>
+					 <td>支付方式</td>
+					 <td>总笔数</td>
+					 <td>正收款</td>
+					 <td>负收款</td>
+					 <td>订单总收款</td>
+				 </tr>
+			 </thead>
+			 <tbody>
+				 <tr v-for="item in gatheringStatisticsData">
+					 <td>{{item.payTypeName}}</td>
+					 <td>{{item.billCount}}笔</td>
+					 <td>¥{{item.income}}</td>
+					 <td>¥{{item.outspend}}</td>
+					 <td>¥{{item.billAmount}}</td>
+				 </tr>
+			 </tbody>
+		 </table>-->
+		 <table id="tbl" class="tb-block tb-line mb20 ac">
+			 <colgroup>
+	            <col width="15%">
+	            <col width="14%">
+	            <col width="14%">
+	            <col width="14%">
+                <col width="14%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	            	<td class="pb10 pt10">支付方式</td>
+					<td class="pb10 pt10">总笔数</td>
+					<td class="pb10 pt10">正收款</td>
+					<td class="pb10 pt10">负收款</td>
+					<td class="pb10 pt10">订单总收款</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in gatheringStatisticsData" >
+					<tr class="tb-linebm">
+						<td class="pb10 pt10">{{item.payTypeName}}</td>
+						<td class="pb10 pt10">{{item.billCount}}笔</td>
+						<td class="pb10 pt10">¥{{item.income}}</td>
+						<td class="pb10 pt10">¥{{item.outspend}}</td>
+						<td class="pb10 pt10">¥{{item.billAmount}}</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	 </div>
+</div>
+
+
+

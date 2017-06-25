@@ -1,0 +1,77 @@
+#gatheringStatistics{
+	visibility: hidden;
+}
+.right-content-report input{
+	border: 1px solid #C5C5C5;
+	height: 28px;
+	line-height: 28px;
+	padding-left: 3px;
+}
+.report-header{
+	height: 80px;
+    position: relative;
+    border-bottom: 1px solid #C5C5C5;
+    padding-top: 17px;
+}
+.report-header select{
+	width: 92px;
+    height: 28px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+/*.report-header div{
+	color: #696969;
+	font-size: 14px;
+	margin: 8px 0 0 6px;
+}
+.report-header span{
+	font-size: 14px;
+	color: #20CAA3;
+	position: absolute;
+	left: 335px;
+	top: 4px;
+}*/
+.right-content-specialTips {
+	margin-top: 10px;
+}
+/*.report-header button{
+	width: 60px;
+	height: 28px;
+	line-height: 28px;
+	background: #0099FF;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+	margin-left: 10px;
+}*/
+.report-header-button{
+	height: 58px;
+	line-height: 58px;
+	text-align: center;
+}
+.report-header-button span{
+	display: inline-block;
+	width: 95px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 14px;
+}
+.report-header-button span.active{
+	background: #696969;
+	color: #fff;
+}
+.report-content-form{
+	height: 450px;
+	text-align: center;
+	line-height: 300px;
+}
+.report-content-table{
+	margin-top: 30px;
+}
+
+
+
+
+

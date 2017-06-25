@@ -1,0 +1,366 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*初始化*/
+/*1.清除默认边距*/
+html,body,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,p,form,img {
+    margin:0;
+    padding:0;
+}
+/*2.全局声明body字体，主要3个*/
+body {
+    font-size:16px;
+    background-color: #fff;
+    font-family:"Microsoft Yahei","Open Sans","Helvetica Neue",Arial, Helvetica, sans-serif;
+}
+img {
+    border:none;		/* ie 图片链接 会有边框*/
+    display:block;		/* ie 图片下面会有3px的距离 */
+}
+ul, ol {
+    list-style:none; /* 清除列表默认风格 */
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%; /* 统一标题字号 */
+}
+
+.wrapper {
+    width:1000px;
+    margin:0 auto;
+}
+
+/*default*/
+.clearfix:after,.clearfix:before {
+    content:""; display:table;
+}
+.clearfix:after {
+    clear:both;
+}
+.clearfix {
+    *zoom:1;
+}
+a {
+    color: #222;
+    text-decoration: none;
+}
+a:hover {
+    color: #222;
+    text-decoration:none;
+}
+h2 {
+    font-size:18px;
+}
+h3 {
+    font-size:22px;
+}
+.fz14 {
+    font-size:14px;
+}
+.fz18{
+    font-size:18px;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+input {
+    border:none !important;
+    outline-style: none !important;
+    font-family:"Microsoft Yahei","Open Sans","Helvetica Neue",Arial, Helvetica, sans-serif;
+}
+button {
+    border:none;
+    outline-style:none;
+    cursor: pointer;
+}
+
+input[type="text"], input[type="password"]{
+    outline: none;
+    border: none;
+    display:inline-block;
+    height: 38px;
+    font-size:16px;
+    line-height:40px;
+    color:#000;
+    vertical-align:middle;
+    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition:border linear .2s,box-shadow linear .2s;
+    transition:border linear .2s,box-shadow linear .2s
+}
+.btn {
+    display:inline-block;
+    width:275px;
+    padding:10px 0px;
+    margin-bottom:0;
+    font-size:18px;
+    line-height:20px;
+    color:#f2f2f2;
+    text-align:center;
+    vertical-align:middle;
+}
+.btn:hover, .btn:focus, .btn:active, .btn.active {
+    color:#fff;
+    background-color:#20caa3;
+}
+
+.error {
+    border: 1px solid #ff8282 !important;
+}
+.correct {
+    border: 1px solid #969696;
+}
+/* 插件弹窗dialog基本样式 start*/
+
+.yzl-dialog {
+    font-family: "微软雅黑";
+    width: 300px;
+    min-height: 160px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 0px #000;
+    box-sizing: border-box;
+    display: none;
+    opacity: 0;
+}
+
+.yzl-dialog-titlebar {
+    line-height: 35px;
+    height: 35px;
+    background-color: #0166ae;
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    font-size: 14px;
+    padding-left: 15px;
+    position: relative;
+}
+.yzl-dialog-titlebar .yzl-close-btn {
+    position: absolute;
+    right: 10px;
+    top: -3px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.yzl-dialog .yzl-dialog-content {
+    font-size: 14px;
+    line-height: 20px;
+    min-height: 80px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.yzl-dialog-button {
+    line-height: 50px;
+    height: 50px;
+    text-align:right;
+    padding-right: 10px;
+}
+.yzl-dialog-button button {
+    outline-style: none;
+    border: none;
+    width: 50px;
+    line-height: 30px;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: "微软雅黑";
+    font-weight: bold;
+}
+
+/* 插件弹窗dialog基本样式 end */
+
+/*  普通样式区域  */
+.header {
+    height: 130px;
+    overflow: hidden;
+}
+.header .logo {
+    width: 271px;
+    height: 56px;
+    background: url(../../images/login/log-e0196093e8.png) no-repeat left top;
+    margin: 40px 0 0 36px;
+}
+.header .logo a {
+    width: 271px;
+    height: 56px;
+    display:block;
+    overflow: hidden;
+    text-indent: -1000px;
+}
+.content {
+    background: url(../../images/login/bg_banner-0496b6c35f.jpg) no-repeat top center;
+}
+.content .wrapper {
+    position: relative;
+    height: 409px;
+}
+
+/* 注册，登录，忘记密码 */
+.content .register,
+.reset-pswd {
+    display: none;
+}
+
+.content .login,
+.content .register,
+.content .reset-pswd {
+    position: absolute;
+    right: 148px;
+    top: 0px;
+    height: 344px;
+    width: 315px;
+    padding-top: 65px;
+    padding-left: 25px;
+    background-color:rgba(255, 255, 255, 0.8);
+}
+.content .register,
+.content .reset-pswd {
+     left: 50%;
+     margin-left: -157.5px;
+ }
+.content .commonPart ul li {
+    margin-bottom: 16px;
+}
+.content .commonPart ul li>div,
+.content .commonPart ul li input,
+.content .commonPart ul li label {
+    background-color: transparent ;
+}
+.content .commonPart ul li>div {
+    height: 40px;
+    width: 275px;
+    /*padding-left: 10px;*/
+    border: 1px solid #969696;
+    position: relative;
+}
+.content .commonPart ul li label {
+    width: 30px;
+    height: 20px;
+    /*vertical-align: middle;*/
+    background: url(../../images/login/login_spirte-df52dfcf0d.png) no-repeat left top;
+    display: inline-block;
+    position: absolute;
+    top: 11px;
+    left: 10px;
+}
+.content .register ul li label,
+.content .reset-pswd ul li label {
+    width: 30px;
+    height: 20px;
+    vertical-align: middle;
+    background: url(../../images/login/register_spirte-8a298fe3ac.png) no-repeat left top;
+    display: inline-block;
+}
+.content .login #codeImage {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.content .reset-pswd .login-pswd label {
+    margin-top: 10px;
+}
+.content .commonPart ul li .login-pswd label{
+    background-position: 0 -30px;
+}
+.content .commonPart ul li .login-verify {
+    border: none;
+    padding: 0;
+    width: 285px;
+}
+.content .commonPart ul li .login-verify>div {
+    width: 150px;
+    border: 1px solid #969696;
+}
+.content .register ul li .login-verify>div {
+    width: 150px;
+}
+.content .commonPart ul li .login-verify label{
+    background-position: 0 -60px;
+    left: 12px;
+    top: 12px;
+}
+.content .commonPart ul li .login-verify input {
+    width: 93px;
+    padding-right: 10px;
+}
+.content .commonPart .get-code {
+    width: 116px;
+    height: 42px;
+    background-color: #ffb425;
+    color: #fff;
+    cursor: pointer;
+}
+.register .login-verify #getSmsCode,
+.reset-pswd .login-verify #reset_getCode {
+    padding-left: 10px;
+    margin-right: 10px;
+    width: 110px;
+}
+.reset-pswd .login-pswd #reset_newPswd {
+    width: 170px;
+    padding-right: 65px;
+}
+.content .reset-pswd .login-pswd label.reset_newpswd_label {
+    margin-top: 0;
+}
+.content .commonPart ul li div input {
+    width: 235px;
+    padding-left: 40px;
+}
+/*.content .reset-pswd ul li div input {
+    width: 188px;
+}*/
+.content .reset-pswd .pswd-eye {
+    width: 35px;
+    height: 20px;
+    margin-top: 10px;
+    background: url(../../images/login/reset_pswd-2399aa108c.png) no-repeat left top;
+    position: absolute;
+    right: 10px;
+}
+.content .reset-pswd .pswd-eye.open-eye {
+    background: url(../../images/login/reset_pswd-2399aa108c.png) no-repeat left bottom;
+}
+.content .commonPart .login-btn,
+.content .commonPart .reset-btn,
+.content .commonPart .register-btn {
+    width: 285px;
+    height: 40px;
+    text-align: center;
+    background-color: #0fa1ff;
+    color: #fff;
+    font-size: 16px;
+    margin-top: 22px;
+    cursor: pointer;
+}
+.content .commonPart .register-pswd {
+    border: none;
+    margin-top: 25px;
+    padding-left: 0;
+    width: 285px;
+}
+.content .register-pswd a {
+    font-weight: bold;
+}
+
+
+/* copyright start  */
+.copyright p {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #222;
+    margin-top: 40px;
+}
+
+/*  屏幕适配  */
+
+@media (min-width:1150px) {
+    .wrapper {
+        width:1280px;
+        margin:0 auto;
+    }
+
+}

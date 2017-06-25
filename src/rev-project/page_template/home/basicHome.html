@@ -1,0 +1,37 @@
+<div id="initHome" v-cloak>
+	<div class="initHome-left fl">
+		<div class="initHome-title">
+			营业状况
+		</div>
+		<label for="">
+			<span>今日未入住订单</span>{{indexInfo.todayNotCheckinCount}}
+		</label>
+		<label for="">
+			<span>今日未退房订单</span>{{indexInfo.todayNotCheckoutCount}}
+		</label>
+		<label for="">
+			<span>逾期未退房订单</span>{{indexInfo.overdueNotCheckoutCount}}
+		</label>
+		<label for="">
+			<span>逾期未入住订单</span>{{indexInfo.overdueNotCheckinCount}}
+		</label>
+		<label for="">
+			<span>房间总数</span>{{indexInfo.totalCount}} 间
+		</label>
+		<label for="">
+			<span>今日空房</span>{{indexInfo.totalVacant}} 间
+		</label>
+		<label for="">
+			<span>入住房</span>{{indexInfo.totalCheckin}} 间
+		</label>
+		<label for="">
+			<span>停用房</span>{{indexInfo.totalClose}} 间
+		</label>
+	</div>
+	<div class="initHome-right-title">
+		今日房况
+	</div>
+	<div class="initHome-right fr" id="initHome-right">
+
+	</div>
+</div>

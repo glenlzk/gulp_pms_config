@@ -1,0 +1,830 @@
+@charset "UTF-8";
+
+/*glenlzk 房型管理 start */
+.room_type_totalLayout{
+	display: none;
+}
+.right-content {
+    width: 1007px;
+}
+.right-l-content {
+    width: 60%;
+}
+.right-l-top,.right-r-top {
+    text-align: center;
+    position: relative;
+}
+.lockStatusTips{
+    position: absolute;
+    width: 110px;
+    height: 130px;
+    border: 1px solid #ccc;
+    right: -111px;
+    bottom: -112px;
+    background: #fff;
+    z-index: 3;
+    padding: 0 5px;
+    display: none;
+}
+.lockStatusTips span{
+	float: left;
+	color: #696969;
+	display: inline-block;
+	font-size: 12px;
+	width: 100%;
+	height: 32px;
+	line-height: 32px;
+	text-align: left;
+	padding-left: 26px;
+	position: relative;
+}
+.right-r-bottom .right-rb-table .lockStatusTips span i{
+	display: inline-block;
+	width: 21px;
+    height: 21px;
+    position: absolute;
+    top: 5px;
+    left: 0px;
+}
+.right-rb-table .lockStatusTips span:nth-child(1) i{
+	background: url(../../../images/index/fangxing_sprite.png)no-repeat  -49px -25px;
+}
+.right-rb-table .lockStatusTips span:nth-child(2) i{
+	background: url(../../../images/index/fangxing_sprite.png)no-repeat -49px 0;
+}
+.right-rb-table .lockStatusTips span:nth-child(3) i{
+	background: url(../../../images/index/fangxing_sprite.png)no-repeat -49px -50px;
+}
+.right-rb-table .lockStatusTips span:nth-child(4) i{
+	background: url(../../../images/index/fangxing_sprite.png)no-repeat -49px -75px;
+}
+.right-top-roomsum, .right-rtop-totalrooms {
+    height: 60px;
+    width: 149px;
+    background-color: rgba(237, 176, 81, 0.8);
+    margin-left: 16px;
+    line-height: 60px;
+    color: #fff;
+}
+.right-rtop-totalrooms {
+    background-color: rgba(109, 140, 212, 0.8);
+}
+.right-rtop-operate  {
+    line-height: 60px;
+}
+
+.right-top-operate a, .right-rtop-operate a {
+    font-size: 14px;
+    color: #fff;
+    width: 64px;
+    height: 29px;
+    line-height: 29px;
+    display: inline-block;
+    background-color: rgba(241, 121, 82, 0.8);
+    vertical-align: bottom;
+}
+.right-top-operate a:nth-of-type(2) {
+    background-color: rgba(116, 189, 116, 0.8);
+}
+.right-rtop-operate a:nth-of-type(2) {
+    background-color: rgba(121, 195, 121, 0.8);
+}
+.roomEditBtn{
+	text-decoration: underline;
+    color: #006CCA;
+}
+.room_type_totalLayout input[type = checkbox]{
+	width: 16px;
+	height: 16px;
+}
+/* addRoomTag start*/
+
+
+.right-addRoom-talbe {
+    width: 100%;
+    border: 1px solid #d6d6d6;
+    line-height: 30px;
+    margin: 0 auto;
+}
+.right-addRoom-talbe tr th,
+.right-addRoom-talbe tr td {
+    width: 30px;
+    border: 1px solid #bcbcbc;
+}
+.right-addRoom-talbe tr td {
+    height: 40px;
+}
+.right-addRoom-talbe tr th,
+.right-addRoomTag-table tr th{
+    background-color: #f2f2f2;
+}
+.right-addRoom-talbe input {
+    width: 30px;
+    border: 1px solid #cecece;
+    height: 25px;
+    width: 52px;
+    text-align: center;
+}
+.right-addRoom-talbe tr td:nth-of-type(1) input {
+    width: 150px;
+}
+.addRoom-talbe-tips {
+    color: red;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 10px;
+}
+.right-addRoomTag-addTimeBox {
+    width: 400px;
+    padding: 10px 0px 0;
+}
+.right-addTimeBox-title {
+    line-height: 35px;
+    font-weight: bold;
+}
+.right-addRoomTag-table {
+    border: 1px solid #bcbcbc;
+    width: 100%;
+}
+.right-addRoomTag-table tbody tr {
+    cursor: pointer;
+}
+.right-addRoomTag-table th,
+.right-addRoomTag-table td {
+    position: relative;
+    height: 35px;
+    border: 1px solid #bcbcbc;
+}
+.right-addRoomTag-table th i,
+.right-addRoomTag-table td i {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 15px;
+    top: 8px;
+    background-color: #fcf;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat 0 0;
+    cursor: pointer;
+}
+.right-addRoomTag-table tbody tr.active i {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat 0 -50px;
+}
+
+
+
+.right-addRoomTag-table td {
+    font-size: 12px;
+}
+.right-addRoomTag-table td a{
+    width: 150px;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 32px;
+    display:block;
+    word-break:keep-all;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    font-size: 12px;
+    color: #000;
+    font-weight: normal;
+}
+.right-addRoomTag-table a {
+    font-size: 14px;
+}
+.right-addRoomTag-showTimeBox {
+    width: 456px;
+}
+.right-addRoomTag-showDate {
+    width: 456px;
+    margin: 15px auto 0;
+    border-left: 1px solid #bcbcbc;
+}
+.right-addRoomTag-allDates li {
+    width: 65px;
+    height: 40px;
+    border-right: 1px solid #bcbcbc;
+    border-bottom: 1px solid #bcbcbc;
+    float: left;
+}
+.right-addRoomTag-allDates li  {
+    line-height: 20px;
+    font-size: 12px;
+    position: relative;
+    cursor: pointer;
+}
+.right-addRoomTag-allDates li i.tue_sun::after {
+    content: '休';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 1px;
+    top: 0px;
+    color: red;
+}
+.right-addRoomTag-allDates li div.disable-date {
+    width: 65px;
+    height: 40px;
+}
+.right-addRoomTag-allDates li div.disable-date span{
+    width: 65px;
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
+    font-size: 12px;
+    /*cursor:not-allowed;*/
+    /*background-color: #f2f2f2;*/
+    color: #ccc;
+}
+.right-addRoomTag-allDates li div.disable-date i {
+    color: #ca4661;
+}
+/*.right-addRoomTag-allDates li {
+    position: relative;
+}*/
+.right-addRoomTag-allDates li.active {
+    background-color: #74b4ed;
+    color: #fff;
+}
+.right-addRoomTag-allDates li.active .right-showDate-price {
+    color: #fff;
+}
+.right-addRoomTag-allDates li .li-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+}
+.right-addRoomTag-allDates .right-showDate-price {
+    color: #2477e3;
+}
+.right-addRoomTag-showDate .right-showDate-title {
+    height: 32px;
+    background-color: #21bcf5;
+    line-height: 32px;
+    color: #fff;
+    border-right: 1px solid #bcbcbc;
+    border-top: 1px solid #bcbcbc;
+}
+.right-addRoomTag-DateTitile span{
+    width: 65px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #f2f2f2;
+    display: inline-block;
+    float: left;
+    border-right: 1px solid #bcbcbc;
+    border-bottom: 1px solid #bcbcbc;
+    font-size: 12px;
+}
+.right-addRooTag-btn {
+	margin-top: 20px;
+    text-align: center;
+}
+.right-addRooTag-btn button {
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #3ca3f9;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.right-addRooTag-btn button + button {
+    margin-left: 20px;
+}
+/* customTimeBox start*/
+
+.right-customTime-selectTime p{
+    color: #666666;
+    font-size: 14px;
+}
+.right-customTime-selectTime p:nth-of-type(1) {
+    margin:0 40px;
+}
+.right-customTime-selectTime input{
+    width: 90px;
+    height: 30px;
+    border: 1px solid #c9c9c9;
+    padding-left: 7px;
+    margin-left: 10px;
+}
+.right-customTime-textArea {
+    padding: 15px;
+}
+.right-l-customTimeBox .customTime-errorTips {
+    color: red;
+    font-size: 12px;
+    margin-top: 8px;
+}
+.right-customTime-textArea textarea {
+    border: 1px solid #c9c9c9;
+}
+.right-customTime-btn button {
+    width: 60px;
+    height: 30px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 30px;
+    background-color: #3ca3f9;
+    border-radius: 5px;
+}
+
+
+/* customTimeBox end*/
+
+
+/* addRoom End */
+
+.right-l-bottom,
+.right-r-bottom {
+    background-color: rgba(255, 255, 255, 0.8);
+
+}
+.right-l-bottom tbody tr td,
+.right-r-bottom tbody tr td {
+    cursor: pointer;
+}
+
+
+/* table start*/
+
+.right-r-content {
+    width: 40%;
+}
+
+.right-lb-table td,
+.right-rb-table td,
+.right-lb-table th,
+.right-rb-table th{
+    border-collapse:collapse;
+    padding: 5px 0;
+}
+.right-l-bottom .right-lb-table ,
+.right-r-bottom .right-rb-table {
+    width: 100%;
+}
+.right-lb-table tr th ,
+.right-rb-table tr th{
+    color: #696969;
+}
+
+.right-rb-table tr th:last-of-type {
+    position: relative;
+}
+.right-rb-table tr th:last-of-type i{
+    width: 12px;
+    height: 12px;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat 0 -74px;
+    position: absolute;
+    right: 55px;
+    top: 5px;
+    cursor: pointer;
+}
+.right-rb-table tr th:last-of-type:hover .lockStatusTips{
+	display: block;
+}
+.right-lb-table tr td:nth-of-type(1),
+.right-rb-table tr th:nth-of-type(1),
+.right-rb-table tr td:nth-of-type(1),
+.right-rb-table tr td:nth-of-type(5) {
+    position: relative;
+    cursor: pointer;
+}
+.right-lb-table tr td:nth-of-type(1) > i,
+.right-r-bottom tr th:nth-of-type(1) > i,
+.right-r-bottom tr td:nth-of-type(1) > i ,
+.right-r-bottom tr td:nth-of-type(5) > b{
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat left top;
+    left: 50%;
+    top: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+.right-r-bottom tr td {
+    position: relative;
+}
+.right-r-bottom tr td:nth-of-type(5) > b {
+    margin-left: -8px;
+    margin-top: -10px;
+    background-position: -5000px -5000px;
+}
+.right-r-bottom tr td:nth-of-type(5) > b.red {
+    background-position: -49px -25px;
+}
+
+.right-r-bottom tr td:nth-of-type(5) > b.orange {
+    background-position: -49px 0;
+}
+
+.right-r-bottom tr td:nth-of-type(5) > b.grey {
+    background-position: -49px -50px;
+}
+.right-r-bottom tr td:nth-of-type(5) > b.green {
+    background-position: -49px -77px;
+}
+.right-r-bottom tr td:nth-of-type(1) > i,
+.right-r-bottom tr th:nth-of-type(1) > i {
+    background-position: 0 0;
+}
+.right-r-bottom tr th:nth-of-type(1) > i.select-all {
+    background-position: -24px -49px;
+}
+/*.right-lb-table tr:nth-of-type(n+1).active,
+.right-r-bottom tr:nth-of-type(n+1).active{
+    background-color: #67baff;
+    border: 1px solid #67baff;
+}*/
+.right-content tbody tr{
+    cursor: pointer;
+}
+.right-lb-table tr:nth-of-type(n+1).active td,
+.right-rb-table tr:nth-of-type(n+1).active td {
+    border: none;
+}
+.right-lb-table tr:nth-of-type(n+1).active td:nth-of-type(1) i {
+    background-position: 0 -50px;
+}
+.right-rb-table tr:nth-of-type(n+1).active td:nth-of-type(1) i {
+    background-position: 0 -50px;
+}
+/*.right-rb-table tr.active td:last-of-type > b {
+    background-position: -49px -50px;
+}*/
+.right-lb-table tr:nth-of-type(n+1).active td:nth-of-type(2),
+.right-rb-table tr:nth-of-type(n+1).active td:nth-of-type(2) {
+    color: #fff;
+}
+
+.right-lb-table,
+.right-lb-table{
+	/*font-size: 14px;
+    border-collapse: separate;
+    border-spacing:  0 5px;
+    border: none;*/
+}
+.right-lb-table thead tr,
+.right-rb-table thead tr{
+	background: #28679B;
+    color: #fff;
+    font-size: 12px;
+    height: 36px;
+    padding: 0px;
+}
+.right-lb-table thead th,
+.right-rb-table thead th{
+	color: #fff;
+	font-weight: 100;
+	border: none;
+}
+.right-lb-table tbody tr,
+.right-rb-table tbody tr{
+    background: #FFF4ED;
+    color: #696969;
+    font-size: 12px;
+    height: 36px;
+    margin-top: 5px;
+    border: none;
+}
+/*glenlzk 房型管理 end */
+
+
+/*lv 房间信息添加 start*/
+
+.right-example{
+    line-height: 34px;
+    margin: 15px auto;
+    border: 1px dashed #C3C3C3;
+    text-indent: 2em;
+    padding-left: 10px;
+}
+.right-addRoom-info{
+    margin: 10px auto;
+    width: 500px;
+    border: 1px solid #C3C3C3;
+}
+.right-addRoom-info tr{
+    height: 36px;
+    line-height: 36px;
+}
+.right-addRoom-info td{
+    width: 50%;
+    padding-left: 8px;
+}
+.right-addRoom-info .td-left{
+    text-align: right;
+    background: #F2F2F2;
+    padding-right: 8px;
+}
+.right-addRoom-info input{
+    border: 1px solid #C0C0C0;
+    width: 81px;
+    padding-left: 5px;
+}
+.right-addRoom-info .inp_280,.right-addRoom-info select{
+    width: 220px;
+}
+.right-addRoom-info .inp_60{
+    width: 48px;
+}
+.room-info{
+    margin: 20px auto 0;
+    width: 500px;
+}
+.room-info-box {
+    overflow-y: auto;
+    margin-top: 10px;
+    height: 180px;
+    width: 100%;
+}
+.room-info-box li {
+    position: relative;
+}
+.room-info-box li i {
+    width: 20px;
+    height: 20px;
+    color: red;
+    font-size: 19px;
+    font-weight: bold;
+    position: absolute;
+    right: -8px;
+    top: -12px;
+    display: none;
+    cursor: pointer;
+}
+.room-info-box li:hover i {
+    display: block;
+}
+.room-info .room-info-errorMsg,
+.aditeRoomMessage-state-errorMsg {
+    color: red;
+    font-size: 12px;
+}
+.room-info .room-info-errorMsg {
+    margin-top: 10px;
+}
+.room-info ul{
+    width: 100%;
+}
+.room-info ul li{
+    float: left;
+    width: 20%;
+    background: #00A2D4;
+    text-align: center;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-left: 14px;
+}
+.room-info ul li:last-child {
+    margin-right: 0px;
+}
+.room-info ul li input {
+    width: 90px;
+    background-color: #00a2d4;
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
+}
+.addRoomMessage-btn,
+.aditeRoomMessage-btn {
+    text-align: center;
+}
+
+.addRoomMessage-btn button,
+.aditeRoomMessage-btn button {
+    width: 120px;
+    height: 40px;
+    font-weight: bold;
+    line-height: 40px;
+    background-color: #3ca3f9;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/*房间信息添加 end*/
+
+/*glenlzk 修改房型信息 start*/
+
+.aditeRoomMessage-table-box {
+    width: 600px;
+    margin: 15px auto;
+    border-left: 1px solid #bcbcbc;
+    border-top:1px solid #bcbcbc;
+}
+.aditeRoomMessage-table-row {
+    height: 35px;
+}
+.aditeRoomMessage-table-row p {
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    width: 30%;
+    padding-right: 10px;
+}
+.aditeRoomMessage-table-row .date-picker {
+    margin-left: 10px;
+}
+.aditeRoomMessage-roomName {
+    width: 260px;
+    height: 30px;
+    margin: 4px 10px;
+    border: 1px solid #bcbcbc;
+    padding-left: 10px;
+}
+.aditeRoomMessage-table-roomType {
+    width: 260px;
+    height: 26px;
+    margin: 4px 10px;
+    border: 1px solid #bcbcbc;
+    padding-left: 10px;
+}
+.aditeRoomMessage-lock-status {
+    height: 35px;
+    line-height: 35px;
+    padding-left: 15px;
+    position: relative;
+}
+.aditeRoomMessage-lock-status input {
+    margin-right: 30px;
+}
+.lock-status .lock-status-label {
+    height: 30px;
+    display: inline-block;
+    cursor: pointer;
+}
+.lock-status .lock-radio-icon {
+    float: left;
+    margin-top: 10px;
+}
+.lock-status-tips .lock-status-icon,
+.lock-status .lock-status-icon {
+    width: 21px;
+    height: 22px;
+    display: inline-block;
+    float: left;
+    margin-top: 1px
+}
+.lock-status-tips .lock-status-icon {
+    margin-bottom: 4px;
+}
+.lock-status-tips {
+    height: 36px;
+}
+.lock-status-tips .lock-status-txt {
+    margin-top: 10px;
+}
+.lock-status-tips .lock_red,
+.lock-status .lock_red {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -21px;
+}
+.lock-status-tips .lock_yellow,
+.lock-status .lock_yellow {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px 3px;
+}
+.lock-status-tips .lock_green,
+.lock-status .lock_green {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -46px;
+}
+.lock-status-tips .lock_none,
+.lock-status .lock_none {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -73px;
+}
+.aditeRoomMessage-lock-status label {
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    line-height: 21px;
+    position:absolute;
+    left: 35px;
+    top: 8px;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -25px;
+    line-height: 35px;
+}
+.aditeRoomMessage-lock-status label:nth-of-type(2) {
+    left: 81px;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px 0;
+}
+.aditeRoomMessage-lock-status label:nth-of-type(3) {
+    left: 127px;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -50px;
+}
+.aditeRoomMessage-lock-status label:nth-of-type(4) {
+    left: 177px;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -75px;
+}
+.roomStatusLabel{
+    height: 35px;
+    line-height: 35px;
+}
+.roomStatusLabel label{
+    margin-left: 16px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+.roomStatusLabel label input{
+    margin-right: 5px;
+}
+.roomStatusLabel .mz-datepicker > input {
+    height: 26px;
+    margin-bottom: 8px;
+}
+.roomStatusLabel .mz-datepicker-popup {
+    line-height: normal;
+    top: 76%;
+}
+.roomStatusLabel  .mz-datepicker > i {
+    height: 26px;
+    top: 3px;
+}
+.aditeRoomMessage-state {
+    width: 500px;
+    margin: 20px auto;
+}
+.aditeRoomMessage-state table {
+    margin-left: 20px;
+}
+.aditeRoomMessage-state-title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+}
+.aditeRoomMessage-state td {
+    font-size: 14px;
+    line-height: 24px;
+    position: relative;
+}
+.aditeRoomMessage-state td i {
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    line-height: 21px;
+    position:absolute;
+    right: 0px;
+    top: 2px;
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -25px;
+    line-height: 35px;
+}
+.aditeRoomMessage-state tr:nth-of-type(2) td i {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px 0;
+
+}
+.aditeRoomMessage-state tr:nth-of-type(3) td i {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -50px;
+}
+.aditeRoomMessage-state tr:nth-of-type(4) td i {
+    background: url(../../../images/index/fangxing_sprite.png) no-repeat -49px -75px;
+}
+/*glenlzk 修改房型信息 end*/
+
+/* 弹窗插件2 maskDialog start*/
+.addRoomTag-aditprice-mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+.addRoomTag-aditprice-box {
+    width: 248px;
+    height: 146px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -128px;
+    margin-top: -73px;
+}
+.addRoomTag-aditprice-content {
+    height: 80px;
+    padding-top: 45px;
+    text-align: center;
+}
+.addRoomTag-aditprice-content input {
+    border: 1px solid #dedede;
+    width: 60px;
+    height: 25px;
+    padding: 0 5px;
+}
+.addRoomTag-aditprice-errorTip {
+    color: red;
+    font-size: 12px;
+    text-align: center;
+}
+.addRoomTag-aditprice-button {
+    margin-top: 7px;
+    text-align: center;
+}
+
+
+/* 弹窗插件2 maskDialog end */

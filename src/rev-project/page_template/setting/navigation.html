@@ -1,0 +1,176 @@
+<div class="navigationLayot" id="navigationLayot" v-cloak>
+	<div class="AddNewNavigation clearfix">
+		<button class="btn-primary btn-sm w80 mr10 fr" @click="AddNewRoomNavOperate">添加</button>
+	</div>
+	<div class="roomNavList" id="roomNavList">
+		<!--<ul>
+			<li>
+				<span>地址</span>
+				<span>指引图片</span>
+				<span>房间</span>
+				<span>操作</span>
+			</li>
+			<li v-for="item in roomNavList">
+				<span>{{item.addressBmap}}</span>
+				<span><a href="javascript:;" class="roomnav-list-pics" @click="previewUploadedImage(item)">{{item.imageList.length}}张</a></span>
+				<span class="roomCodeList">
+					<i class="roomCodeList-layout">
+						<i class="roomCodeList-i" v-for="items in item.roomList" v-if="$index <= 2">{{$index==2& item.roomList.length>3? items.roomNo + '...': items.roomNo + ' '}}</i>
+						<div v-if="item.roomList.length > 3" class="roomListTip clearfix">
+							<i v-for="items in item.roomList" >{{items.roomNo}}</i>
+						</div>
+					</i>
+					<a href="javascript:;" @click="editNavRooms(item, 'add')">添加</a>
+					<a href="javascript:;" @click="editNavRooms(item, 'del')" v-if="item.roomList.length !== 0">删除</a>
+				</span>
+				<span class="nav-room-opreate">
+					<i><a href="javascript:;">导航</a></i>
+					<i><a href="javascript:;" @click="modefyRoomNav(item)">修改</a></i>
+					<i><a href="javascript:;" @click="delRoomNav(item)">删除</a></i>
+				</span>
+			</li>
+		</ul>-->
+		<table id="tbl" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="8%">
+	            <col width="5%">
+	            <col width="6%">
+	            <col width="6%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	                <td class="pb10 pt10">地址 </td>
+	                <td class="pb10 pt10">指引图片</td>
+	                <td class="pb10 pt10">房间</td>
+	                <td class="pb10 pt10">操作</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in roomNavList">
+					<tr class="tb-linebm">
+						<td class="pb10 pt10">{{item.addressBmap}}</td>
+						<td class="pb10 pt10"><a href="javascript:;" class="roomnav-list-pics" @click="previewUploadedImage(item)">{{item.imageList.length}}张</a></td>
+						<td class="pb3 pt3">
+							<i class="roomCodeList-layout btn-inlineblock mt5">
+								<i class="roomCodeList-i" v-for="items in item.roomList" v-if="$index <= 2">{{$index==2& item.roomList.length>3? items.roomNo + '...': items.roomNo + ' '}}</i>
+								<div v-if="item.roomList.length > 3" class="roomListTip clearfix">
+									<i v-for="items in item.roomList" >{{items.roomNo}}</i>
+								</div>
+							</i>
+							<button class="btn-delicateDEL btn-xs w60 ac fr ml5" @click="editNavRooms(item, 'del')" v-if="item.roomList.length !== 0">
+								<i class="iconfont icon-shanchu fl fz12 color-primary"></i>
+								<span class='ml5 fl'>删除</span>
+							</button>
+							<button class="btn-delicate btn-xs w60 ac fr" @click="editNavRooms(item, 'add')">
+								<i class="iconfont icon-tianjia fl fz12 color-primary"></i>
+								<span class='ml5 fl'>添加</span>
+							</button>
+						</td>
+						<td class="pb3 pt3">
+							<button class="btn-delicate btn-xs w60 ac" @click="modefyRoomNav(item)">
+								<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+								<span class='ml5 fl'>修改</span>
+							</button>
+							<button class="btn-delicateDEL btn-xs w60 ac ml2" @click="delRoomNav(item)">
+								<i class="iconfont icon-shanchu fl fz12 color-primary"></i>
+								<span class='ml5 fl'>删除</span>
+							</button>
+						</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+	</div>
+	<div class="nav-pagination ar clearfix mt15">
+		<div class="table-page" v-if="roomNavList.length != 0">
+			<span class="key-manage-pagemsg fl">共<span>{{total}}</span>个导航</span>
+			<vue-nav :cur.sync="cur" :all.sync="all" v-on:btn-click="listen" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav>
+		</div>
+	</div>
+	<!--添加房间导航模态窗 start-->
+	<div class="modal addNewRoomNav-mask" id="addNewRoomNav-mask">
+    	<div class="modal-dialog modal-md maxheight503">
+			<div class="modal-header addNewRoomNav-title">
+	            <h4 class="btn-inlineblock">添加地址</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeAddNewRoomNavTag"></i>
+	        </div>
+	        <div class="modal-body h410">
+            	<div class="addNewRoomNav-content">
+					<label for="">
+						选择地区
+						<input class="input-sm w400" type="text" placeholder="地区信息" v-model="saveAddroomGuideInfor.addressBmap" readonly style="cursor: not-allowed;color: #ccc;"/>
+					</label>
+					<label for="">
+						详细地址
+						<input class="input-sm w400"  type="text" placeholder="街道门派信息" v-model="saveAddroomGuideInfor.addressDetailBmap"/>
+					</label>
+					<span @click="showNavMapWindow" class="naviconBtn iconfont icon-locationset fz18"></span>
+	            </div>
+	            <div class="roomImgList">
+					<!--<div class="guide-room-btn" v-if="saveImgUrlList.length < 5">-->
+						<!--<div id="guideRoomUploadImgsBtn"></div>-->
+					<!--</div>-->
+	            	<ul class="clearfix roomguide-images-box">
+	            		<li v-for="item in saveImgUrlList">
+	            			<em >
+								<i class="iconfont icon-shanchu" @click="removeImgUrlList(item, $index)" title="删除图片"></i>
+							</em>
+							<img v-bind:src="item" alt=""/>
+	            		</li>
+						<li class="roomguide-images-last pointer">
+							<v-uploadify :elem-id.sync="vueUploadfyBtn" :param.sync="uploadParam" :img-infor.sync="backImgeInfor"></v-uploadify>
+						</li>
+	            	</ul>
+	            </div>
+	        </div>
+		    <div class="modal-footer">
+				<button class="btn-primary btn-sm w80" @click="AddNewRoomNavSubmit">保存</button>
+		    </div>
+		</div>
+	</div>
+	<!--添加房间导航模态窗 end-->
+	<!--设置导航模态窗 start-->
+    <div class="modal NavigationMap-mask" id="NavigationMap-mask">
+    	<div class="modal-dialog modal-md maxheight536">
+			<div class="modal-header addNewRoomNav-title">
+	            <h4 class="btn-inlineblock">导航</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeBmapTag"></i>
+	        </div>
+	        <div class="modal-body h445">
+            	<div class="NavigationMap-content">
+	            	<div id="l-map"></div>
+					<div id="r-result" class="fz12 mt10 form-inline">
+						<span class="ml10 pos-relative ">
+							<label class="input-ico-l iconfont icon-sousuo-sousuo fz14" ></label>
+							<input type="text" class="form-control input-sm pl25" id="suggestId" size="20" value="百度"  placeholder="搜索地址..."/>
+						</span>
+					</div>
+					<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+					<div class="nav-cur-pos fz12 ac" v-if="saveCustomerOprateRoomGuideInfor.addressBmap != ''">&nbsp;{{'当前定位的地址为: ' + saveCustomerOprateRoomGuideInfor.addressBmap}}</div>
+	            </div>
+            </div>
+            <div class="modal-footer">
+				<button class="btn-primary btn-sm w80" @click="getLocationInfor">成功</button>
+            </div>
+        </div>
+	</div>
+	<!--设置导航模态窗 end-->
+	<!--编辑房间模态窗 start-->
+	<div class="modal EditRoomWindow-mask" id="EditRoomWindow-mask">
+    	<div class="modal-dialog modal-md maxheight460">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock">编辑房间</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeEditRoomWindow"></i>
+	        </div>
+	        <div class="modal-body">
+            	<div class="pd10 pt15 tb-color" style="height: 337px;">
+					<icheck-box :list.sync="roomNumList" :val.sync="saveRoomsList" :css-obj.once="checkBoxCss" :listall.sync="roomSelectAll"></icheck-box>
+				</div>
+	        </div>
+		    <div class="modal-footer">
+				<button @click="submitAddOrDelRoomsList" class="btn-primary btn-sm w80">确认</button>
+		    </div>
+		</div>
+	</div>
+	<!--编辑房间模态窗 end-->
+</div>

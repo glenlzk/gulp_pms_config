@@ -1,0 +1,504 @@
+<div id="directChannel" v-cloak>
+	<div class="tab-layout pl20">
+		<span class="pl20 pr20 active" id="0" v-on:click="initData">设置</span>
+		<span class="pl20 pr20" id="1" v-on:click="initData">服务政策</span>
+		<span class="pl20 pr20" id="2" v-on:click="hotelroomTotalbind($event)">房型信息</span>
+		<span class="pl20 pr20" id="3" v-on:click="imageInfobind($event)">图片信息</span>
+	</div>
+	<ul class="channel-contact">
+		<li class="channel-contact-box hotelBasicSetting active">	
+		    <!-- 酒店图片上传  end -->
+		    <span>
+		    	<label for="">酒店ID</label>
+				<input type="text" class="input-sm w175" v-model="roomSetting.hotelNo" readOnly="true"/>
+		    </span>
+		    <span>
+		    	<label for="">酒店名称</label>
+				<input type="text" class="input-sm w175" v-model="roomSetting.hotelName" readOnly="true"/>
+		    </span><br/>
+		    <span>
+		    	<label for="">城市</label>
+				<input type="text" class="input-sm w175" v-model="roomSetting.cityName" readOnly="true"/>
+		    </span>
+		    <span>
+		    	<label for="">地址</label>
+				<input type="text" class="input-sm w175" v-model="roomSetting.address" readOnly="true"/>
+		    </span><br/>
+		    <span>
+		    	<label for="">纬度</label>
+				<input type="text" class="input-sm w175" v-model="roomSetting.latitude" readOnly="true"/>
+		    </span>
+		    <span>
+		    	<label for="">经度</label>
+				<input type="text" class="input-sm w175" v-model="roomSetting.longitude"  readOnly="true"/>
+		    </span>
+			<div id="hotelSetting-edit">
+				<div class="hotel-info-editable form-inline">
+					<span>
+						<label for="" class="w50 btn-inlineblock">酒店官网</label>
+						<input type="text" class="input-sm w175" id="website" v-model="roomSetting.website"  v-bind="{readonly: websiteIsReadOnly}" v-bind:class="{'form-control': !websiteIsReadOnly}"/>
+					</span>
+					<span>
+						<label for="" class="w50 btn-inlineblock">开业时间</label>
+						<input type="text" class="input-sm w175" id="openDate" v-model="roomSetting.openDate" v-bind="{readonly: openDateIsReadOnly}" v-bind:class="{'form-control': !openDateIsReadOnly}"/>
+					</span><br />
+					<span>
+						<label for="" class="w50 btn-inlineblock">装修时间</label>
+						<input type="text" class="input-sm w175" id="decorateDate" v-model="roomSetting.decorateDate" v-bind="{readonly: decorateIsReadOnly}" v-bind:class="{'form-control': !decorateIsReadOnly}"/>
+					</span>
+					<span>
+						<label for="" class="w50 btn-inlineblock">房间总数</label>
+						<input type="text" class="input-sm w175" id="roomTotal" v-model="roomSetting.roomTotal" v-bind="{readonly: roomTotalIsReadOnly}" v-bind:class="{'form-control': !roomTotalIsReadOnly}"/>
+					</span><br />
+					<span>
+						<label for="" class="w50 btn-inlineblock">酒店电话</label>
+						<input type="text" class="input-sm w175" id="telephonNo" v-model="roomSetting.telephonNo"  v-bind="{readonly: teleIsReadOnly}" v-bind:class="{'form-control': !teleIsReadOnly}"/>
+					</span>
+					<span>
+						<label for="" class="w50 btn-inlineblock">传真</label>
+						<input type="text" class="input-sm w175" id="fax" v-model="roomSetting.fax" v-bind="{readonly: faxIsReadOnly}" v-bind:class="{'form-control': !faxIsReadOnly}"/>
+					</span><br />
+					<div class="mt10">
+						<label class="label-info w50 btn-inlineblock" for="">酒店介绍</label>
+						<textarea id="feature" class="textarea-box fz12 w700" v-bind="{readonly: hotelIntrolIsReadOnly}" v-bind:class="{'not-allowed':hotelIntrolIsReadOnly, 'form-control': !hotelIntrolIsReadOnly}" name="" rows="" cols="" v-model="roomSetting.feature" ></textarea>
+					</div>
+				</div>
+				<button class="btn-serveredit btn-primary btn-sm w80 ml20" @click="hotelSettingEidt" v-if="settingResourceInfo.cloudHotelEditChannelHotel && roomSettingBtnSwift">编辑</button>
+				<template v-else>
+					<button class="btn-serverInfoeditCancel btn-default btn-sm w80 ml20"  @click="cancelHotelEdit">取消</button>
+					<button class="btn-serveredit btn-primary btn-sm w80 ml20"  @click="saveHotelEdit">保存</button>
+				</template>
+			</div>
+		</li>
+		<li class="channel-contact-box">
+			<div class="hotel-server-form" >
+				<div class="server-info-editable mb20">
+					<!--
+						<input type="checkbox" name="1" disabled="true"/><span>停车场</span>
+						<input type="checkbox" name="2" disabled="true"/><span>免费WIFI</span>
+						<input type="checkbox" name="3" disabled="true"/><span>早餐</span>
+						<input type="checkbox" name="4" disabled="true"/><span>提供发票</span>
+						<input type="checkbox" name="5" disabled="true"/><span>接送服务</span><br />
+					-->
+					<div class="pt10 pb10">
+						<label for="" class="mr10">酒店服务</label>
+						<v-checkbox :list.sync="hoteServiceInit" :val.sync="serverPolicy.serviceList" :css-obj.once="hoteServiceCss" :disabled.sync="unabledHoteService"></v-checkbox>
+					</div>
+					<!--
+						<label for="">入住时间</label>
+							<div id="checkinTime" @click="showCheckInTime($event)">
+								<span class="checkinTime-span" id="checkinTime-span">{{checkinTime}}</span>
+								<i v-if="editSurvece == 1" id="checkinTime-span" @click="showCheckInTime($event)"></i>
+								<div id="CheckInTimeBox" class="showCheckInTime">&lt;!&ndash;v-show="showCheckInTimeStatus == 1"&ndash;&gt;
+									<span v-for="item in showCheckInTimeInfo" @click="selectCheckInTime(item)">{{item}}</span>
+								</div>
+							</div>
+						<br />
+					-->
+					<div class="pt10 pb10">
+						<label for="" class="mr10">入住时间</label>
+						<v-select :list.sync="checkinTimelList" :select-val.sync="serverPolicy.checkinTime" :elem-id.sync="checkinTimeElemId" :selected-elem.sync="checkinSelecElem" :is-disabled.sync="unabledCheckin"></v-select>
+					</div>
+					<!--
+						<label for="">离店时间</label>
+						<div id="checkoutTime" @click="showCheckoutTime($event)">
+							<span class="checkoutTime-span" id="checkoutTime-span">{{checkoutTime}}</span>
+							<i v-if="editSurvece == 1" id="checkoutTime-span" @click="showCheckoutTime($event)"></i>
+							<div id="showCheckOutTime" class="showCheckOutTime">
+								<span v-for="item in showCheckOutTimeInfo" @click="selectCheckOutTime(item)">{{item}}</span>
+							</div>
+						</div>
+					-->
+					<div class="pt10 pb10">
+						<label for="" class="mr10">离店时间</label>
+						<v-select :list.sync="checkoutTimelList" :select-val.sync="serverPolicy.checkoutTime" :elem-id.sync="checkoutTimeElemId" :selected-elem.sync="checkoutSelecElem" :is-disabled.sync="unabledCheckout"></v-select>
+					</div>
+					<!--
+						<div class="presaleDays">
+							<label class="presaleDaysTitle" for="">预售天数</label>
+							<label for="60days">
+								<input type="radio" id="60days" name="presaleDays" value="60" />60天 &lt;!&ndash;disabled="{{presaleDaysStatus}}"&ndash;&gt;
+							</label>
+							<label for="90days">
+								<input type="radio" id="90days" name="presaleDays" value="90" />90天
+							</label>
+							<label for="120days">
+								<input type="radio" id="120days" name="presaleDays" value="120" />120天
+							</label>
+							<label for="180days">
+								<input type="radio" id="180days" name="presaleDays" value="180" />180天
+							</label>
+						</div>
+					-->
+					<div class="pt10 pb10">
+						<label for="" class="mr10">预售天数</label>
+						<v-radio :list.sync="preSaleInitList" :val.sync="serverPolicy.presaleDays" :disabled.sync="unabledPresale" :css-obj.once="preSaleCssObj"></v-radio>
+					</div>
+					<!--
+						<div>
+							<label class="label-info" for="">补充政策</label>
+							<textarea class="w700" readOnly="true" id="rule" v-model="roominfoSetting.rule"></textarea>
+						</div>
+					-->
+					<div>
+						<label class="label-info mr10" >补充政策</label>
+						<textarea class="textarea-box fz12 w700" v-model="serverPolicy.rule" v-bind="{readonly: ruleIsReadonly}" v-bind:class="{'not-allowed':ruleIsReadonly}"></textarea>
+					</div>
+				</div>
+				<button class="btn-serveredit btn-primary btn-sm w80 ml20" v-on:click="serverinfoEdit" v-if="settingResourceInfo.cloudHotelEditHotelService && serverPolicyBtnSwift">编辑</button>
+				<template v-else>
+					<button class="btn-serverInfoeditCancel btn-default btn-sm w80 ml20"  @click="cancelServerEdit">取消</button>
+					<button class="btn-serveredit btn-primary btn-sm w80 ml20"  @click="serverinfoSave">保存</button>
+				</template>
+			</div>
+		</li>
+		<li class="channel-contact-box">
+			<!--lv 编辑房型 start -->
+		    <div class="modal right-addRoom-mask roomStyle-edition editRoomType" id="right-addRoom-mask">
+	        	<div class="modal-dialog modal-lg w800 maxheight548">
+					<div class="modal-header right-addRoomTag-title">
+			            <h4 class="btn-inlineblock">修改直连房间信息</h4>
+			            <i class="close iconfont icon-cuowu fr fz12"></i>
+			        </div>
+		            <div class="modal-body right-addRoomTag-cotent">
+		                <table class="right-addRoom-info" cellspacing="0">
+		                    <tr>
+		                        <td class="td-left pl45 pr10">户型</td>
+		                        <td>
+		                            <select class="w140" id="houseType" v-model="roomEditSingle.houseType">
+		                            	<option value="单房">单房</option>
+		                            	<option value="一房一厅">一房一厅</option>
+		                            	<option value="两房一厅">两房一厅</option>
+		                            	<option value="三房两厅">三房两厅</option>
+		                            	<option value="四房以上">四房以上</option>
+		                            	<option value="洋房">洋房</option>
+		                            	<option value="别墅">别墅</option>
+		                            </select>
+		                        </td>
+		                        <td class=" pl45 pr10">面积</td>
+		                        <td>
+		                        	<input type="text" class="form-control input-sm w140" v-model="roomEditSingle.roomArea" id="roomArea"/>
+		                        </td>
+		                        <td class=" pl45 pr10">所处楼层</td>
+		                        <td>
+		                        	<input type="text" class="form-control input-sm w140" v-model="roomEditSingle.floor" id="floor"/>
+		                        </td>
+		                    </tr>
+		                    <tr>
+		                       <td class="td-left pl45 pr10">景观</td>
+		                        <td>
+		                            <select class="w140" id="landscaped" v-model="roomEditSingle.landscaped">
+		                            	<option value="湖景">湖景</option>
+		                            	<option value="海景">海景</option>
+		                            	<option value="山景">山景</option>
+		                            	<option value="别墅">别墅</option>
+		                            </select>
+		                        </td>
+		                        <td class=" pl45 pr10">床型</td>
+		                        <td>
+		                        	<input type="text" class="form-control input-sm w140" v-model="roomEditSingle.bedType" id="bedType"/>
+		                        </td>
+		                        <td class=" pl45 pr10">WIFI</td>
+		                        <td>
+		                        	<input type="text" class="form-control input-sm w140" v-model="roomEditSingle.wifiSupport" id="wifiSupport"/>
+		                        </td>
+		                    </tr>
+		                </table>
+		                <div class="clearfix h361">
+		                	<div class="upload-left roomTypeImgupload fl">
+		                		<div v-show="roomEditSingle.imageList.length < 5">
+		                			<div id="imgUpload"></div>
+		                		</div>
+		                		<div class="upload-leftSeat" v-else>添加图片</div>
+			                	<!--<input type="file" v-on:change="onFileChange($event)" multiple=true />-->
+			                	<div class="hoteluploadLayout">
+					                <ul class="hotel-ul">
+					                	<li v-for="item in roomEditSingle.imageList">
+					                		<img v-bind:src="item.imageUrl"/>
+					                		<span v-on:click="delImage($index)">×</span>
+					                	</li>
+					                </ul>
+				                </div>
+				                <a onclick="return false;"  href="javascript:;" class="hotelbtn-up">
+				                	<i class="iconfont icon-xiangshang1"></i>
+				                </a>
+				                <a onclick="return false;" href="javascript:;" class="hotelbtn-down">
+				                	<i class="iconfont icon-xiangxia1"></i>
+				                </a>
+			                </div>
+			                <div class="upload-right fr">
+			                	<div class="upload-right-bottom">
+			                		<p>1.房型图片最多可上传5张；</p>
+			                		<p>2.图片要求：规格710*420，格式JPG，大小不超过300k</p>
+			                	</div>
+			                	<div class="imgshow-banner">
+			                		<ul>
+					                	<li v-for="item in roomEditSingle.imageList">
+					                		<img v-bind:src="item.imageUrl"/>
+					                	</li>
+				                	</ul>
+			                	</div>
+			                	<a onclick="return false;" class="banner-prev" href="javascriptt:;">
+			                		<i class="iconfont icon-back fz24"></i>
+			                	</a>
+			                	<a onclick="return false;" class="banner-next" href="javascriptt:;">
+			                		<i class="iconfont icon-more fz24"></i>
+			                	</a>
+			                </div>
+		                </div>
+		            </div>
+		            <div class="modal-footer">
+			        	<button class="btn-primary btn-sm w80" v-on:click="roomstyleSave">确定</button>
+			        </div>
+		        </div>
+		    </div>
+		    <!-- 编辑房型  end -->
+			<div class="hotel-room-left pt10 fl">
+				 <span class="fzb12">房型总数 {{roominfoSetting.length}}</span>
+				<!--<table class="hotel-room-tabel">
+					<thead>
+						<td>房型</td>
+						<td>房间数</td>
+						<td>星期一</td>
+						<td>星期二</td>
+						<td>星期三</td>
+						<td>星期四</td>
+						<td>星期五</td>
+						<td>星期六</td>
+						<td>星期日</td>
+						<td v-if="settingResourceInfo.cloudHotelEditYZLRoomType">操作</td>
+					</thead>
+					<tr id="shuangchuang" v-on:click="hotelroomBind($event,item)" v-for="item in roominfoSetting">
+						<td>{{item.roomTypeName}}</td>
+						<td>{{item.roomCount}}</td>
+	                    <td>¥{{item.monday}}</td>
+	                    <td>¥{{item.tuesday}}</td>
+	                    <td>¥{{item.wednesday}}</td>
+	                    <td>¥{{item.thursday}}</td>
+	                    <td>¥{{item.friday}}</td>
+	                    <td>¥{{item.saturday}}</td>
+	                    <td>¥{{item.sunday}}</td>
+	                    <td v-if="settingResourceInfo.cloudHotelEditYZLRoomType" @click="editRoomTypeList(item,$event)"><a class="roomStyle-edit" href="javascript:;">编辑</a></td>
+					</tr>
+				</table>-->
+				<table id="tbl" class="tb-block tb-line ac mt10">
+							 <colgroup>
+					            <col width="13%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					            <col width="9%">
+					        </colgroup>
+					        <thead>
+					            <tr class="tb-titlebg tb-linebm color-main font-bold">
+					                <td class="pb10 pt10">房型 </td>
+					                <td class="pb10 pt10">房间数</td>
+					                <td class="pb10 pt10">星期一</td>
+					                <td class="pb10 pt10">星期二</td>
+					                <td class="pb10 pt10">星期三 </td>
+					                <td class="pb10 pt10">星期四</td>
+					                <td class="pb10 pt10">星期五</td>
+					                <td class="pb10 pt10">星期六</td>
+					                <td class="pb10 pt10">星期日</td>
+					                <td class="pb10 pt10" v-if="settingResourceInfo.cloudHotelEditYZLRoomType">操作</td>
+					            </tr>
+					        </thead>
+							<tbody class="tb-color">
+								<template v-for="item in roominfoSetting">
+									<tr class="tb-linebm" v-on:click="hotelroomBind($event,item)">
+										<td class="pb10 pt10">{{item.roomTypeName}}</td>
+										<td class="pb10 pt10">{{item.roomCount}}</td>
+										<td class="pb10 pt10">¥{{item.monday}}</td>
+										<td class="pb10 pt10">¥{{item.tuesday}}</td>
+										<td class="pb10 pt10">¥{{item.wednesday}}</td>
+										<td class="pb10 pt10">¥{{item.thursday}}</td>
+										<td class="pb10 pt10">¥{{item.friday}}</td>
+										<td class="pb10 pt10">¥{{item.saturday}}</td>
+										<td class="pb10 pt10">¥{{item.sunday}}</td>
+										<td class="pb10 pt10" v-if="settingResourceInfo.cloudHotelEditYZLRoomType" @click="editRoomTypeList(item,$event)">
+											<!--<button class="btn-delicate btn-sm w60">
+												<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+												<span class='ml2 fl'>编辑</span>
+											</button>-->
+											<button class="btn-delicate btn-xs w60 ac">
+												<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+												<span class="ml5 fl">编辑</span>
+											</button>
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+			</div>
+			<div class="hotel-room-right">
+				<p>房型特点</p>
+				<div class="room-image">
+					<img v-bind:src="roominfoSingle.imageList[0].imageUrl"/>
+				</div>
+				<table class="room-right-table tb-block tb-line tb-color" style="border-collapse:collapse;">
+					<tr>
+						<td>房型名称</td>
+						<td>{{roominfoSingle.roomTypeName}}</td>
+					</tr>
+					<tr>
+						<td>户型</td>
+						<td>{{roominfoSingle.houseType}}</td>
+					</tr>
+					<tr>
+						<td>面积</td>
+						<td>{{roominfoSingle.roomArea}}</td>
+					</tr>
+					<tr>
+						<td>所处楼层</td>
+						<td>{{roominfoSingle.floor}}</td>
+					</tr>
+					<tr>
+						<td>景观</td>
+						<td>{{roominfoSingle.landscaped}}</td>
+					</tr>
+					<tr>
+						<td>床型</td>
+						<td>{{roominfoSingle.bedType}}</td>
+					</tr>
+					<tr>
+						<td>WIFI</td>
+						<td>{{roominfoSingle.wifiSupport}}</td>
+					</tr>
+				</table>
+			</div>
+		</li>
+		<li class="channel-contact-box">
+			<!--lv 酒店图片上传 start -->
+			<div class="modal hotelimage-upload right-addRoom-mask" id="hotelimage-upload">
+	        	<div class="modal-dialog modal-lg w800 maxheight551">
+					<div class="modal-header right-addRoomTag-title">
+			            <h4 class="btn-inlineblock">添加酒店图片</h4>
+			            <i class="close iconfont icon-cuowu fr fz12"></i>
+			        </div>
+		            <div class="modal-body right-addRoomTag-cotent h458">
+		                <div class="clearfix">
+		                	<div class="upload-left hotelupload-left fl">
+		                		<div v-show="settingResourceInfo.cloudHotelAddHotelPicture && gethotelImages.length <= 10">
+		                			<div id="hotelimgUpload"></div>
+		                		</div>
+		                		<div class="uploadhotel-leftSeat" v-else>添加图片</div>
+				                <div class="hoteluploadLayout">
+				                	<ul class="hotel-ul">
+					                	<li v-for="item in gethotelImages">
+					                		<img v-bind:src="item.imageUrl"/>
+					                		<span v-on:click="delhotelImage(item)">×</span>
+					                	</li>
+					                </ul>
+				                </div>
+				                <a onclick="return false;" href="javascript:;" class="hotelbtn-up">
+				                	<i class="iconfont icon-xiangshang1"></i>
+				                </a>
+				                <a onclick="return false;" href="javascript:;" class="hotelbtn-down">
+									<i class="iconfont icon-xiangxia1"></i>
+				                </a>
+			                </div>
+			                <div class="upload-right fr">
+			                	<div class="imgshow-banner">
+			                		<ul>
+					                	<li v-for="item in gethotelImages">
+					                		<img v-bind:src="item.imageUrl"/>
+					                		<span v-if="item.auditStatus">提交时间：{{item.createTime}}<i>待审</i></span>
+					                	</li>
+				                	</ul>
+			                	</div>
+			                	<a onclick="return false;" class="banner-prev" href="javascriptt:;">
+			                		<i class="iconfont icon-back fz24"></i>
+			                	</a>
+			                	<a onclick="return false;" class="banner-next" href="javascriptt:;">
+			                		<i class="iconfont icon-more fz24"></i>
+			                	</a>
+			                	<div class="upload-right-bottom">
+			                		<p>1.酒店图片最多可上传10张；</p>
+			                		<p>2.图片要求：规格750*400，格式JPG，大小不超过300k</p>
+			                	</div>
+			                </div>
+		                </div>
+		            </div>
+	                <div class="modal-footer">
+			        	<button class="btn-primary btn-sm w80" @click="btnsaveaddhotelImage">确定</button>
+			        </div>
+		        </div>
+		        <!-- 增加房型信息 end -->
+		    </div>
+		    <!-- 酒店图片上传  end -->
+		    <!--lv 房间图片展示窗 start -->
+		    <div class="modal hotelroomtype-show" id="hotelroomtype-show">
+	        	<div class="modal-dialog modal-lg w800 maxheight577">
+					<div class="modal-header right-addRoomTag-title">
+			            <h4 class="btn-inlineblock">添加酒店图片</h4>
+			            <i class="close iconfont icon-cuowu fr fz12"></i>
+			        </div>
+		            <div class="modal-body right-addRoomTag-cotent h484">
+		            	<div class="clearfix">
+		                	<div class="upload-left fl">
+				                <ul class="hotel-ul upload-left-show">
+				                	<li v-for="item in showRoomTypeImage.imageList">
+				                		<span v-on:click="delroomTypeImage(item)">×</span>
+										<img v-bind:src="item.imageUrl" alt="" />
+				                	</li>
+				                </ul>
+			                </div>
+			                <div class="upload-right fr">
+			                	<div class="imgshow-banner">
+			                		<ul>
+				                		<li v-for="item in showRoomTypeImage.imageList">
+				                			<img v-bind:src="item.imageUrl" alt="" />
+				                			<span v-show="item.auditStatus == 1">提交时间：{{item.createTime}}<i>待审</i></span>
+				                		</li>
+				                	</ul>
+			                	</div>
+			                	<a class="banner-prev" href="javascriptt:;">
+			                		<i class="iconfont icon-back fz24"></i>
+			                	</a>
+			                	<a class="banner-next" href="javascriptt:;">
+			                		<i class="iconfont icon-more fz24"></i>
+			                	</a>
+			                </div>
+		                </div>
+		            </div>
+		            <div class="modal-footer">
+			        	<button class="btn-primary btn-sm w80" @click="btnsavearoomtypeImage">确定</button>
+			        </div>
+		        </div>
+		        <!-- 增加房型信息 end -->
+		    </div>
+		    <!-- 房间图片展示窗  end -->
+			<div class="image-content">
+				<ul class="clearfix">
+					<li v-on:click="addhotelImage($event)">
+						<div class="img-show">
+							<div class="no-picture" v-show="gethotelImages.length == 0">请添加图片</div>
+							<img v-else v-bind:src="gethotelImages[0].imageUrl" alt="" />
+							<span>{{gethotelImages.length}}</span>
+						</div>
+						<p class="img-info">
+							<i>{{gethotelInfo.hotelName}}</i>
+							<span>待审:{{gethotelInfo.auditCount}}</span>
+						</p>
+					</li>
+					<li v-on:click="BindshowRoomTypeImage(item)" v-for="item in roomTypeImageList">
+						<div class="img-show">
+							<div class="no-picture" v-show="item.imageList.length == 0">请添加图片</div>
+							<img v-else v-bind:src="item.imageList[0].imageUrl" alt="" />
+							<span>{{item.imageList.length}}</span>
+						</div>
+						<p class="img-info">
+							<i>{{item.roomTypeName}}</i>
+							<span>待审:{{item.auditCount}}</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,295 @@
+/*页面头部设置 start*/
+.detail{
+	display: none;
+}
+.turnoverLayout{
+	display: none;
+}
+.right-content-finance{
+	width: 1008px;
+	background: #fff;
+	padding: 10px;
+	color: #8c8c8c;
+}
+.right-content-header{
+	padding-bottom: 8px;
+}
+
+.right-content-header-searchlabel span{
+	width: 58px;
+    height: 28px;
+    line-height: 28px;
+    display: inline-block;
+	float: left;
+}
+.right-content-header-checklabel,.right-content-header-searchlabel{
+	padding: 10px 0;
+}
+/*页面头部设置 end*/
+
+/*表格设置 start*/
+.untreatedOrdertable{
+	width: 100%;
+	text-align: center;
+	margin-top: 8px;
+	margin-bottom: 50px;
+}
+.untreatedOrdertable li:nth-child(1){
+	background: #28679B;
+	color: #fff;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+}
+.untreatedOrdertable li:nth-child(1) span:nth-child(2){
+	border: none;
+	color: #fff;
+}
+.untreatedOrdertable li:nth-child(1) span:nth-child(2):hover{
+	
+	
+	border: none;
+}
+.untreatedOrdertable li .turnoverSpan{
+	height: 29px;
+	color: #0099FF;
+	cursor: pointer;
+}
+.untreatedOrdertable li .turnoverSpan:hover{
+	border-bottom: 1px solid #0099FF;
+}
+.untreatedOrdertable li{
+	background: #FFF4ED;
+	color: #696969;
+	font-size: 12px;
+	line-height: 36px;
+	margin-top: 5px;
+}
+.untreatedOrdertable span{
+	display: inline-block
+}
+.untreatedOrdertable span i{
+	font-size: 24px;
+	margin-top: 5px;
+	position: absolute;
+	right: 1px;
+    top: 4px;
+	cursor: pointer;
+	-webkit-transform:all 1s; 
+	-moz-transform:all 1s; 
+	-o-transform:all 1s; 
+}
+.untreatedOrdertable span i.active{
+	-moz-transform:scale(1，-1); 
+	-webkit-transform:scale(1，-1); 
+	-o-transform:scale(1，-1); 
+	transform:scale(1，-1); 
+}
+.untreatedOrdertable .slideDownbox{
+	display: none;
+	background: #fff;
+	padding-top: 3px;
+}
+.untreatedOrdertable .slideDownbox div{
+	background: #f5f5f5;
+	margin-bottom: 3px;
+}
+.untreatedOrdertable .slideDown{
+	background: #f5f5f5;
+}
+.untreatedOrdertable .table-list span:nth-child(1),.untreatedOrdertable .slideDown span:nth-child(1){
+	width: 13%;
+}
+.untreatedOrdertable .table-list span:nth-child(2),.untreatedOrdertable .slideDown span:nth-child(2){
+	width: 15%;
+	position: relative;
+}
+.untreatedOrdertable .table-list span:nth-child(3),.untreatedOrdertable .slideDown span:nth-child(3){
+	width: 30%;
+}
+.untreatedOrdertable .table-list span:nth-child(4),.untreatedOrdertable .slideDown span:nth-child(4){
+	width: 10%;
+}
+.untreatedOrdertable .table-list span:nth-child(5),.untreatedOrdertable .slideDown span:nth-child(5){
+	width: 15%;
+}
+.untreatedOrdertable .table-list span:nth-child(6),.untreatedOrdertable .slideDown span:nth-child(6){
+	width: 15%;
+}
+
+/*表格设置 end*/
+
+/*底部统计样式 Start*/
+.right-content-bottom-total{
+	text-align: right;
+	font-size: 14px;
+}
+.right-content-bottom-total i{
+	color: red;
+	padding: 0 5px;
+}
+/*底部统计样式 End*/
+
+/*底部分页样式 Start*/
+.table-page{
+	text-align: right;
+	margin-top: 15px;
+	line-height: 24px;
+}
+.key-manage-pagemsg{
+	margin-bottom: 10px;
+}
+.table-page button{
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	color: #8c8c8c;
+	margin: 0 3px;
+	background: #fff;
+}
+.table-page span{
+	margin: 0 5px;
+}
+.table-page input{
+	width: 30px;
+	height: 24px;
+	line-height: 24px;
+	margin: 0 8px;
+	border: 1px solid #C5C5C5;
+}
+.table-page .iptnum input {
+	border: none;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	margin: 0 8px;
+}
+.table-page .btn-next,.table-page .btn-prev{
+	box-sizing:border-box;
+	padding-left: 8px;
+	font-family: fantasy;
+}
+.table-page-layout{
+	display: inline-block;
+}
+.pageList{
+	display: inline-block;
+	width: 300px;
+}
+.pageList button.active{
+	color: #0099FF;
+	font-weight: bold;
+}
+.btn-prev,.btn-next{
+	display: none;
+}
+.table-page .btn-Go{
+	color: #fff;
+	background: #3ca4f9;
+}
+.turnover-window-footer{
+	text-align: center;
+}
+.turnover-window-footer a{
+	display: inline-block;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "微软雅黑";
+    width: 120px;
+    height: 44px;
+    line-height: 44px;
+    margin: 10px auto;
+    background: #3ca4f9;
+    color: #fff;
+}
+/*底部分页样式 End*/
+
+/*处理订单弹窗 start*/
+.turnover-window-mask{
+	position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+}
+.turnover-window{
+	width: 900px;
+	height:560px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -450px;
+    margin-top: -280px;
+    font-family: "微软雅黑";
+    padding: 5px 15px 0px;
+}
+.turnover-window-title{
+    position: relative;
+    color: #696969;
+}
+.turnover-window-title h3 {
+	height: 42px;
+    line-height: 42px;
+    text-align: center;
+    font-size: 18px;
+}
+.turnover-window-title i{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 8px;
+    line-height: 20px;
+    top: 8px;
+    font-size: 30px;
+    cursor: pointer;
+}
+.turnover-window-cotent {
+    width: 100%;    /*width: 1100px;*/
+}
+.turnover-window-cotent-top{
+	width: 100%;
+	background: #fff;
+	padding: 10px 0;
+	border-bottom: 1px solid #C0C0C0;
+}
+.turnover-window-cotent-top label{
+	display: inline-block;
+	margin-right: 38px;
+}
+.turnover-window-cotent-top span{
+	display: inline-block;
+	margin:0 5px;
+}
+.turnover-cotent-bottom-title span{
+	color: #333333;
+}
+.turnover-window-cotent-bottom{
+	max-height: 418px;
+	height: 418px;
+	overflow-y:auto;
+}
+.turnover-cotent-bottom-title{
+	background: #fff;
+}
+.turnover-cotent-bottom-title label{
+	display: inline-block;
+	width: 32%;
+	height: 38px;
+	line-height: 38px;
+}
+.turnover-cotent-bottom-Receiv,.turnover-cotent-bottom-ReceivDetail,.turnover-cotent-bottom-DepositDetail{
+	background: #fff;
+}
+
+.Receiv-title{
+	text-align: left;
+	height: 36px;
+	line-height: 36px;
+	color: #333;
+}
+/*处理订单弹窗 end*/

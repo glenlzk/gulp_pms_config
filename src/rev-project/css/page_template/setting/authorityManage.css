@@ -1,0 +1,251 @@
+@charset "UTF-8";
+
+/*lv 权限管理 start */
+#authorityManageVue{
+	display: none;
+}
+.right-content {
+    width: 1007px;
+}
+.right-l-content {
+    width: 60%;
+}
+
+.right-top-operate a, .right-rtop-operate a {
+    font-size: 14px;
+    color: #fff;
+    width: 64px;
+    height: 29px;
+    line-height: 29px;
+    display: inline-block;
+    background-color: rgba(241, 121, 82, 0.8);
+    vertical-align: bottom;
+}
+.right-top-operate a:nth-of-type(2) {
+    background-color: rgba(116, 189, 116, 0.8);
+}
+.right-rtop-operate a:nth-of-type(2) {
+    background-color: rgba(121, 195, 121, 0.8);
+}
+
+/* addRoom End */
+
+.right-l-bottom,
+.right-r-bottom {
+    background-color: rgba(255, 255, 255, 0.8);
+
+}
+
+/* table start*/
+
+.right-r-content {
+    width: 40%;
+}
+
+.right-lb-table td,
+.right-rb-table td,
+.right-lb-table th,
+.right-rb-table th{
+    border-collapse:collapse;
+    line-height:28px;
+}
+.right-l-bottom .right-lb-table ,
+.right-r-bottom .right-rb-table {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+}
+.right-lb-table tr th ,
+.right-rb-table tr th{
+    color: #696969;
+}
+
+.right-rb-table tr th:last-of-type {
+    position: relative;
+}
+
+.right-lb-table tr td:nth-of-type(1),
+.right-rb-table tr th:nth-of-type(1),
+.right-rb-table tr td:nth-of-type(1) {
+    position: relative;
+    cursor: pointer;
+}
+.right-lb-table tr td:nth-of-type(1) > i,
+.right-rb-table tr td:nth-of-type(1) > i{
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    background: url(../../../images/index/fangxing_sprite-45e69c1646.png) no-repeat 25px 75px;
+    left: 50%;
+    top: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+
+.right-rb-table tr td:nth-of-type(1) > i {
+    background-position: 0 0;
+}
+.right-rb-table tr th:nth-of-type(1) > i.select-all {
+    background-position: -24px -49px;
+}
+.right-lb-table tr:nth-of-type(n+1).active,
+.right-rb-table tr:nth-of-type(n+1).active{
+    background-color: #67baff;
+    border: 1px solid #67baff;
+}
+.right-lb-table tr:nth-of-type(n+1).active .btn-roleEdit,
+.right-rb-table tr:nth-of-type(n+1).active .btn-roleEdit{
+	color: #fff;
+}
+.right-content tbody tr{
+    cursor: pointer;
+}
+.right-lb-table tr:nth-of-type(n+1).active td,
+.right-rb-table tr:nth-of-type(n+1).active td {
+    border: none;
+}
+.right-lb-table tr:nth-of-type(n+1).active td:nth-of-type(1) i {
+    background-position: 0 -50px;
+}
+.right-rb-table tr:nth-of-type(n+1).active td:nth-of-type(1) i {
+    background-position: 0 -50px;
+}
+
+.right-lb-table tr:nth-of-type(n+1).active td,
+.right-rb-table tr:nth-of-type(n+1).active td {
+    color: #fff;
+}
+.right-r-content input[type=checkbox],
+.right-l-content input[type=checkbox]
+{
+	width: 16px;
+	height: 16px;
+}
+.btn-roleEdit,
+.btn-editroleDetail{
+	color: #006CCA;
+	text-decoration: underline;
+}
+.right-lb-table thead tr,
+.right-rb-table thead tr{
+	background: #28679B;
+    color: #fff;
+    font-size: 12px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0px;
+}
+.right-lb-table thead th,
+.right-rb-table thead th{
+	color: #fff;
+	font-weight: 100;
+}
+.right-lb-table tbody tr,
+.right-rb-table tbody tr{
+    background: #FFF4ED;
+    color: #696969;
+    font-size: 12px;
+    height: 36px;
+    line-height: 36px;
+    margin-top: 5px;
+}
+/*lv 权限管理 end */
+
+/*添加、修改角色弹窗 start*/
+.window-mask .roll-table{
+	width: 425px;
+	margin: 0 auto;
+	margin-bottom: 10px;
+	text-align: center;
+}
+.window-mask .pc-checkboxTop,.window-mask .app-checkboxTop{
+    border-bottom: 1px solid #C0C0C0;
+}
+.window-mask .pc-checkboxTop input[type = 'checkbox']{
+	margin-left: 20px;
+}
+.window-mask .app-checkboxTop input[type = 'checkbox']{
+	margin-left: 22px;
+}
+.window-mask .pc-checkboxTop i,
+.window-mask .app-checkboxTop i{
+	color: #0099FF;
+	margin-left: 8px;
+}
+
+.role-List textarea{
+	width: 330px;
+    height: 66px;
+    margin-top: 12px;
+    padding-left: 5px;
+}
+.window-mask input[type = 'checkbox']{
+	width: 18px;
+	height: 18px;
+	margin-left: 10px;
+}
+.window-mask .window-contact table{
+	line-height: 38px;
+	border: 1px solid #C0C0C0;
+}
+.window-contact table tr td:nth-child(1){
+	width: 26%;
+	text-align: right;
+	padding-right: 12px;
+	background: #F2F2F2;
+}
+.window-contact table tr td:nth-child(2){
+	width: 60%;
+}
+.window-mask .window-contact tr{
+	line-height: 42px;
+}
+.window-mask .window-contact textarea{
+	border: 1px solid #C0C0C0;
+}
+
+.role-Listdetail-tips{
+    border-radius: 8px;
+    padding: 5px 73px;
+    box-sizing: border-box;
+    line-height: 30px;
+}
+.role-Listdetail-tips .tips-icon{
+	width: 16px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+}
+.role-Listdetail-tips .tips-icon img{
+	width: 100%;
+}
+.pc-checkboxBottom,.app-checkboxBottom{
+	padding-left: 8px;
+}
+.pc-checkboxTop,
+.app-checkboxTop{
+	padding: 8px 0;
+}
+.pc-checkbox{
+	padding-bottom: 21px;
+}
+.checkboxLayout{
+	max-height: 280px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.pc-checkboxBottom label,.app-checkboxBottom label{
+	display: inline-block;
+	width: 33.33%;
+}
+.pc-checkboxBottom label span,.app-checkboxBottom label span{
+	color: #696969;
+}
+.pc-checkboxBottom label input[type=checkbox],.app-checkboxBottom label input[type=checkbox]{
+	width: 14px;
+	height: 14px;
+}
+.title-checkbox{
+	display: inline-block;
+}
+/*添加、修改角色弹窗 end*/

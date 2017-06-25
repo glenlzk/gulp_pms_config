@@ -1,0 +1,972 @@
+<div class="room_type_totalLayout" id="roomTypeManage" style="display:none;" v-cloak>
+	<!-- 左边表格区域 开始-->
+<div class="right-l-content fl clearfix pr15" id="room_type_total"  v-bind:style="showBorderRight">
+    <div class="clearfix mb10 h30">
+        <div class="fl fzb12 lh30"><!--right-top-roomsum -->
+            房型总数
+            <span>{{roomTypeTotal}}</span>
+        </div>
+        <div class="right-top-operate fr">
+            <button class="btn-primary btn-sm w65 fr" @click="addElement" v-if="settingResourceInfo.cloudHotelAddRoomType" >添加</button>
+            <!--<button class="btn-danger btn-sm w65 mr10 fr" @click="removeElem" v-if="settingResourceInfo.cloudHotelDeleteRoomType">删除</button>-->
+        </div>
+        <!-- 房型总数 start -->
+        <!--<div class="right-addRoom-mask" style="display:none;">
+
+            <div class="right-l-addRoom-tag" id="rightAddroomTag">
+                <div class="right-addRoomTag-title">
+                    <h3 class="fz14">添加房型信息</h3>
+                    <i @click="closeTag">×</i>
+                </div>
+                <div class="right-addRoomTag-cotent">
+
+                    <div class="right-addRoomTag-contentBox" style="width: 65%;">
+                        <table class="right-addRoom-talbe fzb14">
+                           <colgroup>
+                               <col width='20%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                               <col width='10%'/>
+                           </colgroup>
+                           <thead>
+                           <tr >
+                               <th>房型名称</th>
+                               <th>门市价</th>
+                               <th>周一</th>
+                               <th>周二</th>
+                               <th>周三</th>
+                               <th>周四</th>
+                               <th>周五</th>
+                               <th>周六</th>
+                               <th>周日</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <tr>
+                               <td>
+                                   <input type="text" v-model="roomsPrice.roomTypeName"/>
+                               </td>
+                               <td>
+                                   <input type="text" v-on:keyup="flatPrice(flatPriceBtn)" v-model="flatPriceBtn"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.monday"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.tuesday"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.wednesday"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.thursday"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.friday"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.saturday"/>
+                               </td>
+                               <td>
+                                   <input type="text"  v-model="roomsPrice.sunday"/>
+                               </td>
+                           </tr>
+                           </tbody>
+                       </table>
+                        <div class="addRoom-talbe-tips ac"></div>
+                    </div>
+                    <div class="right-addRoomTag-timeStepBox clearfix" style="display:none;">
+                        <div class="right-addRoomTag-addTimeBox fl">
+                            <div class="right-addTimeBox-title clearfix fz14">
+                                <p class="fl">有效定制时段</p>
+                                <div class="right-addTimeBox-btnBox fr">
+                                   <button @click="delTimeRange">删除</button>
+                                   <button @click="openAddTimeRangeTag">添加</button>
+                                </div>
+                            </div>
+                            <div class="right-addRoomTag-content">
+                                <table class="right-addRoomTag-table ac fz14">
+                                    <colgroup>
+                                        <col width='15%'/>
+                                        <col width='25%'/>
+                                        <col width='25%'/>
+                                        <col width='35%'/>
+                                    </colgroup>
+                                    <thead>
+                                        <tr >
+                                            <th></th>
+                                            <th>开始日期</th>
+                                            <th>结束日期</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in priceTimeRange" @click="clickPriceTimeRange($event, item)">
+                                            <td>
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td>{{item.startDate}}</td>
+                                            <td>{{item.endDate}}</td>
+                                            <td>
+                                                <a href="javascript:;" title="{{item.remark}}">{{item.remark}}</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="right-addRoomTag-showTimeBox fl" v-if="finalDataList.length > 0">
+                            <div class="right-addRoomTag-showDate">
+                                <p class="right-showDate-title fz14">{{showCalendarYearMonth}}</p>
+                                <div class="right-addRoomTag-DateTitile clearfix">
+                                    <span data-x="1">周一</span>
+                                    <span data-x="2">周二</span>
+                                    <span data-x="3">周三</span>
+                                    <span data-x="4">周四</span>
+                                    <span data-x="5">周五</span>
+                                    <span data-x="6">周六</span>
+                                    <span data-x="7">周日</span>
+                                </div>
+                                <div class="right-addRoomTag-allDates clearfix fz14 ac" id="calendarBox">
+                                    <ul class="roomsmanage-rooms-rows clearfix"  v-for="item in finalDataList">
+                                        <template v-for="smlBox in item.row">
+                                            <li v-if="smlBox.status == 0" data-x="{{$index+1}}" data-y="{{$parent.$index+1}}" data-draginfo="{{getPerCalendarBoxInfo(smlBox)}}" style="background:#f2f2f2;cursor:not-allowed;"></li>
+                                            <li v-if="smlBox.status == 1" data-x="{{$index+1}}" data-y="{{$parent.$index+1}}" data-draginfo="{{getPerCalendarBoxInfo(smlBox)}}"  style="background:#f2f2f2;cursor:not-allowed;">
+                                                <div class="disable-date">
+                                                    <i v-bind:class="checkForWeekend(smlBox.customDate)"></i>
+                                                    <span>{{getDate(smlBox.customDate)}}</span>
+                                                </div>
+                                            </li>
+                                            <li v-if="smlBox.status == 2" data-x="{{$index+1}}" data-y="{{$parent.$index+1}}" data-draginfo="{{getPerCalendarBoxInfo(smlBox)}}" @click="setPerDayPrice(smlBox, $event)">
+                                                <div>
+                                                    <i v-bind:class="checkForWeekend(smlBox.customDate)"></i>
+                                                    <span>{{getDate(smlBox.customDate)}}</span>
+                                                </div>
+                                                <div  class="right-showDate-price">¥{{smlBox.price}}</div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="right-addRooTag-btn">
+                        <button @click="closeTag">取消</button>
+                        <button @click="addHotelData">确定</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-l-customTimeBox" style="display: none;">
+                <div class="right-customTime-title">
+                    <h3 class="fz14">新增定制时段</h3>
+                    <i @click="closeAddTimeRangeTag">×</i>
+                </div>
+                <div class="right-customTime-box">
+                    <div class="right-customTime-content">
+                        <span class="fz14">请选择起止日期：</span>
+                        <mz-datepicker format="yyyy-MM-dd" :start-time.sync="addTimeRange.startDate" :end-time.sync="addTimeRange.endDate" range en confirm :on-confirm="addTimeRangeDate"></mz-datepicker>
+                        <p class="customTime-errorTips"></p>
+                        <div class="right-customTime-textArea">
+                            <textarea name="" id="" cols="48" rows="7" v-model="addTimeRange.remark" placeholder="备注..."></textarea>
+                        </div>
+                    </div>
+                    <div class="right-customTime-btn">
+                        <button @click="addTimeRangeTag">确定</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>-->
+        <div id="right-addRoom-mask" class="modal right-addRoom-mask">
+	    	<div class="modal-dialog modal-lg" v-bind:class="addRoomTagTimeStepBox?'maxheight524':'maxheight207'">
+	    		<div class="right-l-addRoom-tag" id="rightAddroomTag">
+					<div class="modal-header">
+			            <h4 class="btn-inlineblock">添加房型信息</h4>
+			            <i class="close iconfont icon-cuowu fr fz12" @click="closeTag"></i>
+			        </div>
+			        <div class="modal-body">
+			        	<div class="right-addRoomTag-cotent ac">
+		                    <!-- 房型名称 start-->
+		                    <div class="right-addRoomTag-contentBox">
+		                        <table class="right-addRoom-talbe">
+		                           <colgroup>
+		                               <col width='20%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                               <col width='10%'/>
+		                           </colgroup>
+		                           <thead>
+		                           <tr >
+		                               <th>房型名称</th>
+		                               <th>门市价</th>
+		                               <th>周一</th>
+		                               <th>周二</th>
+		                               <th>周三</th>
+		                               <th>周四</th>
+		                               <th>周五</th>
+		                               <th>周六</th>
+		                               <th>周日</th>
+		                           </tr>
+		                           </thead>
+		                           <tbody>
+		                           <tr>
+		                               <td>
+		                                   <input type="text" class="input-sm w115" v-model="roomsPrice.roomTypeName"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50" v-on:keyup="flatPrice(flatPriceBtn)" v-model="flatPriceBtn"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.monday"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.tuesday"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.wednesday"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.thursday"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.friday"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.saturday"/>
+		                               </td>
+		                               <td>
+		                                   <input type="text" class="input-sm w50"  v-model="roomsPrice.sunday"/>
+		                               </td>
+		                           </tr>
+		                           </tbody>
+		                       </table>
+		                        <div class="addRoom-talbe-tips ac"></div>
+		                    </div>
+		                    <!-- 房型名称 end-->
+		                    <!-- 有效定制时间段 start-->
+		                    <div class="right-addRoomTag-timeStepBox clearfix h316" v-show="addRoomTagTimeStepBox" > <!-- style:display:none; -->
+		                        <div class="right-addRoomTag-addTimeBox fl">
+		                            <div class="right-addTimeBox-title clearfix">
+		                                <p class="fl">有效定制时段</p>
+		                                <div class="right-addTimeBox-btnBox fr">
+		                                   <button class="btn-danger btn-xs mr5" @click="delTimeRange">删除</button>
+		                                   <button class="btn-primary btn-xs" @click="openAddTimeRangeTag">添加</button>
+		                                </div>
+		                            </div>
+		                            <div class="right-addRoomTag-content maxheight272 of-y">
+		                                <table class="right-addRoomTag-table ac fz14">
+		                                    <colgroup>
+		                                        <!--<col width='15%'/>-->
+		                                        <col width='25%'/>
+		                                        <col width='25%'/>
+		                                        <col width='35%'/>
+		                                    </colgroup>
+		                                    <thead>
+		                                        <tr >
+		                                            <!--<th></th>-->
+		                                            <th>开始日期</th>
+		                                            <th>结束日期</th>
+		                                            <th>备注</th>
+		                                        </tr>
+		                                    </thead>
+		                                    <tbody>
+		                                        <tr v-for="item in priceTimeRange" @click="clickPriceTimeRange($event, item)">
+		                                            <!--<td>
+		                                                <input type="checkbox" />
+		                                            </td>-->
+		                                            <td>{{item.startDate}}</td>
+		                                            <td>{{item.endDate}}</td>
+		                                            <td>
+		                                                <a href="javascript:;" title="{{item.remark}}">{{item.remark}}</a>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+		                                </table>
+		                            </div>
+		                        </div>
+		                        <div class="right-addRoomTag-showTimeBox fr" v-if="finalDataList.length > 0">
+		                            <div class="right-addRoomTag-showDate">
+		                                <p class="right-showDate-title fz14">{{showCalendarYearMonth}}</p>
+		                                <div class="right-addRoomTag-DateTitile clearfix">
+		                                    <span data-x="1">周一</span>
+		                                    <span data-x="2">周二</span>
+		                                    <span data-x="3">周三</span>
+		                                    <span data-x="4">周四</span>
+		                                    <span data-x="5">周五</span>
+		                                    <span data-x="6">周六</span>
+		                                    <span data-x="7">周日</span>
+		                                </div>
+		                                <div class="right-addRoomTag-allDates clearfix fz14 ac" id="calendarBox">
+		                                    <ul class="roomsmanage-rooms-rows clearfix"  v-for="item in finalDataList">
+		                                        <template v-for="smlBox in item.row">
+		                                            <li v-if="smlBox.status == 0" data-x="{{$index+1}}" data-y="{{$parent.$index+1}}" data-draginfo="{{getPerCalendarBoxInfo(smlBox)}}" style="background:#f2f2f2;cursor:not-allowed;"></li>
+		                                            <li v-if="smlBox.status == 1" data-x="{{$index+1}}" data-y="{{$parent.$index+1}}" data-draginfo="{{getPerCalendarBoxInfo(smlBox)}}"  style="background:#f2f2f2;cursor:not-allowed;">
+		                                                <div class="disable-date">
+		                                                    <i v-bind:class="checkForWeekend(smlBox.customDate)"></i>
+		                                                    <span>{{getDate(smlBox.customDate)}}</span>
+		                                                </div>
+		                                            </li>
+		                                            <li v-if="smlBox.status == 2" data-x="{{$index+1}}" data-y="{{$parent.$index+1}}" data-draginfo="{{getPerCalendarBoxInfo(smlBox)}}" @click="setPerDayPrice(smlBox, $event)">
+		                                                <div>
+		                                                    <i v-bind:class="checkForWeekend(smlBox.customDate)"></i>
+		                                                    <span>{{getDate(smlBox.customDate)}}</span>
+		                                                </div>
+		                                                <div  class="right-showDate-price">¥{{smlBox.price}}</div>
+		                                            </li>
+		                                        </template>
+		                                    </ul>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+			       	</div>
+		        </div>
+		        <div class="modal-footer">
+		        	<button class="btn-default btn-sm w80 mr10" @click="closeTag">取消</button>
+		        	<button class="btn-primary btn-sm w80" @click="addHotelData">确定</button>
+		        </div>
+		    </div>
+	    </div>
+        <!-- 房型总数 end -->
+        <div class="modal right-l-customTimeBox" id="right-l-customTimeBox">
+        	<div class="modal-dialog modal-md w500 maxheight325">
+				<div class="modal-header">
+		            <h4 class="btn-inlineblock">新增定制时段</h4>
+		            <i class="close iconfont icon-cuowu fr fz12" @click="closeAddTimeRangeTag"></i>
+		        </div>
+		        <div class="modal-body h230">
+		        	<span class="ml15">请选择起止日期：</span>
+	                <mz-datepicker format="yyyy-MM-dd" :start-time.sync="addTimeRange.startDate" :end-time.sync="addTimeRange.endDate" range en confirm :on-confirm="addTimeRangeDate"></mz-datepicker>
+	                <p class="customTime-errorTips pl15"></p>
+	                <div class="right-customTime-textArea">
+	                    <textarea name="" id="" cols="57" rows="7" v-model="addTimeRange.remark" placeholder="备注..."></textarea>
+	                </div>
+		        </div>
+		        <div class="modal-footer">
+		        	<button class="btn-primary btn-sm w80" @click="addTimeRangeTag">确定</button>
+		        </div> 
+            </div>
+        </div>
+    </div>
+    <div class="right-l-bottom">
+        <table class="tb-block tb-line ac"><!--right-lb-table fz14 ac-->
+            <colgroup>
+                <!--<col width='5%'/>-->
+                <col width='15%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='8%'/>
+                <col width='18%'/>
+            </colgroup>
+            <thead>
+                <tr class="tb-titlebg tb-linebm color-main font-bold">
+                    <!--<td></td>-->
+                    <td>房型</td>
+                    <td class="pb10 pt10">房间数 </td>
+                    <td class="pb10 pt10">星期一</td>
+                    <td class="pb10 pt10">星期二</td>
+                    <td class="pb10 pt10">星期三</td>
+                    <td class="pb10 pt10">星期四</td>
+                    <td class="pb10 pt10">星期五</td>
+                    <td class="pb10 pt10">星期六</td>
+                    <td class="pb10 pt10">星期日</td>
+                    <td  class="pb10 pt10" style="min-width: 130px;" v-if="settingResourceInfo.cloudHotelEditRoomType||settingResourceInfo.cloudHotelDeleteRoomType">操作</td>
+                </tr>
+            </thead>
+            <tbody class="tb-color">
+                <tr class="tb-linebm" v-for="item in roomTypeList" @click="toggle_bgc($event, item)">
+                    <!--<td class="pb10 pt10">
+                        <input type="checkbox" />
+                    </td>-->
+                    <td class="pb5 pt5">{{item.roomTypeName}}</td>
+                    <td class="pb5 pt5">{{item.roomCount}}</td>
+                    <td class="pb5 pt5">¥{{item.monday}}</td>
+                    <td class="pb5 pt5">¥{{item.tuesday}}</td>
+                    <td class="pb5 pt5">¥{{item.wednesday}}</td>
+                    <td class="pb5 pt5">¥{{item.thursday}}</td>
+                    <td class="pb5 pt5">¥{{item.friday}}</td>
+                    <td class="pb5 pt5">¥{{item.saturday}}</td>
+                    <td class="pb5 pt5">¥{{item.sunday}}</td>
+                    <td class="pb5 pt5" style="min-width: 130px;" v-if="settingResourceInfo.cloudHotelEditRoomType||settingResourceInfo.cloudHotelDeleteRoomType">
+                        <button class="btn-delicate btn-xs w60 ac" @click="editRoomTypeList(item.roomTypeId)" v-if="settingResourceInfo.cloudHotelEditRoomType">
+                            <i class="iconfont icon-chuli fl fz12 color-primary"></i>
+                            <span class="ml5 fl">编辑</span>
+                        </button>
+                        <button class="btn-delicateDEL btn-xs w60 ac ml5"  @click="removeElem(item.roomTypeId)" v-if="settingResourceInfo.cloudHotelDeleteRoomType">
+							<i class="iconfont icon-shanchu fl fz12 color-primary"></i>
+							<span class='ml5 fl'>删除</span>
+						</button>
+                    </td><!--roomEditBtn-->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 修改价格弹窗 start -->
+    <div class="addRoomTag-aditprice-mask" id="addRoomTagAditprice" style="display: none; opacity: 1;">
+        <div class="mask-dialog-box addRoomTag-aditprice-box">
+            <div class="addRoomTag-aditprice-content form-inline">
+                <span class="ac">价格修改为: </span>&nbsp;
+                <input type="text" v-model="setRoomPriceOperate" class="form-control input-sm w70" v-on:focus="clearAditpriceErrorTip"/>
+            </div>
+            <p class="addRoomTag-aditprice-errorTip"></p>
+            <div class="addRoomTag-aditprice-button">
+                <button type="button" class="btn-default btn-sm w70" id="addRoomTag_aditprice_cancel" @click="cancelAditPriceOperate">取消</button>
+                <button type="button" class="btn-primary btn-sm w70 ml10" id="addRoomTag_aditprice_confirm" @click="confirmAditPriceOperate">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 修改价格弹窗 end -->
+</div>
+<!-- 左边表格区域 结束-->
+<!-- 右边表格区域 开始-->
+<div class="right-r-content fl pl15" id="rooms_total" v-bind:style="showBorderLeft">
+    <!--lv 增加房间信息 start -->
+    <!--<div class="addRoomMessageMask" style="display:none;">
+        <div class="addRoomMessage-title-box">
+            <div class="addRoomMessage-title">
+                <h3 class="fz14">添加房间信息</h3>
+                <i @click="closeAddRoomMessageTag">×</i>
+            </div>
+            <div class="addRoomMessage-content">
+                <div class="right-example">
+                    举例:   房间名称： 温馨 1202C        房间数：3.       房间信息：温馨1202C、温馨1203C、温馨1204C。
+                </div>
+                <table class="right-addRoom-info" border="1" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td-left">房间名称</td>
+                        <td>
+                            <input type="text" v-model="roomNameParts.header"/>
+                            <input class="inp_60" type="text" v-model="roomNameParts.body"/>
+                            <input type="text" v-model="roomNameParts.footer"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">房间数量</td>
+                        <td>
+                            <input class="inp_280" type="text" v-model="roomNameParts.roomsTotal"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-left">房型</td>
+                        <td>
+                            <select v-model="roomNameParts.roomTypeId">
+                                <option value="">请选择</option>
+                                <option v-for="item in roomTypeList" value="{{item.roomTypeId}}">{{item.roomTypeName}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <div class="room-info">
+                    <h4>房间信息</h4>
+                    <div class="room-info-box">
+                        <ul class="room-sml-boxPar">
+                            <li v-for="n in roomSum">
+                                <input type="text" value="{{roomNameFun($index)}}"/>
+                                <i @click="removeRoomsNameBox($index)">×</i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="room-info-errorMsg ac"></div>
+                </div>
+                <div class="addRoomMessage-btn">
+                    <button @click="addRoomTypeName">确定</button>
+                </div>
+            </div>
+        </div>-->
+        <div id="addRoomMessageModal" class="modal">
+	    	<div class="modal-dialog modal-md maxheight548">
+				<div class="modal-header">
+		            <h4 class="btn-inlineblock">添加房间信息</h4>
+		            <i class="close iconfont icon-cuowu fr fz12" @click="closeAddRoomMessageTag"></i>
+		        </div>
+		        <div class="modal-body h458">
+		        	<div class="right-example">
+	                    举例:   房间名称： 温馨 1202C        房间数：3.       房间信息：温馨1202C、温馨1203C、温馨1204C。
+	                </div>
+	                <table class="right-addRoom-info" border="1" cellpadding="0" cellspacing="0">
+	                    <tr>
+	                        <td class="td-left">房间名称</td>
+	                        <td>
+	                            <input type="text" v-model="roomNameParts.header"/>
+	                            <input class="inp_60" type="text" v-model="roomNameParts.body"/>
+	                            <input type="text" v-model="roomNameParts.footer"/>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td class="td-left">房间数量</td>
+	                        <td>
+	                            <input class="inp_280" type="text" v-model="roomNameParts.roomsTotal"/>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td class="td-left">房型</td>
+	                        <td>
+	                            <select v-model="roomNameParts.roomTypeId">
+	                                <option value="">请选择</option>
+	                                <option v-for="item in roomTypeList" value="{{item.roomTypeId}}">{{item.roomTypeName}}</option>
+	                            </select>
+	                        </td>
+	                    </tr>
+	                </table>
+	                <div class="room-info">
+	                    <h4>房间信息</h4>
+	                    <div class="room-info-box border-c3c3 bradius-4">
+	                        <ul class="room-sml-boxPar">
+	                            <li v-for="n in roomSum">
+	                                <input type="text" value="{{roomNameFun($index)}}"/>
+	                                <i @click="removeRoomsNameBox($index)">×</i>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                    <div class="room-info-errorMsg ac h15"></div>
+	                </div>
+		        </div>
+		        <div class="modal-footer">
+		        	<button class="btn-primary btn-sm w70" @click="addRoomTypeName">确定</button>
+		        </div>
+		    </div>
+	    </div>
+        <!-- 增加房型信息 end -->
+        <!-- 定制时间段 start-->
+        <!--<div class="right-l-customTimeBox" style="display: none;">
+            <div class="right-customTime-title">
+                <h3 class="fz14">新增定制时段</h3>
+                <i>×</i>
+            </div>
+            <div class="right-customTime-box">
+                <div class="right-customTime-content">
+                    <div class="right-customTime-selectTime clearfix">
+                        <p class="fl">
+                            开始时间
+                            <input type="text"/>
+                        </p>
+                        <p class="fl">
+                            结束时间
+                            <input type="text"/>
+                        </p>
+                    </div>
+                    <div class="right-customTime-textArea">
+                        <textarea name="" id="" cols="48" rows="8">备注....</textarea>
+                    </div>
+                </div>
+                <div class="right-customTime-btn">
+                    <button>确定</button>
+                </div>
+            </div>
+        </div>-->
+        <!-- 定制时间段 end-->
+    <!-- 增加房间信息 end -->
+    <!--glenlzk 编辑房间信息窗口 start-->
+    <!--<div class="aditeRoomMessageMask" style="display:none;">
+        <div class="aditeRoomMessage-title-box" id="aditeRoomMessageBox">
+            <div class="aditeRoomMessage-title">
+                <h3 class="fz14">编辑房间信息</h3>
+                <i @click="closeAditeRoomMessageTag">×</i>
+            </div>
+            <div class="aditeRoomMessage-content">
+                <div class="aditeRoomMessage-table-box">
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p class="ar fl">房间名称</p>
+                        <div class="fl">
+                            <input type="text" v-model="addRoomMsg.roomNo" class="aditeRoomMessage-roomName"/>
+                        </div>
+                    </div>
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p  class="ar fl">房型</p>
+                        <div class="fl">
+                            <select  class="aditeRoomMessage-table-roomType" v-model="addRoomMsg.roomTypeId" v-on:change="AditeRoomMessage(roomNameParts.roomId)">
+                                <option value="">请选择</option>
+                                <option v-for="item in roomTypeList" value="{{item.roomTypeId}}">{{item.roomTypeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p class="ar fl">锁态</p>
+                        <div class="fl aditeRoomMessage-lock-status">
+                            <input type="radio" id="lock_red" name="lock_status"  value="2" v-model="addRoomMsg.roomLockStatus" disabled="{{isHasUnLockStatus}}"/>
+                            <label for="lock_red"></label>
+                            <input type="radio" id="lock_yellow" name="lock_status" value="3" v-model="addRoomMsg.roomLockStatus" disabled="{{isHasUnLockStatus}}"/>
+                            <label for="lock_yellow"></label>
+                            <input type="radio" id="lock_green" name="lock_status" value="4" v-model="addRoomMsg.roomLockStatus" disabled="{{!isHasUnLockStatus}}"/>
+                            <label for="lock_green"></label>
+                            <input type="radio" id="lock_none" name="lock_status" value="1" v-model="addRoomMsg.roomLockStatus" disabled="{{isHasUnLockStatus}}"/>
+                            <label for="lock_none"></label>
+                        </div>
+                    </div>
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p class="ar fl">房间状态</p>
+                        <div class="fl roomStatusLabel fz12">
+                            <label for="roomStatusOn">
+                                <input type="radio" id="roomStatusOn" name="roomStatusRadio" value="0" v-model="addRoomMsg.isStopSale"/>启用
+                            </label>
+                            <label for="roomStatusOff">
+                                <input type="radio" id="roomStatusOff" name="roomStatusRadio" value="1" v-model="addRoomMsg.isStopSale"/>停售
+                            </label>
+                            <div style="display: inline-block;"  v-if="addRoomMsg.isStopSale == 1">
+                                停售起期:&nbsp;<mz-datepicker format="yyyy-MM-dd" :time.sync="getTodayDate"></mz-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="aditeRoomMessage-state">
+                    <div class="aditeRoomMessage-state-title al">
+                        锁态说明
+                    </div>
+                    <table>
+                        <colgroup>
+                            <col width='20%'/>
+                            <col width='80%'/>
+                        </colgroup>
+                        <tr>
+                            <td>
+                                <i></i>
+                            </td>
+                            <td>：故障</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i></i>
+                            </td>
+                            <td>：异常</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i></i>
+                            </td>
+                            <td>：无英智联锁具</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i></i>
+                            </td>
+                            <td>：正常</td>
+                        </tr>
+                    </table>
+                    <div class="aditeRoomMessage-state-errorMsg ac"></div>
+                </div>
+                <div class="aditeRoomMessage-btn">
+                    <button @click="updateRoomMessageBtn">确定</button>
+                </div>
+            </div>
+        </div>-->
+        <div id="aditeRoomMessageMask" class="modal aditeRoomMessageMask">
+	    	<div class="modal-dialog modal-md maxheight456">
+				<div class="modal-header">
+		            <h4 class="btn-inlineblock">编辑房间信息</h4>
+		            <i class="close iconfont icon-cuowu fr fz12" @click="closeAditeRoomMessageTag"></i>
+		        </div>
+				<div class="modal-body h361">
+					<table class="tb-block form-inline">
+						<colgroup>
+							<col width="30%">
+							<col width="70%">
+						</colgroup>
+						<tbody class="tb-color">
+							<tr>
+								<td class="pb10 pt2 pr10 ar">房间名称</td>
+								<td class="pb10 pt al">
+									<input type="text" v-model="addRoomMsg.roomNo" class="form-control input-sm w335"/>
+								</td>
+							</tr>
+							<tr>
+								<td class="pb10 pt10 pr10 ar">房型</td>
+								<td class="pb10 pt10 al">
+									<select  class="form-control input-sm w335" v-model="addRoomMsg.roomTypeId" v-on:change="AditeRoomMessage(roomNameParts.roomId)">
+										<option value="">请选择</option>
+										<option v-for="item in roomTypeList" value="{{item.roomTypeId}}">{{item.roomTypeName}}</option>
+									</select>
+									<!--<label class="pointer user-no-select" for="merchant_able" style="margin-right: 20px;"><input type="radio" name="channel_ison" id="merchant_able" value="0"><span class="iconfont fz14 mr4 icon-radio"></span>是</label><label class="pointer user-no-select" for="merchant_unable" style="margin-right: 20px;"><input type="radio" name="channel_ison" id="merchant_unable" value="1"><span class="iconfont fz14 mr4 icon-radio1"></span>否</label>-->
+								</td>
+							</tr>
+							<tr>
+								<td class="pb2 pt2 pr10 ar">锁态</td>
+								<td class="pb2 pt2 al lock-status">
+									<template v-for="item in lockStatusInitList">
+										<label for="{{item.id}}" class="lock-status-label" v-bind:class="[item.isDisabled? 'not-allowed':'']" v-on:mouseover="showLockIconTips(item)" v-on:mouseout="hideLockIconTips">
+											<input type="radio" id="{{item.id}}" name="lock_status"  value="{{item.value}}" v-model="addRoomMsg.roomLockStatus" :disabled="item.isDisabled"/>
+											<span class="lock-radio-icon iconfont fz14 mr4" v-bind:class="item.checked? 'icon-radio':'icon-radio1'"></span>
+											<span class="mr4 lock-status-icon" v-bind:class="item.iconClass"></span>
+										</label>
+									</template>
+								</td>
+							</tr>
+							<tr class="lock-status-tips" v-if="showLockStatusTipClass">
+								<td class="pb2 pt2 pr10 ar">锁态说明: </td>
+								<td class="pb2 pt2 al clearfix">
+									<i v-bind:class="showLockStatusTipClass" class="lock-status-icon fl"></i>
+									<span class="fl lock-status-txt">{{showLockStatusTipText}}</span>
+								</td>
+							</tr>
+							<tr class="h36">
+								<td class="pb2 pt2 pr10 ar">房间状态</td>
+								<td class="pb2 pt2 al">
+									<label for="roomStatusOn">
+										<span class="lock-radio-icon iconfont fz14 mr4" v-bind:class="addRoomMsg.isStopSale=='0'? 'icon-radio':'icon-radio1'"></span>
+										<input type="radio" id="roomStatusOn" name="roomStatusRadio" value="0" v-model="addRoomMsg.isStopSale"/>启用
+										
+									</label>
+									<label for="roomStatusOff">
+										<span class="lock-radio-icon iconfont fz14 mr4" v-bind:class="addRoomMsg.isStopSale=='1'? 'icon-radio':'icon-radio1'"></span>
+										<input type="radio" id="roomStatusOff" name="roomStatusRadio" value="1" v-model="addRoomMsg.isStopSale"/>停售
+									</label>
+								</td>
+							</tr>
+							<tr  v-if="addRoomMsg.isStopSale == 1">
+								<td class="pb10 pt10 pr10 ar">停售起期</td>
+								<td class="pb10 pt10 al">
+									<mz-datepicker format="yyyy-MM-dd" :time.sync="getTodayDate"></mz-datepicker>
+								</td>
+							</tr>
+							<tr>
+								<td class="pb10 pt10 pr10 ar">WIFI账号</td>
+								<td class="pb10 pt10 al">
+									<input type="text" v-model="addRoomMsg.wifiName" class="form-control input-sm w335"/>
+								</td>
+							</tr>
+							<tr>
+								<td class="pb10 pt10 pr10 ar">WIFI密码</td>
+								<td class="pb10 pt10 al">
+									<input type="text" v-model="addRoomMsg.wifiPassword" class="form-control input-sm w335"/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+		        <!--<div class="modal-body">
+		        	<div class="aditeRoomMessage-table-row clearfix">
+                        <p class="ar fl">房间名称</p>
+                        <div class="fl">
+                            <input type="text" v-model="addRoomMsg.roomNo" class="aditeRoomMessage-roomName"/>
+                        </div>
+                    </div>
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p  class="ar fl">房型</p>
+                        <div class="fl">
+                            <select  class="aditeRoomMessage-table-roomType" v-model="addRoomMsg.roomTypeId" v-on:change="AditeRoomMessage(roomNameParts.roomId)">
+                                <option value="">请选择</option>
+                                <option v-for="item in roomTypeList" value="{{item.roomTypeId}}">{{item.roomTypeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p class="ar fl">锁态</p>
+                        <div class="fl aditeRoomMessage-lock-status">
+                            <input type="radio" id="lock_red" name="lock_status"  value="2" v-model="addRoomMsg.roomLockStatus" disabled="{{isHasUnLockStatus}}"/>
+                            <label for="lock_red"></label>
+                            <input type="radio" id="lock_yellow" name="lock_status" value="3" v-model="addRoomMsg.roomLockStatus" disabled="{{isHasUnLockStatus}}"/>
+                            <label for="lock_yellow"></label>
+                            <input type="radio" id="lock_green" name="lock_status" value="4" v-model="addRoomMsg.roomLockStatus" disabled="{{!isHasUnLockStatus}}"/>
+                            <label for="lock_green"></label>
+                            <input type="radio" id="lock_none" name="lock_status" value="1" v-model="addRoomMsg.roomLockStatus" disabled="{{isHasUnLockStatus}}"/>
+                            <label for="lock_none"></label>
+                        </div>
+                    </div>
+                    <div class="aditeRoomMessage-table-row clearfix">
+                        <p class="ar fl">房间状态</p>
+                        <div class="fl roomStatusLabel fz12">
+                            <label for="roomStatusOn">
+                                <input type="radio" id="roomStatusOn" name="roomStatusRadio" value="0" v-model="addRoomMsg.isStopSale"/>启用
+                            </label>
+                            <label for="roomStatusOff">
+                                <input type="radio" id="roomStatusOff" name="roomStatusRadio" value="1" v-model="addRoomMsg.isStopSale"/>停售
+                            </label>
+                            &lt;!&ndash;<div style="display: inline-block;"  v-if="addRoomMsg.isStopSale == 1">
+                                停售起期:&nbsp;<mz-datepicker format="yyyy-MM-dd" :time.sync="getTodayDate"></mz-datepicker>
+                            </div>&ndash;&gt;
+                        </div>
+                    </div>
+					<div class="aditeRoomMessage-table-row clearfix" v-if="addRoomMsg.isStopSale == 1">
+						<p class="ar fl">停售起期</p>
+						<div class="fl date-picker">
+							<mz-datepicker format="yyyy-MM-dd" :time.sync="getTodayDate"></mz-datepicker>
+						</div>
+					</div>
+					<div class="aditeRoomMessage-table-row clearfix">
+						<p class="ar fl">WIFI账号</p>
+						<div class="fl">
+							<input type="text" v-model="addRoomMsg.wifiName" class="aditeRoomMessage-roomName"/>
+						</div>
+					</div>
+					<div class="aditeRoomMessage-table-row clearfix">
+						<p class="ar fl">WIFI密码</p>
+						<div class="fl">
+							<input type="text" v-model="addRoomMsg.wifiPassword" class="aditeRoomMessage-roomName"/>
+						</div>
+					</div>
+                    <div class="aditeRoomMessage-state">
+	                    <div class="aditeRoomMessage-state-title al">
+	                        锁态说明
+	                    </div>
+	                    <table>
+	                        <colgroup>
+	                            <col width='20%'/>
+	                            <col width='80%'/>
+	                        </colgroup>
+	                        <tr>
+	                            <td>
+	                                <i></i>
+	                            </td>
+	                            <td>：故障</td>
+	                        </tr>
+	                        <tr>
+	                            <td>
+	                                <i></i>
+	                            </td>
+	                            <td>：异常</td>
+	                        </tr>
+	                        <tr>
+	                            <td>
+	                                <i></i>
+	                            </td>
+	                            <td>：无英智联锁具</td>
+	                        </tr>
+	                        <tr>
+	                            <td>
+	                                <i></i>
+	                            </td>
+	                            <td>：正常</td>
+	                        </tr>
+	                    </table>
+                    	<div class="aditeRoomMessage-state-errorMsg ac"></div>
+                    </div>
+		        </div>-->
+		        <div class="modal-footer">
+		        	<button class="btn-primary btn-sm w70" @click="updateRoomMessageBtn">确定</button>
+		        </div>
+		    </div>
+	    </div>
+        <!-- 增加房型信息 end -->
+        <!-- 定制时间段 start-->
+        <!--<div class="right-l-customTimeBox" style="display: none;">
+            <div class="right-customTime-title">
+                <h3 class="fz14">新增定制时段</h3>
+                <i>×</i>
+            </div>
+            <div class="right-customTime-box">
+                <div class="right-customTime-content">
+                    <div class="right-customTime-selectTime clearfix">
+                        <p class="fl">
+                            开始时间
+                            <input type="text"/>
+                        </p>
+                        <p class="fl">
+                            结束时间
+                            <input type="text"/>
+                        </p>
+                    </div>
+                    <div class="right-customTime-textArea">
+                        <textarea name="" id="" cols="48" rows="8">备注....</textarea>
+                    </div>
+                </div>
+                <div class="right-customTime-btn">
+                    <button>确定</button>
+                </div>
+            </div>
+        </div>-->
+        <!-- 定制时间段 end-->
+    <!--glenlzk 编辑房间信息窗口 end-->
+    <div class="mb10 h30 ac clearfix">
+        <div class="fl fzb12 lh30">
+            房间总数
+            <span>{{roomTotal}}</span>
+        </div>
+        <div class="right-rtop-operate fr">
+            <button class="btn-primary btn-sm w65 fr" @click="addElem" v-if="settingResourceInfo.cloudHotelAddRoom" >添加</button>
+            <!--<button class="btn-danger mr10 btn-sm w65 fr" @click="removeElem" v-if="settingResourceInfo.cloudHotelDeleteRoom">删除</button>-->
+        </div>
+    </div>
+    <div class="right-r-bottom">
+        <table class="tb-block tb-line ac">
+            <colgroup>
+               <!-- <col width='11%'/>-->
+                <col width='15%'/>
+                <col width='20%'/>
+                <col width='18%'/>
+				<col width='18%'/>
+				<col width='8%'/>
+                <col width='27%'/>
+            </colgroup>
+            <thead>
+                <tr class="tb-titlebg tb-linebm color-main font-bold">
+                    <!--<td></td>-->
+                    <td class="pb10 pt10">房间名称 </td>
+                    <td class="pb10 pt10">房型</td>
+					<td class="pb10 pt10">WIFI账号</td>
+                    <td class="pb10 pt10">WIFI密码</td>
+					<td class="pb10 pt10">锁态</td>
+                    <td class="pb10 pt10" style="min-width: 130px;"  v-if="settingResourceInfo.cloudHotelEditRoom||settingResourceInfo.cloudHotelDeleteRoom">操作
+                        <i>
+                            <div class="lockStatusTips">
+                                <span><i></i>故障</span>
+                                <span><i></i>异常</span>
+                                <span><i></i>无英智联锁具</span>
+                                <span><i></i>正常</span>
+                            </div>
+                        </i>
+                    </td>
+                </tr>
+            </thead>
+            <tbody  class="tb-color">
+                <tr class="tb-linebm" v-for="item in roomsList" @click="click_bgc($event, item)">
+                    <!--<td class="pb10 pt10">
+                        <input type="checkbox" />
+                    </td>-->
+                    <td class="pb5 pt5">{{item.roomNo}}</td>
+                    <td class="pb5 pt5">{{item.roomTypeName}}</td>
+					<td class="pb5 pt5">{{item.wifiName}}</td>
+					<td class="pb5 pt5">{{item.wifiPassword}}</td>
+                    <td class="pb5 pt5">
+                        <b class="{{setClass(item.roomLockStatus)}}"></b>
+                    </td>
+                    <td  class="pb5 pt5" style="min-width: 130px;" v-if="settingResourceInfo.cloudHotelEditRoom||settingResourceInfo.cloudHotelDeleteRoom">
+						<button class="btn-delicate btn-xs w60 ac" @click="showEditRoomStatus(item.roomId)">
+							<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+							<span class="ml5 fl">编辑</span>
+						</button>
+						<button class="btn-delicateDEL btn-xs w60 ac ml5" @click="removeElem(item.roomId)" v-if="settingResourceInfo.cloudHotelDeleteRoom">
+							<i class="iconfont icon-shanchu fl fz12 color-primary"></i>
+							<span class='ml5 fl'>删除</span>
+						</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 右边表格区域 结束-->
+<!-- 修改价格弹窗 start -->
+    <!--<div class="addRoomTag-aditprice-mask" id="addRoomTagAditprice" style="display: none; opacity: 1;">
+        <div class="mask-dialog-box addRoomTag-aditprice-box">
+            <div class="addRoomTag-aditprice-content">
+                <span class="fz14 ac">价格修改为: </span>&nbsp;
+                <input type="text" v-model="setRoomPriceOperate" number/>
+            </div>
+            <div class="addRoomTag-aditprice-button">
+                <button type="button" id="addRoomTag_aditprice_cancel" v-on:click="cancelAditPriceOperate">取消</button>
+                <button type="button" id="addRoomTag_aditprice_confirm">确定</button>
+            </div>
+        </div>
+    </div>-->
+<!-- 修改价格弹窗 end -->
+</div>
+
+
+    

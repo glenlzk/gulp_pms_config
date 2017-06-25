@@ -1,0 +1,42 @@
+<div class="sms-manage" id="sms_manage" v-cloak>
+    <div class="sms-content-box">
+        <ul class="clearfix">
+            <li class="sms-per-box" v-for="item in smsList">
+                <p class="sms-content-title ac fz14">{{sms_title(item)}}</p>
+                <div class="sms-content-txt fz12">
+                    {{item.msgContent}}
+                </div>
+                <div class="sms-manage-status clearfix">
+                    <p class="fr fz14">{{smsIsabled(item.isDisabled)}}</p>
+                    <div class="sms-status-btn fr" v-bind:class="isActive(item.isDisabled)" @click="changeSmsStatus($event, item)" v-if="settingResourceInfo.cloudHotelEnableSMS">
+                        <span></span>
+                    </div>
+                </div>
+            </li>
+            <!--<li class="sms-per-box">
+                <p class="sms-content-title ac">预订信息</p>
+                <div class="sms-content-txt fz14">
+                    尊贵的*****，感谢您选择****，我们将竭诚为您服务。您的入住日期为*******，离店日期为******，期待您的光临！我们的酒店地址为：********，前台电话********，欢迎来电咨询。
+                </div>
+                <div class="sms-manage-status clearfix">
+                    <p class="fr fz14">启用</p>
+                    <div class="sms-status-btn fr active">
+                        <span></span>
+                    </div>
+                </div>
+            </li>
+            <li class="sms-per-box">
+                <p class="sms-content-title ac">预定信息</p>
+                <div class="sms-content-txt fz14">
+                    尊贵的*****，感谢您选择****，我们将竭诚为您服务。您的入住日期为*******，离店日期为******，期待您的光临！我们的酒店地址为：********，前台电话********，欢迎来电咨询。
+                </div>
+                <div class="sms-manage-status clearfix">
+                    <p class="fr fz14">启用</p>
+                    <div class="sms-status-btn fr active">
+                        <span></span>
+                    </div>
+                </div>
+            </li>-->
+        </ul>
+    </div>
+</div>

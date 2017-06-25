@@ -1,0 +1,90 @@
+ <div class="right-content-report" id="businessStatistics" >
+	<div class="report-header">
+		日期
+		<div class="inline-block pl10">
+			<iselect-name :list.sync="getStartDateEndDateList" :select-val.sync="getStartDateEndDate" :elem-id.sync="getStartDateEndDateElemId" :selected-elem.sync="dateSelectedElem" :is-null-select.sync="0"></iselect-name>
+		</div>
+		<div class="inline-block pl10">
+			<mz-datepicker format="yyyy-MM-dd" :start-time.sync="getBusinessStatisticsData.fromDate" :end-time.sync="getBusinessStatisticsData.toDate" range en confirm :on-confirm="businessStatisticDate"></mz-datepicker>
+		</div>
+		<button class="btn-primary btn-sm w80 ml10" @click="checkoutBusinessStatisticsData">查询</button>
+		<div class="right-content-specialTips">说明：仅对已离店的订单房费进行营收统计。</div>
+	</div>
+	<div class="report-header-button">
+		<span class="active" @click="getIncome($event)">
+			日房费收入
+		</span>
+		<span @click="getRentRate($event)">
+			日入住率
+		</span>
+	</div>
+	<div class="report-content-form wp90" id="businessStatisticsForm"></div>
+	<div class="report-content-table" id="reprotContentTable">
+		<!--<table>
+			<thead>
+				<tr>
+					<td>日期</td>
+					<td>房间总数</td>
+					<td>停用房</td>
+					<td>空房</td>
+					<td>入住房</td>
+					<td>入住率</td>
+					<td>房费总收入</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in businessStatisticsData">
+					<td>{{item.date}}</td>
+					<td>{{item.totalCount}}</td>
+					<td>{{item.totalClose}}</td>
+					<td>{{item.totalVacant}}</td>
+					<td>{{item.totalCheckin}}</td>
+					<td>{{formatePercentRate(item.rentRate)}}</td>
+					<td>¥{{item.income}}</td>
+				</tr>
+			</tbody>
+		</table>-->
+		<table id="tbl" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="12%">
+	            <col width="10%">
+	            <col width="10%">
+	            <col width="10%">
+                <col width="10%">
+	            <col width="10%">
+	            <col width="10%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	                <td class="pb10 pt10">日期</td>
+					<td class="pb10 pt10">房间总数</td>
+					<td class="pb10 pt10">停用房</td>
+					<td class="pb10 pt10">空房</td>
+					<td class="pb10 pt10">入住房</td>
+					<td class="pb10 pt10">入住率</td>
+					<td class="pb10 pt10">房费总收入</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in businessStatisticsData">
+					<tr class="tb-linebm">
+						<td class="pb10 pt10">{{item.date}}</td>
+						<td class="pb10 pt10">{{item.totalCount}}</td>
+						<td class="pb10 pt10">{{item.totalClose}}</td>
+						<td class="pb10 pt10">{{item.totalVacant}}</td>
+						<td class="pb10 pt10">{{item.totalCheckin}}</td>
+						<td class="pb10 pt10">{{formatePercentRate(item.rentRate)}}</td>
+						<td class="pb10 pt10">¥{{item.income}}</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+		<div class="table-page" v-if="orderMessage.length != 0">
+        	<span class="key-manage-pagemsg fl">共<span>{{orderMessage.total}}</span>条数据</span>
+        	<vue-nav :cur.sync="cur" :all.sync="all" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav>
+    	</div>
+	</div>
+</div>
+
+
+

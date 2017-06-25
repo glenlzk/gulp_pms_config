@@ -1,0 +1,93 @@
+@charset "UTF-8";
+.cooperate-channel {
+    display: none;
+}
+
+.cooperate-title {
+    line-height: 30px;
+    font-weight: bold;
+}
+.cooperate-merchants ul {
+    margin-top: 20px;
+}
+.cooperate-per-merchant {
+    width: 90px;
+    cursor: pointer;
+    float: left;
+    margin:15px 30px;
+}
+.cooperate-per-box {
+    height: 90px;
+    border:1px solid #c9c9c9;
+    border-radius: 5px;
+    position: relative;
+}
+.cooperate-merchants .cooperate-per-box:hover {
+    border: 1px solid #00B7EE;
+}
+.cooperate-per-box > div {
+    padding: 7px 0;
+}
+.cooperate-per-box img {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+}
+.cooperate-per-box i {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+    display: none;
+    color: red;
+}
+.cooperate-per-box  .cooperate-add-channel {
+    height: 90px;
+    line-height: 76px;
+    color: #666;
+}
+.cooperate-per-merchant:hover .cooperate-per-box i {
+    display: block;
+}
+.cooperate-per-box p {
+    color: #666666;
+}
+.cooperate-status-on {
+    margin-top: 10px;
+    color: #2577e3;
+}
+.cooperate-status-shutdown {
+    color: red;
+}
+.cooperate-status-off,
+.cooperate-status {
+    margin-top: 10px;
+    color: #666666;
+}
+
+/* glenlzk 编辑渠道弹窗 + 渠道编辑 start  */
+.editChannel-errorMsg-tips,
+.customChannel-errorMsg-tips {
+    color: red;
+}
+.editChannel-content-logo a,
+.addChannel-content-logo a {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+}
+.addChannel-content-logo a {
+    width: 40px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #2577e3;
+    color: #fff;
+    line-height: 40px;
+}
+.editChannel-content-logo a img,
+.addChannel-content-logo a img{
+    width: 50px;
+    height: 50px;
+}
+
+/* glenlzk 编辑渠道弹窗 + 渠道编辑  end */

@@ -1,0 +1,310 @@
+<div class="key-manage" id="key_manage">
+    <div class="key-manage-title form-inline">
+        <span class="mr30">
+        		状态&nbsp;
+            <!--<select name="" id="" v-model="initdata.lockStatus">
+    <div class="key-manage-title form-inline">
+        <label for="">
+            状态
+            <select name="" id="" v-model="initdata.lockStatus">
+    <div class="key-manage-title form-inline fz12">
+        <label for="" class="mr10">
+            状态&nbsp;
+            <!--<select name="" id="" v-model="initdata.lockStatus">
+            	<option value="">请选择</option>
+                <option value="1">正常</option>
+                <option value="2">仅支持钥匙开门</option>
+                <option value="3">无法使用</option>
+                <option value="4">无英智联锁</option>
+            </select>-->
+            <iselect-name :list.sync="lockStatusList" :select-val.sync="initdata.lockStatus" :elem-id.sync="lockStatusListId" ></iselect-name>
+        </span>
+        <span class="mr20">
+        	门锁编号&nbsp;
+            <input type="text" class="form-control input-sm w140 mr10" v-model="initdata.lockCode"/>
+        </span>
+        <span class="mr30">
+        	房间号&nbsp;
+            <input type="text" class="form-control input-sm w140 mr10" v-model="initdata.RoomNo"/>
+        </span>
+    	<button @click="getRoomLockList" class="btn-primary btn-sm w80 fr mt2">授权</button>
+    	<button @click="searchKeyListInfo" class="btn-primary btn-sm w80 mr10 fr mt2">查询</button>
+    </div>
+    <div class="key-manage-table" id="keyManageTable">
+        <table id="tbl01" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="7%">
+	            <col width="7%">
+	            <col width="8%">
+	            <col width="8%">
+                <col width="8%">
+	            <col width="15%">
+	            <col width="8%">
+	            <col width="8%">
+	            <col width="8%">
+	            <col width="10%">
+                <col width="9%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold" >
+	                <td class="pb10 pt10">序号 </td>
+	                <td class="pb10 pt10">状态</td>
+	                <td class="pb10 pt10">门锁编号</td>
+	                <td class="pb10 pt10">关联房间</td>
+                    <td class="pb10 pt10">钥匙</td>
+                    <td class="pb10 pt10">软件版本号</td>
+                    <td class="pb10 pt10">硬件版本号</td>
+                    <td class="pb10 pt10">键盘密码</td>
+                    <td class="pb10 pt10">电量</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in keyManageListInfo">
+					<tr class="tb-linebm pointer" @click="showKeyDetailInfo(item)">
+						<td class="pb10 pt10">{{$index+1}}</td>
+						<td class="pb10 pt10">{{item.lockStatusName}}</td>
+						<td class="pb10 pt10">{{item.lockCode}}
+						<td class="pb10 pt10">{{item.roomNo}}</td>
+						<td style="position: relative;">
+	                    	<span v-for="items in item.userList" v-if="$index <= 2">
+	                    		{{$index==2 & item.userList.length>3? items.userName + '...': items.userName + ' '}}
+	                    	</span>
+	                    	<div v-if="item.userList.length > 3" class="userListTip clearfix">
+								<i v-for="items in item.userList" >{{items.userName}}</i>
+							</div>
+	                    </td>
+						<td class="pb10 pt10">{{item.softwareVersion}}</td>
+						<td class="pb10 pt10">{{item.hardwareVersion}}</td>
+						<td class="pb10 pt10">{{item.keyCodeNum}}</td>
+						<td class="pb10 pt10">{{item.powerNum}}</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+    </div>
+    <div class="key-manage-pagination ar clearfix mt15" v-if="keyManageListInfo.length != 0">
+        <span class="key-manage-pagemsg fl">共<span>{{keyManageInfo.total}}</span>个门锁</span>
+        <div class="table-page fr">
+			<vue-nav :cur.sync="cur" :all.sync="all" v-on:btn-click="listen" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav>
+		</div>	
+    </div>
+    <div class="modal key-doormsg-tag" id="key-doormsg-tag">
+    	<div class="modal-dialog modal-lg w800 maxheight559">
+			<div class="modal-header key-doormsg-title">
+	            <h4 class="btn-inlineblock">门锁信息</h4>
+	            <i class="close iconfont icon-cuowu fr fz12" @click="closeAddTimeRangeTag"></i>
+	        </div>
+	        <div class="modal-body key-doormsg-content h517">
+                <div class="key-doormsg-subtitle ac">
+                    <span class="active">门锁信息</span>
+                    <!--<span>授权信息</span>-->
+                    <span @click="showKeyLog">门锁日志</span>
+                    <span @click="getRoomKeyUser" v-show="isShowLockTag">钥匙</span>
+                </div>
+                <div class="key-doormsg-boxlist">
+                    <div class="active">
+                        <table class="tb-block tb-line ac mt15 mb15">
+                        	<colgroup>
+					            <col width="15%">
+					            <col width="35%">
+					            <col width="15%">
+					            <col width="35%">
+					        </colgroup>
+                            <tbody class="tb-color">
+                                <tr class="tb-linebm">
+                                    <td class="pb10 pt10">门锁状态</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.lockStatus}}</td>
+                                    <td class="pb10 pt10 tb-linebl">关联房间</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.roomNo}}</td>
+                                </tr>
+                                <tr class="tb-linebm">
+                                    <td class="pb10 pt10">门锁编号</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.lockCode}}</td>
+                                    <td class="pb10 pt10 tb-linebl">硬件版本</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.hardwareVersion}}</td>
+                                </tr>
+                                <tr class="tb-linebm">
+                                    <td class="pb10 pt10">软件版本</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.softwareVersion}}</td>
+                                    <td class="pb10 pt10 tb-linebl">键盘密码</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.keyCodeNum}}</td>
+                                </tr>
+                                <tr class="tb-linebm">
+                                    <td class="pb10 pt10">电量</td>
+                                    <td class="pb10 pt10">{{keyManageListInfoDetail.powerNum}}</td>
+                                    <td class="pb10 pt10"></td>
+                                    <td class="pb10 pt10 "></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="key-doormsg-doorlocklog">
+                        <div class="key-doorlocklog-search form-inline clearfix">
+                        	<span class="fl pt10">房间号：{{keyManageListInfoDetail.roomNo}}</span>
+                            <span class="fr">日期&nbsp;
+								<!--<select name="" id="" v-model="getStartDateEndDate">
+									<option value="recentMonth">最近一月</option>
+									<option value="recentWeek">最近一周</option>
+									<option value="yesterday">昨天</option>
+									<option value="presentMonth">本月</option>
+									<option value="lastMonth">上月</option>
+									<option value="">自定义</option>
+								</select>-->
+								<iselect-name :list.sync="getStartDateEndDateList" :select-val.sync="getStartDateEndDate" :elem-id.sync="getStartDateEndDateListId" :selected-elem.sync="dateSelectedElem" :is-reinitial.sync="isReloadSelectPlugin"></iselect-name>
+	                            <mz-datepicker format="yyyy-MM-dd" :start-time.sync="keylogData.fromDate" :end-time.sync="keylogData.toDate" range en confirm :on-confirm="keylogDate"></mz-datepicker>&nbsp;&nbsp;&nbsp;
+	                            <input type="text" placeholder="操作人、操作事项" class="form-control input-sm w140 mr10" v-model="keylogData.content"/>
+	                            <button class="btn-primary btn-sm w60" @click="searchKeyLog">查询</button>
+                            </span>
+                        </div>
+                        <div class="key-doorlocklog-box" id="keyDoorlocklogBox">
+                            <!--<table class="key-doorlocklog-table ac">
+                                <colgroup>
+                                    <col width='25%'/>
+                                    <col width='15%'/>
+                                    <col width='23%'/>
+                                    <col width='38%'/>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>开门时间</th>
+                                    <th>操作人</th>
+                                    <th>操作事项</th>
+                                    <th>上传时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="item in detailkeylogList">
+                                    <td>{{item.unlockTime}}</td>
+                                    <td>{{item.unlockUserName}}</td>
+                                    <td>{{item.content}}</td>
+                                    <td>{{item.uploadTime}}</td>
+                                </tr>
+                                </tbody>
+                            </table>-->
+                            <table id="tbl02" class="tb-block tb-line ac">
+								<colgroup>
+						            <col width="25%">
+						            <col width="15%">
+						            <col width="23%">
+						            <col width="38%">
+						        </colgroup>
+						        <thead>
+						            <tr class="tb-titlebg tb-linebm color-main font-bold">
+						                <td class="pb10 pt10">开门时间 </td>
+						                <td class="pb10 pt10">操作人</td>
+						                <td class="pb10 pt10">操作事项</td>
+						                <td class="pb10 pt10">上传时间</td>
+						            </tr>
+						        </thead>
+								<tbody class="tb-color">
+									<template v-for="item in detailkeylogList">
+										<tr class="tb-linebm">
+											<td class="pb10 pt10">{{item.unlockTime}}</td>
+											<td class="pb10 pt10">{{item.unlockUserName}}</td>
+											<td class="pb10 pt10">{{item.content}}</td>
+											<td class="pb10 pt10">{{item.uploadTime}}</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+                        </div>
+                        <div class="key-manage-pagination ar clearfix  mt20" v-if="detailkeylogList.length != 0">
+					        <div class="key-manage-pagemsg">共<span>{{detailkeylogInfo.total}}</span>个日志</div>
+					        <div class="table-page fr">
+								<vue-nav :cur.sync="logcur" :all.sync="logall" v-on:btn-click="listen" :pageup.sync="pageup" :pagedown.sync="pagedown"></vue-nav>
+							</div>	
+					    </div>
+                    </div>
+                    <div class="operationList h445 of-y">
+                    	<ul v-if="authorizerInfo.length != 0" class="clearfix">
+                    		<li v-for="item in authorizerInfo" class="btn-delicate btn-sm w80">
+                    			<i class="iconfont fz12 icon-shanchu" @click="removeAuthorizerInfo(item)"></i>
+                    			{{item.userName}}
+                    		</li>
+                    	</ul>
+                    	<div style="text-align: center;margin-top: 20px;" v-else>
+                    		尚未分配电子钥匙给工作人员
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 增加房型信息 end -->
+    </div>
+	<!--锁具授权模态框start-->
+    <div class="modal lockAuthorization-mask" id="lockAuthorization-mask">
+    	<div class="modal-dialog modal-md maxheight557">
+			<div class="modal-header lockAuthorization-title">
+	            <h4 class="btn-inlineblock">锁具授权</h4>
+	            <i class="close iconfont icon-cuowu fr fz12"></i>
+	        </div>
+	        <div class="modal-body lockAuthorization-contontLayout h442">
+            	<div class="lockAuthorization-select">
+					<span @click="roomStatusChange(1)" v-bind:class="roomStatusTag == 1?'active': ''">选择房间</span>
+					<span @click="roomStatusChange(2)" v-bind:class="roomStatusTag == 2?'active': ''">已选房间</span>
+				</div>
+	            <div class="lockAuthorization-content lockAuthorizationadd" v-show="roomStatusTag == 1" >
+	            	<div class="lockAuthorization-checkAll clearfix ar">
+	            		<!--<button class="btn-primary btn-sm w80" @click="lockRoomCheckAll">全选</button>-->
+						<span class="pointer" @click="selectAllRooms('unselect')">
+							<span class="iconfont fz12 ml4 mr4 pointer fzn" v-bind:class="isSelectAllRooms? 'icon-xuanzhong':'icon-weixuanzhong'"></span><!-- @click="" -->
+							<span>全选</span>
+						</span>
+	            	</div>
+					<!--<ul class="clearfix lockRoomList">-->
+						<!--<li v-for="item in roomLockList" @click="addLockRoom(item)" v-bind:class="item.isActive? 'active': ''">-->
+							<!--{{item.roomNo}}-->
+						<!--</li>-->
+					<!--</ul>-->
+					<div class="clearfix lockRoomList">
+						<span v-for="item in roomLockList" class="fl wp25 lh26 pointer" @click="changePerSelect(item)">
+							<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+							<span>{{item.roomNo}}</span>
+						</span>
+					</div>
+	            </div>
+	            <div class="lockAuthorization-content lockAuthorizationaddList" v-show="roomStatusTag == 2" style="min-height: 120px;">
+					<!--<ul class="clearfix lockRoomList">
+						<li class="active" v-for="item in roomLockList" @click="addLockRoom(item)" v-if="item.isActive">
+							{{item.roomNo}}
+						</li>
+					</ul>-->
+					<span v-for="item in roomLockList" class="fl wp25 lh26 pointer" @click="item.checked = !item.checked" v-if="item.checked">
+						<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+						<span>{{item.roomNo}}</span>
+					</span>
+	            </div>
+            </div>
+            <div class="modal-footer">
+            	<div class="al pl10">已选择房间数&nbsp;&nbsp;{{roomLockListLength}}</div>
+            	<div class="lockAuthorizationUserBtn">
+            		<button class="btn-primary btn-sm w80" @click="authorizerListModalShow">选择授权人</button>
+            	</div>
+            </div>
+        </div>
+	</div>
+	<!--锁具授权模态框end-->
+	<!--授权人模态窗start-->
+	<div class="modal authorizerList-mask" id="authorizerList-mask">
+    	<div class="modal-dialog modal-md maxheight555">
+			<div class="modal-header authorizerList-title">
+	            <h4 class="btn-inlineblock">锁具授权</h4>
+	            <i class="close iconfont icon-cuowu fr fz12"></i>
+	        </div>
+	        <div class="modal-body authorizerList-contontLayout h462">
+	            <div class="authorizerList-content">
+					<ul class="clearfix">
+						<li v-for="item in authorizerList" @click="addAuthorizer(item)" v-bind:class="item.isActive? 'active': ''">
+							{{item.userName}}
+						</li>
+					</ul>
+	            </div>
+            </div>
+            <div class="modal-footer">
+            	<button class="btn-default btn-sm w80 mr10 authorizerLisCancleBtn" @click="addAuthorizerCancel">取消</button>
+            	<button class="btn-primary btn-sm w80 authorizerLisSubmitBtn" @click="addAuthorizerSubmit">确定</button>
+            </div>
+        </div>
+	</div>
+	<!--授权人模态窗end-->
+</div>

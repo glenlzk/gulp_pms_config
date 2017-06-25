@@ -1,0 +1,308 @@
+<div id="basicSetting" style="display: none;" v-cloak>
+    <div class="right-logo ml20 clearfix">
+        <a href="javascript:;" id="change_logo_box" class="fl">
+            <img v-bind:src="hotelInfo.logoUrl" onerror="yzlObj.replaceErrorImg(event)" alt=""/>
+        </a>
+        <div class="btn-inlineblock ml30 fl">
+        	<div class="fz18 pt20 pb20">
+        		{{hotelInfo.hotelName}}
+        	</div>
+        	<div class="fz16 color-gray  pt25">
+        		{{hotelInfo.provinceName +'&nbsp;&nbsp;'+ hotelInfo.cityName +'&nbsp;&nbsp;'+ hotelInfo.areaName}}
+        	</div>
+        </div>
+    </div>
+    <div class="right-table-box pt20 pl20">
+        <table class="right-table" width="100%" style='table-layout:fixed'>
+            <colgroup>
+                <col width='11%'/>
+                <col width='5%'/>
+                <col width='34%'/>
+                <col width='11%'/>
+                <col width='5%'/>
+                <col width='30%'/>
+            </colgroup>
+            <!-- glenlzk  基本设置【编辑】状态 -->
+            <tbody class="right-table-save">
+            <tr>
+                <td class="color-gray">酒店ID</td>
+                <td></td>
+                <td>{{hotelInfo.hotelNo}}</td>
+                <td class="color-gray">酒店名称</td>
+                <td></td>
+                <td>{{hotelInfo.hotelName}}</td>
+            </tr>
+            <tr>
+                <td class="color-gray">地区</td>
+                <td></td>
+                <td>{{hotelInfo.provinceName + hotelInfo.cityName + hotelInfo.areaName}}</td>
+                <td class="color-gray">地址</td>
+                <td></td>
+                <td>{{hotelInfo.address}}</td>
+            </tr>
+            <tr>
+                <td class="color-gray">纬度</td>
+                <td></td>
+                <td>{{hotelInfo.latitude}}</td>
+                <td class="color-gray">经度</td>
+                <td></td>
+                <td>{{hotelInfo.longitude}}</td>
+            </tr>
+            <tr>
+                <td class="color-gray">邮箱</td>
+                <td></td>
+                <td>{{hotelInfo.email}}</td>
+                <td class="color-gray">日切时间</td>
+                <td></td>
+                <td>{{hotelInfo.cutTime}}</td>
+            </tr>
+            <tr>
+                <td class="color-gray">入住时间</td>
+                <td></td>
+                <td>{{hotelInfo.checkinTime}}</td>
+                <td class="color-gray">退房时间</td>
+                <td></td>
+                <td>{{hotelInfo.checkoutTime}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="color-gray al">管理员KK号</td>
+                <td></td>
+                <td>{{hotelInfo.adminAccount}}</td>
+                <td class="color-gray al">姓名</td>
+                <td></td>
+                <td>{{hotelInfo.adminUserName}}</td>
+            </tr>
+            <tr>
+                <td class="color-gray al">手机</td>
+                <td></td>
+                <td>{{hotelInfo.adminMobile}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+            <!-- glenlzk  基本设置【保存】状态 -->
+            <tbody class="right-table-edit" style="display:none;">
+            <tr>
+                <td>酒店ID</td>
+                <td></td>
+                <td>
+                    {{hotelInfo.hotelNo}}
+                    <input type="hidden" class="form-control input-sm w175" v-model="hotelInfo.hotelId" id="hotelId"/>
+                </td>
+                <td>酒店名称</td>
+                <td></td>
+                <td>
+                	<input type="text" class="form-control input-sm w175" v-model="hotelInfo.hotelName" id="hotelName"/>
+                </td>
+            </tr>
+            <tr>
+                <td>地区</td>
+                <td></td>
+                <td>
+                    <select id="provinceId" v-model="hotelInfo.provinceId" v-on:change="get_city(hotelInfo.provinceId)">
+                        <option value="">请选择</option>
+                        <option v-for="item in hotelInfo.provinceList" value="{{item.areaId}}">{{item.areaName}}
+                        </option>
+                    </select>
+                    <select id="cityId" v-model="hotelInfo.cityId" v-on:change="get_area(hotelInfo.cityId)">
+                        <option value="">请选择</option>
+                        <option v-for="item in hotelInfo.cityList" value="{{item.areaId}}">{{item.areaName}}</option>
+                    </select>
+                    <select id="areaId" v-model="hotelInfo.areaId">
+                        <option value="">请选择</option>
+                        <option v-for="item in hotelInfo.areaList" value="{{item.areaId}}">{{item.areaName}}</option>
+                    </select>
+
+                </td>
+                <td>地址</td>
+                <td></td>
+                <td class="right-location">
+                	<input type="text" class="form-control input-sm w175" v-model="hotelInfo.address" id="hotel_address"/>
+                    <!--<i class="right-location-img"></i>-->
+                </td>
+            </tr>
+            <tr>
+                <td>纬度</td>
+                <td></td>
+                <td>
+                	<input type="text" class="form-control input-sm w175" v-model="hotelInfo.latitude" id="latitude"/>
+                </td>
+                <td>经度</td>
+                <td></td>
+                <td>
+                	<input type="text" class="form-control input-sm w175" v-model="hotelInfo.longitude" id="longitude"/>
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td></td>
+                <td>
+                	<input type="text" class="form-control input-sm w175" v-model="hotelInfo.email" id="hotel_email"/>
+                </td>
+                <td>日切时间</td>
+                <td></td>
+                <td>
+                	<select id="riqie_ipt" v-model="hotelInfo.cutTime" class="w70">
+                        <option value="00:00">00:00</option>
+                        <option value="00:30">00:30</option>
+                        <option value="01:00">01:00</option>
+                        <option value="01:30">01:30</option>
+                        <option value="02:00">02:00</option>
+                        <option value="02:30">02:30</option>
+                        <option value="03:00">03:00</option>
+                        <option value="03:30">03:30</option>
+                        <option value="04:00">04:00</option>
+                        <option value="04:30">04:30</option>
+                        <option value="05:00">05:00</option>
+                        <option value="05:30">05:30</option>
+                        <option value="06:00">06:00</option>
+                        <option value="06:30">06:30</option>
+                        <option value="07:00">07:00</option>
+                        <option value="07:30">07:30</option>
+                        <option value="08:00">08:00</option>
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>入住时间</td>
+                <td></td>
+                <td>
+                    <select id="checkIn_ipt" v-model="hotelInfo.checkinTime" class="w70">
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                    </select>
+<!--                     <input type="text" v-model="hotelInfo.checkinTime" id="checkIn_ipt" v-on:focus="fus_checkIn_ipt"/>
+                    <div class="checkIn-time">
+                        <ul id="checkIn_time" v-on:click="click_checkIn_time($event)">
+                            <li>10:00</li>
+                            <li>10:30</li>
+                            <li>11:00</li>
+                            <li>11:30</li>
+                            <li>12:00</li>
+                            <li>12:30</li>
+                            <li>13:00</li>
+                            <li>13:30</li>
+                            <li>14:00</li>
+                            <li>14:30</li>
+                            <li>15:00</li>
+                        </ul>
+                    </div> -->
+                </td>
+                <td>退房时间</td>
+                <td></td>
+                <td>
+                    <select id="checkOut_ipt" v-model="hotelInfo.checkoutTime" class="w70">
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                    </select>
+                    <!-- <input type="text" v-model="hotelInfo.checkoutTime" id="checkOut_ipt"
+                           v-on:focus="fus_checkOut_ipt"/>
+                    <div class="checkOut-time">
+                        <ul id="checkOut_time" v-on:click="click_checkOut_time($event)">
+                            <li>12:00</li>
+                            <li>12:30</li>
+                            <li>13:00</li>
+                            <li>13:30</li>
+                            <li>14:00</li>
+                            <li>14:30</li>
+                            <li>15:00</li>
+                            <li>15:30</li>
+                            <li>16:00</li>
+                            <li>16:30</li>
+                            <li>17:00</li>
+                            <li>17:30</li>
+                            <li>18:00</li>
+                        </ul>
+                    </div> -->
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>管理员KK号</td>
+                <td></td>
+                <td>{{hotelInfo.adminAccount}}</td>
+                <td>姓名</td>
+                <td></td>
+                <td>{{hotelInfo.adminUserName}}</td>
+            </tr>
+            <tr>
+                <td>手机</td>
+                <td></td>
+                <td>{{hotelInfo.adminMobile}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="upload-image-mask" style="display: none;">
+            <div class="upload-image-win">
+                <div class="upload-image-content">
+                    <div class="jc-demo-box">
+                        <img src="images/index/hotel_preview-bef9270b7c.png" id="preview-target" alt="[Jcrop Example]"/>
+                        <div id="preview-pane">
+                            <div class="preview-container">
+                                <img src="images/index/hotel_preview-bef9270b7c.png" class="jcrop-preview" alt="Preview"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-img-box">
+                        <div class="upload-img-btn">
+                            <div id="filePicker">选择文件</div>
+                        </div>
+                        <p class="fz12">仅支持jpg、jpeg、png。图片尺寸260px*260px,最大300KB</p>
+                    </div>
+                    <div class="upload-img-bottombtn">
+                        <button class="upload-btn" id="upload_btn">确　定</button>
+                        <button class="cancel-btn">取 消</button>
+                    </div>
+                </div>
+                <i class="upload-win-close"></i>
+            </div>
+        </div>
+        <div class="right-btn ac">
+            <!--glenlzk 保存和编辑按钮显示切换 -->
+            <button class="right-btn-edit btn-primary btn-sm w80" v-if="settingResourceInfo.cloudHotelEditBasic">编辑</button>
+            <button class="right-btn-cancel btn-default  btn-sm w80" style="display:none;">取消</button>
+            <button class="right-btn-save btn-primary btn-sm w80 ml10" style="display:none;">保存</button>
+        </div>
+    </div>
+</div>

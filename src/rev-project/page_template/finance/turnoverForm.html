@@ -1,0 +1,306 @@
+<div class="turnoverLayout" id="turnoverForm" v-cloak>
+    <div class="right-content-header">
+        <div class="right-content-header-searchlabel form-inline tb-color">
+        	<label>
+        		交班人
+        		<input type="text" class="form-control input-sm w140 ml5 turnoverPerson" v-model="initdata.userName"/>
+        	</label>
+            <button class="btn-primary btn-sm w80 ml10" @click="searchOrder">查询</button>
+        </div>
+    </div>
+    <div class="right-content-bottom" id="rightContentBottom">
+        <!--<ul class="untreatedOrdertable">
+            <li class="table-list">
+                <span>交班日期</span>
+                <span>交班单</span>
+                <span>营业时段</span>
+                <span>交班人</span>
+                <span>营业收款</span>
+                <span>押金总额</span>
+            </li>
+            <li class="table-list" v-for="item in turnoverInfoList">
+				<span>
+					{{item.changeDate}}
+				</span>
+                <span @click="showturnoverDetail(item)"
+                      :class=" financeResourceInfo.cloudHotelShiftDetail ? 'turnoverSpan' : '' ">
+					{{item.changeShiftNo}}
+				</span>
+                <span>
+					{{item.fromDate}} - {{item.toDate}}
+				</span>
+                <span>
+					{{item.userName}}
+				</span>
+                <span>
+					{{item.income}}
+				</span>
+                <span>
+					{{item.deposit}}
+				</span>
+            </li>
+        </ul>-->
+        <table id="tbl" class="tb-block tb-line ac">
+			 <colgroup>
+	            <col width="16%">
+	            <col width="16%">
+	            <col width="18%">
+	            <col width="14%">
+                <col width="16%">
+	            <col width="16%">
+	        </colgroup>
+	        <thead>
+	            <tr class="tb-titlebg tb-linebm color-main font-bold">
+	                <td class="pb10 pt10">交班日期 </td>
+	                <td class="pb10 pt10">交班单</td>
+	                <td class="pb10 pt10">营业时段</td>
+	                <td class="pb10 pt10">交班人</td>
+	                <td class="pb10 pt10">营业收款</td>
+                    <td class="pb10 pt10">押金总额</td>
+	            </tr>
+	        </thead>
+			<tbody class="tb-color">
+				<template v-for="item in turnoverInfoList">
+					<tr class="tb-linebm">
+						<td class="pb10 pt10">{{item.changeDate}}</td>
+						<td class="pb10 pt10">
+							<a href="javascript:;" class="btn-link fz12" :class=" financeResourceInfo.cloudHotelShiftDetail ? 'turnoverSpan' : '' " @click="showturnoverDetail(item)">{{item.changeShiftNo}}</a>
+						</td>
+						<td class="pb10 pt10">{{item.fromDate}} - {{item.toDate}}</td>
+						<td class="pb10 pt10">{{item.userName}}</td>
+						<td class="pb10 pt10">{{item.income}}</td>
+						<td class="pb10 pt10">{{item.deposit}}</td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
+        <div class="table-page" v-if="turnoverInfoList.length != 0">
+            <span class="key-manage-pagemsg fl">共<span>{{turnoverInfo.total}}</span>个交班单</span>
+            <span class="fr"><vue-nav :cur.sync="cur" :all.sync="all" v-on:btn-click="listen" :pageup.sync="pageup"
+                     :pagedown.sync="pagedown"></vue-nav></span>
+        </div>
+    </div>
+    <!-- 弹窗 -->
+    <div class="turnover-window-mask" style="display:none;" v-if="financeResourceInfo.cloudHotelShiftDetail">
+        <div class="turnover-window ac" id="turnoverWindow">
+            <div class="turnover-window-title">
+                <h3 class="fz14">{{turnoverInfoDetail.changeDate}} {{turnoverInfoDetail.userName}} 交班报表</h3>
+                <i>×</i>
+            </div>
+            <div class="turnover-window-cotent">
+                <div class="turnover-window-cotent-top clearfix">
+                    <label class="fl">
+                        营业时段：<span>{{turnoverInfoDetail.fromDate}}</span>~<span>{{turnoverInfoDetail.toDate}}</span>
+                    </label>
+                    <label class="fr">
+                        交班人：<span>{{turnoverInfoDetail.userName}}</span>
+                    </label>
+                </div>
+                <div class="turnover-window-cotent-bottom">
+                    <div class="turnover-cotent-bottom-title">
+                        <label for="">
+                            总收款：<span>¥{{turnoverInfoDetail.income}}</span>
+                        </label>
+                        <label for="">
+                            押金：<span>¥{{turnoverInfoDetail.deposit}}</span>
+                        </label>
+                        <label for="">
+                            交班单号：<span>{{turnoverInfoDetail.changeShiftNo}}</span>
+                        </label>
+                    </div>
+                    <div class="turnover-cotent-bottom-Receiv">
+                        <div class="Receiv-title">
+                            收款统计
+                        </div>
+                        <!--<table>
+                            <thead>
+                            <tr>
+                                <td>序号</td>
+                                <td>收款类型</td>
+                                <td>收款单数</td>
+                                <td>收款金额</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="item in turnoverInfoDetail.incomeStatisticsList">
+                                <td>{{item.index}}</td>
+                                <td>{{item.payTypeName}}</td>
+                                <td>{{item.billCount}}</td>
+                                <td>¥{{item.income}}</td>
+                            </tr>
+                            </tbody>
+                        </table>-->
+                        <table id="tbl" class="tb-block tb-line ac">
+							 <colgroup>
+					            <col width="25%">
+					            <col width="25%">
+					            <col width="25%">
+					            <col width="25%">
+					        </colgroup>
+					        <thead>
+					            <tr class="tb-titlebg tb-linebm color-main font-bold">
+					                <td class="pb10 pt10">序号 </td>
+					                <td class="pb10 pt10">收款类型</td>
+					                <td class="pb10 pt10">收款单数</td>
+					                <td class="pb10 pt10">收款金额</td>
+					            </tr>
+					        </thead>
+							<tbody class="tb-color">
+								<template v-for="item in turnoverInfoDetail.incomeStatisticsList">
+									<tr class="tb-linebm">
+										<td class="pb10 pt10">{{item.index}}</td>
+										<td class="pb10 pt10">{{item.payTypeName}}</td>
+										<td class="pb10 pt10">{{item.billCount}}</td>
+										<td class="pb10 pt10">¥{{item.income}}</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+                    </div>
+                    <div class="turnover-cotent-bottom-ReceivDetail">
+                        <div class="Receiv-title">
+                            收款明细
+                        </div>
+                        <!--<table>
+                            <thead>
+                            <tr>
+                                <td>序号</td>
+                                <td>订单号</td>
+                                <td>渠道</td>
+                                <td>客人</td>
+                                <td>手机号</td>
+                                <td>收款类型</td>
+                                <td>收款金额</td>
+                                <td>支付编号</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="item in turnoverInfoDetail.incomeList">
+                                <td>{{item.index}}</td>
+                                <td>{{item.orderNo}}</td>
+                                <td>{{item.channelName}}</td>
+                                <td>{{item.customerName}}</td>
+                                <td>{{item.customerMobile}}</td>
+                                <td>{{item.payTypeName}}</td>
+                                <td>¥{{item.payAmount}}</td>
+                                <td>{{item.payNo}}</td>
+                            </tr>
+                            </tbody>
+                        </table>-->
+                        <table id="tbl" class="tb-block tb-line ac">
+							 <colgroup>
+					            <col width="8%">
+					            <col width="12%">
+					            <col width="12%">
+					            <col width="10%">
+					            <col width="8%">
+					            <col width="10%">
+					            <col width="10%">
+					            <col width="10%">
+					        </colgroup>
+					        <thead>
+					            <tr class="tb-titlebg tb-linebm color-main font-bold">
+					                <td class="pb10 pt10">序号 </td>
+					                <td class="pb10 pt10">订单号</td>
+					                <td class="pb10 pt10">渠道</td>
+					                <td class="pb10 pt10">客人</td>
+					                <td class="pb10 pt10">手机号 </td>
+					                <td class="pb10 pt10">收款类型</td>
+					                <td class="pb10 pt10">收款金额</td>
+					                <td class="pb10 pt10">支付编号</td>
+					            </tr>
+					        </thead>
+							<tbody class="tb-color">
+								<template v-for="item in turnoverInfoDetail.incomeList">
+									<tr class="tb-linebm">
+										<td class="pb10 pt10">{{item.index}}</td>
+										<td class="pb10 pt10">{{item.orderNo}}</td>
+										<td class="pb10 pt10">{{item.channelName}}</td>
+										<td class="pb10 pt10">{{item.customerName}}</td>
+										<td class="pb10 pt10">{{item.customerMobile}}</td>
+										<td class="pb10 pt10">{{item.payTypeName}}</td>
+										<td class="pb10 pt10">¥{{item.payAmount}}</td>
+										<td class="pb10 pt10">{{item.payNo}}</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+                    </div>
+                    <div class="turnover-cotent-bottom-DepositDetail">
+                        <div class="Receiv-title">
+                            押金明细
+                        </div>
+                        <!--<table>
+                            <thead>
+                            <tr>
+                                <td>序号</td>
+                                <td>订单号</td>
+                                <td>渠道</td>
+                                <td>客人</td>
+                                <td>手机号</td>
+                                <td>押金名称</td>
+                                <td>押金类型</td>
+                                <td>押金金额</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="item in turnoverInfoDetail.depositList">
+                                <td>{{item.index}}</td>
+                                <td>{{item.orderNo}}</td>
+                                <td>{{item.channelName}}</td>
+                                <td>{{item.customerName}}</td>
+                                <td>{{item.customerMobile}}</td>
+                                <td>{{item.depositTypeName}}</td>
+                                <td>{{item.isIncome}}</td>
+                                <td>¥{{item.depositAmount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>-->
+                        <table id="tbl" class="tb-block tb-line ac">
+							 <colgroup>
+					            <col width="8%">
+					            <col width="12%">
+					            <col width="12%">
+					            <col width="10%">
+					            <col width="8%">
+					            <col width="10%">
+					            <col width="10%">
+					            <col width="10%">
+					        </colgroup>
+					        <thead>
+					            <tr class="tb-titlebg tb-linebm color-main font-bold">
+					                <td class="pb10 pt10">序号 </td>
+					                <td class="pb10 pt10">订单号</td>
+					                <td class="pb10 pt10">渠道</td>
+					                <td class="pb10 pt10">客人</td>
+					                <td class="pb10 pt10">手机号 </td>
+					                <td class="pb10 pt10">押金名称</td>
+					                <td class="pb10 pt10">押金类型</td>
+					                <td class="pb10 pt10">押金金额</td>
+					            </tr>
+					        </thead>
+							<tbody class="tb-color">
+								<template v-for="item in turnoverInfoDetail.depositList">
+									<tr class="tb-linebm">
+										<td class="pb10 pt10">{{item.index}}</td>
+										<td class="pb10 pt10">{{item.orderNo}}</td>
+										<td class="pb10 pt10">{{item.channelName}}</td>
+										<td class="pb10 pt10">{{item.customerName}}</td>
+										<td class="pb10 pt10">{{item.customerMobile}}</td>
+										<td class="pb10 pt10">{{item.depositTypeName}}</td>
+										<td class="pb10 pt10">{{item.isIncome}}</td>
+										<td class="pb10 pt10">¥{{item.depositAmount}}</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+                    </div>
+                </div>
+            </div>
+        	<button class="mt15">
+            	<a href="javascript:;" target="_blank" class="sidebtn-print btn-inlineblock btn-primary btn-sm w80 color-white" @click="printme()">打印</a>
+			</button>
+        </div>
+    </div>
+    <!-- 弹窗 -->
+</div>

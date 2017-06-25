@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+.key-manage {
+    display: none;
+}
+.key-manage .border {
+    height: 26px;
+}
+
+.key-manage select {
+    width: 110px;
+    line-height: 26px;
+    margin-left: 10px;
+}
+.key-manage .key-manage-status select option {
+    line-height: 24px;
+}
+.key-manage-title {
+    height: 44px;
+}
+.key-manage-pagination {
+    margin-top: 20px;
+}
+.key-manage-pagination .key-manage-pagemsg {
+    margin-bottom: 10px;
+}
+.key-manage-pagination .key-manage-pagemsg span,
+.key-manage-pagination .key-manage-pagemsg em {
+    color: #ff4a4a;
+}
+/*lzk 门锁信息 start*/
+
+.key-doormsg-content .key-doormsg-subtitle {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #c9c9c9;
+}
+.key-doormsg-content .key-doormsg-subtitle span {
+    height: 40px;
+    width: 80px;
+    display: inline-block;
+    cursor: pointer;
+}
+.key-doormsg-content .key-doormsg-subtitle span.active {
+    border-bottom: 1px solid #3fa4f9;
+}
+.key-doormsg-boxlist>div {
+    display: none;
+}
+.key-doormsg-boxlist>div.active {
+    display: block;
+}
+.key-doormsg-authorizationMessage {
+    width: 700px;
+    margin: 20px auto;
+}
+.key-doormsg-doorlocklog .key-doorlocklog-box {
+    height: 314px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.key-doormsg-authorizationMessage thead tr,
+.key-doormsg-doorlocklog .key-doorlocklog-table thead tr {
+    color: #999;
+    line-height: 30px;
+}
+.key-doormsg-authorizationMessage tbody tr,
+.key-doorlocklog-table  tbody tr {
+    color: #696969;
+    line-height: 30px;
+}
+.key-doormsg-authorizationMessage tbody tr:nth-of-type(odd),
+.key-doorlocklog-table tbody tr:nth-of-type(odd) {
+    background-color: #e0f7ff;
+}
+.key-doormsg-doorlocklog .key-doorlocklog-search {
+   margin: 15px 0;
+}
+.key-doormsg-doorlocklog  .key-doorlocklog-table {
+    width: 740px;
+    margin: 0 auto;
+}
+.key-doorlocklog-inptOperate {
+    padding-left: 10px;
+}
+.key-manage-title .RoomNo{
+	border: 1px solid #c5c5c5;
+    height: 26px;
+}
+/*lzk 门锁信息 end */
+/*门锁授权模态窗 start*/
+
+.lockAuthorization-contontLayout{
+	padding: 10px 20px;
+}
+.lockAuthorization-select span{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.lockAuthorization-select span.active{
+	color: #0099FF;
+	border-bottom: 2px solid #0099FF;
+	font-weight: bold;
+}
+
+.operationList ul li,
+.lockAuthorization-content ul li{
+	width: 97px;
+	height: 40px;
+	line-height: 40px;
+    text-align: center;
+    float: left;
+    margin: 10px 15px;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+}
+.operationList ul li.active,
+.lockAuthorization-content ul li.active{
+	width: 97px;
+	height: 40px;
+	border: none;
+	color: #fff;
+	background: url(../../../images/page_template/setting/checkStatus-79857720b4.png) no-repeat center;
+	text-align: center;
+	line-height: 40px;
+}
+.lockRoomList{
+	max-height: 380px;
+	min-height: 120px;
+	overflow-y: auto;
+	padding: 10px 0;
+}
+.lockAuthorization-foot{
+	padding: 10px 20px;
+}
+.lockAuthorization-foot button{
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	background: #0099FF;
+	color: #fff;
+	text-align: center;
+	border-radius: 4px;
+	margin: 10ox auto;
+}
+.lockAuthorizationUserBtn{
+	margin-top: 10px;
+	text-align: center;
+}
+.operationList i {
+	color: #D81D06;
+    position: absolute;
+    border-radius: 50%;
+    right: 2px;
+    top: -11px;
+    cursor: pointer;
+    display: none;
+}
+.operationList li:hover i {
+    display: block;
+}
+/*门锁授权模态窗 end*/
+/*授权人模态窗 start*/
+.authorizerList-content{
+	min-height: 186px;
+}
+.authorizerList-content ul li{
+	width: 97px;
+	height: 40px;
+	border: 1px solid #696969;
+	text-align: center;
+	line-height: 40px;
+	float: left;
+	margin: 10px 20px;
+	cursor: pointer;
+	position: relative;
+}
+.authorizerList-content ul li.active{
+	background: #21bcf5;
+	color: #fff;
+	border: none;
+}
+.authorizerList-footer{
+	margin: 20px 0;
+	text-align: center;
+}
+.authorizerList-footer button{
+	width: 72px;
+	height: 30px;
+	background: #0099FF;
+	text-align: center;
+	line-height: 30px;
+	color: #fff;
+	border-radius: 4px;
+	margin: 0 20px;
+}
+.authorizerList-footer .authorizerLisCancleBtn{
+	background: #A0A0A0;
+}
+/*授权人模态窗 end*/
+.key-manage-table .userListTip{
+    width: 360px;
+    line-height: 20px;
+    display: none;
+    position: absolute;
+    left: 50%;
+    margin-left: -180px;
+    top: 26px;
+    z-index: 2;
+    background:rgba(0,0,0,0.5);
+    border-radius: 6px;
+}
+.userListTip i{
+	display: inline-block;
+	width: 20%;
+	float: left;
+	color: #fff;
+	overflow: hidden;  /*溢出隐藏*/
+    text-overflow: ellipsis;
+    white-space: nowrap;  /*强制不换行*/
+}
+
+.key-manage-table td:nth-child(5):hover .userListTip{
+	display: block;
+}
+
+

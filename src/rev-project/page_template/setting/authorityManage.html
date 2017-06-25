@@ -1,0 +1,270 @@
+<div id="authorityManageVue" v-cloak>
+	<!--角色相关提示弹窗 start-->
+	<div class="modal window-mask role-List" id="role-List">
+    	<div class="modal-dialog modal-md maxheight503">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock">{{titleName}}</h4>
+	            <i class="close iconfont icon-cuowu fr fz12"></i>
+	        </div>
+	        <div class="modal-body h410">
+	        	<div class="form-inline ac pb5 pt10">
+        			<label for="" class="w50 btn-inlineblock">角色名称</label>
+        			<input type="text"  class="input-sm w400 form-control" v-model="rolesingleDetail.roleName" />
+	        	</div>
+	        	<div class="form-inline ac pb10 pt5">
+        			<label for="" class="w50 btn-inlineblock">备注</label>
+        			<input type="text"  class="input-sm w400 form-control" v-model="rolesingleDetail.remark" />
+	        	</div>
+				<div class="checkboxLayout mt10">
+					<div class="pc-checkbox">
+						<div class="pc-checkboxTop">
+							<span>{{cloudHotelWeb.productName}}</span>
+							<span class="pointer" @click="firstSelectAll(cloudHotelWeb)">
+								<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="cloudHotelWeb.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span><!-- @click="" -->
+								<span>全部授权</span>
+							</span>
+						</div>
+						<div class="pc-checkboxBottom clearfix" v-for="value in cloudHotelWeb.childList">
+							<div class="title-checkbox wp100 border-bottom lh30" v-bind:class="{pt10: $index!=0}" v-show="value.moduleName != cloudHotelWeb.productName"><!--v-show="value[0].moduleName != cloudHotelWeb.cloudHotelSettings[0].productName"-->
+								<!--<input type="checkbox" class="SecondcheckAll-pc"/>-->
+								<span class="pointer"  @click="secondarySelectAll(value, cloudHotelWeb)">
+									<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="value.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+									<span>{{value.moduleName}}</span>
+								</span>
+							</div>
+							<div class="checkbox-secondbox pt10" v-show="value.moduleName != cloudHotelWeb.productName" id="{{$index}}"><!-- v-show="value[0].moduleName != cloudHotelWeb.cloudHotelSettings[0].productName" id="{{$index}}"-->
+								<span v-for="(i,item) in value.childList" class="fl wp25 lh26 pointer" @click="changePerSelect(item,value, cloudHotelWeb)">
+									<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+									<span>{{item.resourceName}}</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="app-checkbox">
+						<div class="app-checkboxTop">
+							<span class="checkbox-title">{{KKManagerApp.productName}}</span>
+							<span class="pointer" @click="firstSelectAll(KKManagerApp)">
+								<span class="iconfont fz12 ml4 mr4 pointer fzn" v-bind:class="KKManagerApp.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span><!-- @click="" -->
+								<span>全部授权</span>
+							</span>
+						</div>
+						<div class="app-checkboxBottom clearfix" v-for="value in KKManagerApp.childList">
+							<!--<div class="title-checkbox" v-show="value.moduleName != KKManagerApp.productName">&lt;!&ndash; v-show="value[0].moduleName != KKManagerApp.appLock[0].productName"&ndash;&gt;
+								<span class="pointer" @click="secondarySelectAll(value, KKManagerApp)">
+									<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="value.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+									<span>{{value.moduleName}}</span>
+								</span>
+							</div>-->
+							<div class="checkbox-secondbox" v-show="value.moduleName != KKManagerApp.productName"><!-- v-show="value[0].moduleName != KKManagerApp.appLock[0].productName"-->
+								<span v-for="(i,item) in value.childList" class="fl wp25 lh26 pointer" @click="changePerSelect(item,value, KKManagerApp)">
+									<span class="iconfont fz12 ml4 mr4 fzn" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'"></span>
+									<span>{{item.resourceName}}</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+            	<button class="btn-primary btn-sm w80" v-show="titleName == '添加角色'" v-on:click="saveAddrole">确定</button>
+				<button class="btn-primary btn-sm w80" v-else v-on:click="saveEditrole">确定</button>
+            </div>
+        </div>
+	</div>
+	<!--角色相关提示弹窗 end-->
+	
+	<!--详细信息提示弹窗 start-->
+	<div class="modal window-mask role-Listdetail" id="role-Listdetail">
+    	<div class="modal-dialog modal-md" v-bind:class="titleName == '新增人员'?'maxheight417':'maxheight272'">
+			<div class="modal-header">
+	            <h4 class="btn-inlineblock">{{titleName}}</h4>
+	            <i class="close iconfont icon-cuowu fr fz12"></i>
+	        </div>
+	        <div class="modal-body lockAuthorization-contontLayout" v-bind:class="titleName == '新增人员'?'h324':'h180'">
+				<div class="form-inline pb10 pt10 ac">
+        			<label for="" class="w100 btn-inlineblock" v-if="titleName == '新增人员'">输入KK号/手机号</label>
+        			<label for="" class="w90 btn-inlineblock" v-else>KK号/手机号</label>
+        			<input v-show="titleName == '新增人员'" type="text" class="form-control input-sm w175 btn-inlineblock" v-model="roleListsingleDetail.userAccount"  v-on:blur="searchKKNo"/>
+					<span v-else class="w175 btn-inlineblock">{{roleListsingleDetail.userAccount}}</span>
+	        	</div>
+				<div class="form-inline pb10 pt10 ac">
+        			<label for="" class="w90 btn-inlineblock">姓名</label>
+        			<span class="roleListname w175 btn-inlineblock">{{roleListsingleDetail.userName}}</span>
+	        	</div>
+				<div class="form-inline pb10 pt10 ac">
+        			<label for="" class="w90 btn-inlineblock">手机号码</label>
+        			<span class="w175 btn-inlineblock">{{roleListsingleDetail.mobile}}</span>
+	        	</div>
+	        	<div class="form-inline pb10 pt10 ac">
+	    			<label for="" class="w90 btn-inlineblock">角色</label>
+	    			<select name="" id="" class="w175 pl5">
+						<option v-for="item in orgRoleList" value="{{item.roleId}}">{{item.roleName}}</option>
+					</select>
+	        	</div>
+				<div class="role-Listdetail-tips">
+					<div class="tips-icon">
+						<img src="images/page_template/setting/Roleicon-e7f3ebdede.png" alt="" />
+					</div>
+					1.  为了保障您的酒店经营人事安全管理，请邀请员工下载“KK开门”注册认证身份信息，获取终生唯一KK号识别码。<br />
+	    			2.设置权限前，请务必核对人员信息，以免对贵酒店造成不必要的损失。
+				</div>
+            </div>
+            <div class="modal-footer">
+            	<button class="btn-primary btn-sm w80" v-show="titleName == '修改人员信息'" v-on:click="saveEditroleDetail">确定</button>
+				<button class="btn-primary btn-sm w80" v-else v-on:click="saveAddroleDetail($event)">确定</button>
+            </div>
+        </div>
+	</div>
+	<!--详细提示弹窗 end-->
+	<!-- 左边表格区域 开始-->
+	<div class="right-r-content fl pr15" v-bind:style="showBorderRight">
+		<div class="right-r-top mb10 clearfix">
+		    <div class="right-rtop-totalrooms fl fzb12 lh30">
+		     	角色总数
+		        <span>{{roleList.length}}</span>
+		    </div>
+		    <div class="right-rtop-operate fr">
+				<button class="btn-primary btn-sm w65 fr" v-on:click="bindAddrole" v-if="settingResourceInfo.cloudHotelAddRole">添加</button>
+		    	<button class="btn-danger btn-sm w65 fr mr10" v-on:click="bindDelrole" v-if="settingResourceInfo.cloudHotelDeleteRole">删除</button>
+		    </div>
+		</div>
+		<div class="right-r-bottom">
+		    <table id="tbl01" class="tb-block tb-line ac">
+				 <colgroup>
+		            <col width='10%'/>
+		            <col width='20%'/>
+		            <col width='15%'/>
+		            <col width='40%'/>
+		            <col width='15%'/>
+		        </colgroup>
+		        <thead>
+		            <tr class="tb-titlebg tb-linebm color-main font-bold" >
+		                <td class="pb10 pt10">
+							<span class="iconfont fz12 mr4 pointer fzn" v-bind:class="selectAllRoleIds? 'icon-xuanzhong':'icon-weixuanzhong'" @click="clickSelectAllRoleCount" v-if="roleList.length > 0"></span>
+						</td>
+		                <td class="pb10 pt10">角色名称</td>
+		                <td class="pb10 pt10">用户数</td>
+		                <td class="pb10 pt10">备注</td>
+	                    <td class="pb10 pt10" v-if="settingResourceInfo.cloudHotelEditRole">操作</td>
+		            </tr>
+		        </thead>
+				<tbody class="tb-color">
+					<template v-for="(index,item) in roleList">
+						<tr class="tb-linebm pointer"  @click="clickPerRow(item,'roleCount')" v-bind:class="item.checked? 'active':''">
+							<td class="pb10 pt10">
+								<span class="iconfont fz12 mr4" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'" ></span>
+							</td>
+							<td class="pb10 pt10">{{item.roleName}}</td>
+							<td class="pb10 pt10">{{item.userCount}}</td>
+							<td class="pb10 pt10">{{item.remark}}</td>
+							<td class="pb10 pt10" v-if="settingResourceInfo.cloudHotelEditRole">
+								<button class="btn-delicate btn-xs w60 ac" @click.stop="bindEditrole(item,$event)">
+									<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+									<span class='ml5 fl'>编辑</span>
+								</button>
+							</td>
+						</tr>
+					</template>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 左边表格区域 结束-->
+	<!-- 右边表格区域 开始-->
+	<div class="right-l-content fl pl15 clearfix" v-bind:style="showBorderLeft">
+		<div class="right-l-top mb10 clearfix">
+		    <div class="right-top-roomsum fl fzb12 lh30">
+		        员工总数
+		        <span>{{totalRolenumber}}</span>
+		    </div>
+		    <div class="right-top-operate fr">
+				<button class="btn-primary btn-sm w65 fr" v-on:click="bindAddroleDetail" v-if="settingResourceInfo.cloudHotelAddUser">添加</button>
+		    	<button class="btn-danger btn-sm w65 fr mr10" @click="bindDelroledetail" v-if="settingResourceInfo.cloudHotelDeleteUser">删除</button>
+		    </div>
+		</div>
+		<div class="right-l-bottom">
+		    <!--<table class="right-lb-table ac">
+		        <colgroup>
+		            <col width='5%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		        </colgroup>
+		        <thead>
+		        <tr>
+		            <th>
+		            	<input type="checkbox" v-model:="bindCheckAlldetail($event)" class="right-checkbox" />
+		            </th>
+		            <th>序号</th>
+		            <th>KK号</th>
+		            <th>姓名</th>
+		            <th>手机号</th>
+		            <th>角色</th>
+		            <th v-if="settingResourceInfo.cloudHotelEditUser">操作</th>
+		        </tr>
+		        </thead>
+		        <tbody>
+		        <tr v-for="(index,item) in roleListDetail">
+		            <td>
+		                <input type="checkbox" />
+		            </td>
+		            <td>{{index+1}}</td>
+		            <td>{{item.userAccount}}</td>
+		            <td>{{item.userName}}</td>
+		            <td>{{item.mobile}}</td>
+		            <td>{{item.roleName}}</td>
+		            <td class="btn-editroleDetail" v-on:click="bindEditroleDetail(item)" v-if="settingResourceInfo.cloudHotelEditUser" >编辑</td>
+		        </tr>
+		        </tbody>
+		    </table>-->
+		    <table id="tbl02" class="tb-block tb-line ac">
+				 <colgroup>
+		            <col width='5%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		            <col width='10%'/>
+		        </colgroup>
+		        <thead>
+		            <tr class="tb-titlebg tb-linebm color-main font-bold" >
+		                <td class="pb10 pt10">
+							<span class="iconfont fz12 mr4 pointer icon-weixuanzhon fzn" v-bind:class="selectAllRoleStaffIds? 'icon-xuanzhong':'icon-weixuanzhong'" @click="clickSelectAllroleStaffs" v-if="roleListDetail.length > 0"></span>
+						</td>
+		                <td class="pb10 pt10">序号</td>
+		                <td class="pb10 pt10">KK号</td>
+		                <td class="pb10 pt10">姓名</td>
+	                    <td class="pb10 pt10">手机号</td>
+	                    <td class="pb10 pt10">角色</td>
+		            	<td class="pb10 pt10" v-if="settingResourceInfo.cloudHotelEditUser">操作</td>
+		            </tr>
+		        </thead>
+				<tbody class="tb-color">
+					<template v-for="(index,item) in roleListDetail">
+						<tr class="tb-linebm pointer"  @click="clickPerRow(item, 'roleStaff')" v-bind:class="item.checked? 'active':''">
+							<td class="pb10 pt10">
+								<span class="iconfont fz12 mr4" v-bind:class="item.checked? 'icon-xuanzhong':'icon-weixuanzhong'" ></span>
+							</td>
+							<td class="pb10 pt10">{{index+1}}</td>
+							<td class="pb10 pt10">{{item.userAccount}}</td>
+							<td class="pb10 pt10">{{item.userName}}</td>
+							<td class="pb10 pt10">{{item.mobile}}</td>
+							<td class="pb10 pt10">{{item.roleName}}</td>
+							<td class="pb10 pt10" v-if="settingResourceInfo.cloudHotelEditUser" >
+								<button class="btn-delicate btn-xs w60 ac" v-on:click.stop="bindEditroleDetail(item)">
+									<i class="iconfont icon-chuli fl fz12 color-primary"></i>
+									<span class='ml5 fl'>编辑</span>
+								</button>
+							</td>
+						</tr>
+					</template>
+				</tbody>
+			</table>
+		</div>
+	</div>  
+	<!-- 右边表格区域 结束-->
+</div>

@@ -1,0 +1,284 @@
+/*页面头部设置 start*/
+#hascheckinOrder{
+	color: #8c8c8c;
+	display: none;
+}
+.right-content-header{
+	padding-bottom: 8px;
+}
+.right-content-order{
+	min-height: 668px;
+}
+.right-content-order input{
+	border: 1px solid #C3C3C3;
+	width: 100px;
+	height: 28px;
+	padding-left: 2px;
+}
+.liveInfo-left-showMsg .liveInfo-left-cotent input{
+	width: 160px;
+}
+.right-content-header-searchlabel label{
+	margin-right: 5px;
+}
+.right-content-header-searchlabel select{
+	width: 95px;
+	height: 28px;
+}
+.right-content-header-checklabel,.right-content-header-searchlabel{
+	padding: 9px 0;
+}
+.right-content-order input[type=checkbox]{
+	width: 16px;
+	height: 16px;
+	margin-top:-2px
+}
+.right-content-header input[type=checkbox]{
+	margin-left: 60px;
+}
+/*.right-content-header-searchlabel span{
+	margin-left: 15px;
+}*/
+/*.right-content-header-searchlabel span:nth-child(1){
+	margin: 0;
+}*/
+.slide-out{
+	position: relative;
+}
+.slide-out .slide-layout{
+	width: 95px;
+	height: 28px;
+	display: inline-block;
+	border: 1px solid #C3C3C3;
+	line-height: 28px;
+	text-align: center;
+	font-size: 14px;
+	cursor: pointer;
+	position: relative;
+	left: 2px;
+    top: 2px;
+}
+.slide-layout-box {
+	width: 98px;
+	display: inline-block;
+	height: 28px;
+	position: relative;
+}
+.slide-out .slide-inner{
+    display: none;
+    position: absolute;
+    top: 29px;
+    right: -47px;
+    max-height: 210px;
+    overflow-y: auto;
+    background: #fff;
+    width: 143px;
+    border: 1px solid #C0C0C0;
+    font-size: 14px;
+}
+.slide-out .slide-inner li{
+	height: 26px;
+	line-height: 26px;
+	cursor: pointer;
+}
+.slide-out .slide-inner li label{
+	display: inline-block;
+	width: 100%;
+	margin: 0;
+	word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.slide-out .slide-inner input{
+	margin-right: 3px;
+	margin-left: 8px;
+}
+.mz-datepicker input{
+	width: 214px;
+    float: left;
+}
+/*页面头部设置 end*/
+
+/*表格设置 start*/
+.untreatedOrdertable{
+	width: 100%;
+	text-align: center;
+	margin-top: 8px;
+	margin-bottom: 50px;
+}
+.untreatedOrdertable li:nth-child(1){
+	background: #28679B;
+	color: #fff;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	padding: 0px;
+}
+.untreatedOrdertable li:nth-child(1) span{
+	padding: 0px;
+}
+.untreatedOrdertable li{
+	background: #FFF4ED;
+	color: #696969;
+	font-size: 12px;
+	line-height: 16px;
+	margin-top: 5px;
+}
+.untreatedOrdertable span{
+	display: inline-block;
+	padding: 10px 0;
+	word-wrap: break-word
+}
+.untreatedOrdertable span i{
+	display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #0099FF;
+    line-height: 14px;
+    text-align: center;
+    background: #fff;
+    border-radius: 4px;
+    position: absolute;
+    right: -75px;
+    top: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+.untreatedOrdertable span i.active{
+	-moz-transform:scale(1，-1); 
+	-webkit-transform:scale(1，-1); 
+	-o-transform:scale(1，-1); 
+	transform:scale(1，-1); 
+}
+.untreatedOrdertable .slideDownbox{
+	display: none;
+	background: #fff;
+	padding-top: 5px;
+}
+.untreatedOrdertable .slideDownbox div{
+	background: #f5f5f5;
+	margin-bottom: 3px;
+}
+.untreatedOrdertable .slideDown{
+	background: #f5f5f5;
+}
+.untreatedOrdertable .table-list span:nth-child(1),.untreatedOrdertable .slideDown span:nth-child(1){
+	width: 5%;
+}
+.untreatedOrdertable .table-list span:nth-child(2),.untreatedOrdertable .slideDown span:nth-child(2){
+	width: 12%;
+	position: relative;
+}
+.untreatedOrdertable .table-list span:nth-child(3),.untreatedOrdertable .slideDown span:nth-child(3){
+	width: 6%;
+}
+.untreatedOrdertable .table-list span:nth-child(4),.untreatedOrdertable .slideDown span:nth-child(4){
+	width: 6%;
+}
+.untreatedOrdertable .table-list span:nth-child(5),.untreatedOrdertable .slideDown span:nth-child(5){
+	width: 8%;
+}
+.untreatedOrdertable .table-list span:nth-child(6),.untreatedOrdertable .slideDown span:nth-child(6){
+	width: 15%;
+}
+.untreatedOrdertable .table-list span:nth-child(7),.untreatedOrdertable .slideDown span:nth-child(7){
+	width: 8%;
+}
+.untreatedOrdertable .table-list span:nth-child(8),.untreatedOrdertable .slideDown span:nth-child(8){
+	width: 9%;
+}
+.untreatedOrdertable .table-list span:nth-child(9),.untreatedOrdertable .slideDown span:nth-child(9){
+	width: 3%;
+}
+.untreatedOrdertable .table-list span:nth-child(10),.untreatedOrdertable .slideDown span:nth-child(10){
+	width: 6%;
+}
+.untreatedOrdertable .table-list span:nth-child(11),.untreatedOrdertable .slideDown span:nth-child(11){
+	width: 6%;
+}
+.untreatedOrdertable .table-list span:nth-child(12),.untreatedOrdertable .slideDown span:nth-child(12){
+	width: 6%;
+}
+.untreatedOrdertable .table-list span:nth-child(13),.untreatedOrdertable .slideDown span:nth-child(13){
+	width: 5%;
+}
+.table-list span a{
+	font-size: 12px;
+	color: #0099FF;
+	font-weight: normal;
+}
+.table-list span a:hover{
+	border-bottom:1px solid #0099FF;
+}
+/*表格设置 end*/
+
+/*底部统计样式 Start*/
+.right-content-bottom-total{
+	text-align: right;
+	font-size: 14px;
+}
+.right-content-bottom-total i{
+	color: red;
+	padding: 0 5px;
+}
+/*底部统计样式 End*/
+
+/*底部分页样式 Start*/
+.table-page{
+	text-align: right;
+	margin-top: 15px;
+	line-height: 24px;
+}
+.key-manage-pagemsg{
+	margin-bottom: 10px;
+}
+.table-page button{
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	color: #8c8c8c;
+	margin: 0 3px;
+	background: #fff;
+}
+.table-page span{
+	margin: 0 5px;
+}
+.table-page input{
+	width: 30px;
+	height: 24px;
+	line-height: 24px;
+	margin: 0 8px;
+}
+.table-page .btn-next,.table-page .btn-prev{
+	box-sizing:border-box;
+	padding-left: 8px;
+	font-family: fantasy;
+}
+.table-page-layout{
+	display: inline-block;
+}
+.pageList{
+	display: inline-block;
+	width: 300px;
+}
+.pageList button.active{
+	color: #0099FF;
+	font-weight: bold;
+}
+.btn-prev,.btn-next{
+	display: none;
+}
+.table-page .btn-Go{
+	color: #fff;
+	background: #3ca4f9;
+}
+/*底部分页样式 End*/
+
+
+
+

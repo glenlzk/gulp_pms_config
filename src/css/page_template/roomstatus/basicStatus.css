@@ -1,0 +1,980 @@
+@charset "UTF-8";
+
+#room_status {
+    margin-bottom: 80px;
+}
+.roomstatus-title-box {
+    height: 50px;
+    padding-top: 10px;
+    width: 100%;
+    /* margin: 0px 1px; */
+    left: 0px;
+}
+.roomstatus-title-ctent {
+    width: 500px;
+    margin:0 auto;
+}
+.roomstatus-ctent-box {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+.roomstatus-ctent {
+    background-color: #fff;
+}
+.roomstatus-ctent-l {
+    width: 80px;
+    height: 30px;
+    position: relative;
+    line-height: 30px;
+    padding-left: 20px;
+    color:#696969;
+    cursor: pointer;
+}
+.roomstatus-ctent-l::before {
+    content: '';
+    width: 14px;
+    height: 16px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat 0 0;
+    position:absolute;
+    left: 0;
+    top: 7px;
+}
+.roomstatus-ctent-m {
+    width: 250px;
+    height: 30px;
+    position: relative;
+    padding: 0 14px;
+    text-align: center;
+    color: #222222;
+    margin: 0 40px 0 50px;
+}
+.roomstatus-ctent-m span {
+    width: 14px;
+    height: 16px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat 0 -26px;
+    position:absolute;
+    left: 0;
+    top: 7px;
+    cursor: pointer;
+}
+.roomstatus-ctent-m span:nth-of-type(2) {
+    background-position: 0 -52px;
+    right: 0;
+    left: inherit;
+}
+.roomstatus-ctent-r {
+    color: #696969;
+    position: relative;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 20px;
+}
+/* 日历插件接口 start*/
+.roomstatus-ctent-m .mz-datepicker > input {
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.roomstatus-ctent-m  .mz-datepicker > input:focus,
+.roomstatus-ctent-m  .mz-datepicker > input.focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+/* 日历插件接口 end*/
+.roomstatus-ctent-r {
+    cursor: pointer;
+}
+.roomstatus-ctent-r::before {
+    content: '';
+    width: 14px;
+    height: 16px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat 0 -78px;
+    position:absolute;
+    left: 0;
+    top: 7px;
+}
+.roomstatus-ctent-box {
+    border-top: 1px solid #dadada;
+    border-left: 1px solid #dadada;
+    box-sizing:border-box;
+}
+.roomstatus-date-title {
+    height: 50px;
+    background-color: #fff;
+}
+.roomstatus-search-box {
+    padding: 10px 0 0 21px;
+    height: 50px;
+    /*width: 135px;*/
+    border-right: 1px solid #dadada;
+    border-bottom: 1px solid #dadada;
+    box-sizing:border-box;
+}
+.roomstatus-search-help {
+    width: 130px;
+    position: relative;
+}
+.roomstatus-search-help input {
+    width: 100px;
+    height: 30px;
+    border: 1px solid #999;
+    border-radius: 15px;
+    padding: 0 10px;
+}
+.roomstatus-search-help span {
+    width: 19px;
+    height: 18px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -22px 0px;
+    position:absolute;
+    right: 5px;
+    top: 7px;
+    cursor: pointer;
+}
+
+/*问号弹窗 start*/
+.roomstatus-search-help span:hover .tips-window{
+    display: block;
+}
+.tips-window{
+    position: absolute;
+    width: 257px;
+    border: 1px solid #3ca4f9;
+    border-radius: 4px;
+    top: -17px;
+    right: -271px;
+    display: none;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 6px 12px;
+    color: #999;
+    font-size: 10px;
+    z-index: 999;
+}
+/*三角形*/
+.tips-window .triangle_border_left{
+    width: 0;
+    height: 0;
+    border-width: 12px 12px 12px 0;
+    border-style: solid;
+    border-color: transparent #3ca4f9 transparent transparent;
+    margin: 40px auto;
+    position: absolute;
+    left: -12px;
+    top: -26px;
+}
+.tips-window .triangle_border_left i{
+    display: block;
+    width: 0;
+    height: 0;
+    border-width: 11px 11px 11px 0;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+    position: absolute;
+    top: -11px;
+    left: 2px;
+}
+/*弹框顶部*/
+.tips-window .tips-window-header{
+    width: 100%;
+    border-bottom: 1px solid #eaeaea;
+}
+.tips-window li{
+    height: 28px;
+    line-height: 28px;
+    float: left;
+}
+.tips-window li:nth-child(odd) {
+    width: 55%;
+}
+.tips-window li:nth-child(even) {
+    width: 45%;
+}
+.tips-window .tips-window-header li i{
+    display: inline-block;
+    width: 23px;
+    height: 18px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.tips-window .tips-window-header li:nth-child(1) i{
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) -50px -27px no-repeat;
+    margin-left: 10px;
+}
+.tips-window .tips-window-header li:nth-child(2) i{
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) -50px 1px no-repeat;
+    margin-left: 10px;
+}
+.tips-window .tips-window-header li:nth-child(3) i{
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) -50px -53px no-repeat;
+    margin-left: 10px;
+}
+.tips-window .tips-window-header li:nth-child(4) i{
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) -73px 0px no-repeat;
+    width: 28px;
+    margin-top: 6px;
+}
+.tips-window .tips-window-header li:nth-child(5) i{
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) -73px -27px no-repeat;
+    width: 28px;
+    margin-right: 1px;
+}
+.tips-window .tips-window-header li:nth-child(6) i{
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) -50px -80px no-repeat;
+    width: 12px;
+    height: 18px;
+}
+/*弹框底部*/
+.tips-window .tips-window-bottom li i{
+    display: inline-block;
+    width: 23px;
+    height: 10px;
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.tips-window .tips-window-bottom li:nth-child(1) i{
+    background: #fe9001;
+}
+.tips-window .tips-window-bottom li:nth-child(2) i{
+    background: #41d698;
+}
+.tips-window .tips-window-bottom li:nth-child(3) i{
+    background: #dedede;
+}
+.tips-window .tips-window-bottom li:nth-child(4) i{
+    width: 20px;
+    height: 21px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -73px -52px;
+    margin-top: -4px;
+}
+.tips-window .tips-window-bottom li:nth-child(5) i{
+    width: 21px;
+    height: 21px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -72px -155px;
+    margin-top: -4px;
+}
+.tips-window .tips-window-bottom li:nth-child(6) i{
+    width: 21px;
+    height: 21px;
+    background: url(../../../images/page_template/roomstatus/need_pay_amount.png) no-repeat center center;
+    background-color: #fe9001;
+    margin-top: -4px;
+}
+
+/*问号弹窗 end*/
+
+.roomstatus-date-lists ul li{
+    width: 76px;
+    float: left;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    height: 50px;
+}
+.roomstatus-date-lists ul li.selected,
+.roomstatus-rooms-title ul li.selected,
+.roomstatus-rooms-title tr td.selected {
+    background-color: rgba(0, 246, 255, 0.5) !important;
+}
+.roomstatus-date-lists ul li.istoday {
+    background-color: rgba(0, 255, 198, 0.1);
+}
+.roomstatus-date-lists ul li.isweekend {
+    background-color: rgba(255, 227, 144, 0.3);
+}
+.roomstatus-date-lists ul li p {
+    height: 25px;
+    padding-top: 8px;
+}
+.roomstatus-date-lists ul li p:nth-of-type(2) {
+    color: #a0a0a0;
+    padding-top: 5px;
+}
+.roomstatus-date-lists ul li p i {
+    padding: 0 10px;
+}
+.roomstatus-rooms-title {
+    /*width: 135px;*/
+    background-color: #fff;
+}
+.roomstatus-rooms-title ul li {
+    height: 50px;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    position: relative;
+    cursor: pointer;
+}
+.roomstatus-rooms-title ul li p {
+    height: 14px;
+}
+.roomstatus-rooms-title ul li p:nth-of-type(1) {
+    color: #999;
+}
+.roomstatus-rooms-title ul li p:nth-of-type(2) {
+    color: #333;
+}
+.roomstatus-rooms-icons {
+    margin-top: 2px;
+}
+.roomstatus-rooms-title .roomstatus-rooms-lock {
+    width: 13px;
+    height: 16px;
+    display: inline-block;
+}
+.roomstatus-rooms-title .roomstatus-rooms-lock.orange {
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -50px 0px;
+}
+.roomstatus-rooms-title .roomstatus-rooms-lock.red {
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -50px -26px;
+}
+.roomstatus-rooms-title .roomstatus-rooms-lock.gray {
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -50px -52px;
+}
+.roomstatus-rooms-title .roomstatus-rooms-battery {
+    width: 25px;
+    height: 10px;
+    margin: 0 30px 0 25px;
+    display: inline-block;
+}
+.roomstatus-rooms-title .per-room-type .roomstatus-rooms-battery {
+    margin: 0 8px 0 8px;
+}
+.roomstatus-rooms-title .roomstatus-rooms-battery.low {
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -73px 0;
+}
+.roomstatus-rooms-title .roomstatus-rooms-isclean {
+    width: 24px;
+    height: 16px;
+    display: inline-block;
+}
+.roomstatus-rooms-title .roomstatus-rooms-keycodenum {
+    width: 12px;
+    height: 18px;
+    display: inline-block;
+}
+.roomstatus-rooms-title .roomstatus-rooms-keycodenum.need-add-lock {
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -50px -79px;
+}
+.roomstatus-rooms-title .roomstatus-rooms-isclean.need-clean {
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -72px -26px;
+}
+.roomstatus-rooms-title .set-clean-sendcode-status {
+    position: absolute;
+    /*width: 76px;
+    height: 49px;*/
+    right: -153px;;
+    top: 0;
+    z-index: 1;
+    display: none;
+}
+.roomstatus-rooms-title .set-clean-sendcode-status .set-clean-sendcode-com {
+    width: 76px;
+    height: 49px;
+    display:inline-block;
+    background-color: rgb(39, 149, 140);
+    color: #fff;
+    line-height: 49px;
+}
+.roomstatus-rooms-title ul li:hover .set-clean-sendcode-status {
+    display:block;
+}
+
+.roomstatus-rooms-title tr td:hover .set-clean-sendcode-status {
+    display:block;
+}
+
+.roomstatus-rooms-datelist {
+    width: 1064px;
+}
+.roomstatus-rooms-datelist .roomstatus-rooms-rows {
+    width: 1065px;
+}
+
+.roomstatus-rooms-rows ul li{
+    width: 76px;
+    float: left;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    height: 50px;
+    color: #d7d7d7;
+    font-size: 12px;
+    position: relative;
+    cursor: pointer;
+}
+.roomstatus-rooms-rows ul li.lh-center {
+	line-height: 50px;
+}
+.roomstatus-rooms-rows ul li div.checkstatus,/*占用房开始*/
+.roomstatus-rooms-rows ul li div.other-checkstatus { /*连续占用房其他房间*/
+	width: 100%;
+	height: 100%;
+	text-align: left;
+	padding-left: 10px;
+    position: absolute;
+}
+.roomstatus-rooms-rows ul li div.other-checkstatus.hascheckout-end {
+    border-top: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+.roomstatus-rooms-rows ul li div.other-checkstatus.hascheckout-mid {
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+.roomstatus-rooms-rows ul li>div.checkstatus>p{
+    line-height: 22px;
+}
+.roomstatus-rooms-rows ul li>div.uncheckin,
+.roomstatus-rooms-rows ul li>div.bookingroom,
+.roomstatus-rooms-rows ul li>div.hascheckin {
+    color: #fff;
+}
+.roomstatus-rooms-rows ul li>div.hascheckout {
+	color: #6e6e6e;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+.roomstatus-rooms-rows ul li>div.hascheckout.isindependence {
+    border-right:1px solid #fff;
+}
+.roomstatus-rooms-rows ul li div.checkstatus::before {
+	content: '';
+	width: 6px;
+	height: 6px;
+	position: absolute;
+	left: -1px;
+	top: 0;
+	background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -22px -27px;
+}
+.roomstatus-rooms-rows ul li.istoday {
+    background-color: rgba(0, 255, 198, 0.1);
+}
+.roomstatus-rooms-rows ul li.isweekend {
+    background-color: rgba(255, 227, 144, 0.3);
+}
+.roomstatus-rooms-rows ul li.dueout {
+    background-image: url(../../../images/page_template/roomstatus/bg_dueout.png);
+    background-repeat: no-repeat;
+    background-position: 95% 95%;
+}
+.roomstatus-rooms-rows ul li.need-pay-account::after {
+    content: '';
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    background: url(../../../images/page_template/roomstatus/need_pay_amount.png) no-repeat 0 0;
+}
+.roomstatus-rooms-rows ul li.stopsellingroom {
+    cursor: not-allowed;
+}
+.roomstatus-rooms-rows ul li.stopsellingroom::before {
+	content: '';
+	width: 22px;
+	height: 22px;
+	position: absolute;    
+	left: 27px;
+    top: 15px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -72px -155px;
+}
+.roomstatus-rooms-rows ul li.forbidroom::before {
+	content: '';
+	width: 22px;
+	height: 22px;
+	position: absolute;
+	left: 27px;
+    top: 15px;
+    background: url(../../../images/page_template/roomstatus/roomstatus_sprite.png) no-repeat -72px -52px;
+}
+.roomstatus-rooms-rows ul li.bookingroom {
+    background-color: rgb(65, 214, 152);
+    border-right-color: rgb(65, 214, 152);
+}
+.roomstatus-rooms-rows ul li.uncheckin {
+    background-color: rgb(65, 214, 152);
+    border-right-color: rgb(65, 214, 152);
+}
+.roomstatus-rooms-rows ul li.hascheckin {
+    background-color: rgb(254, 144, 1);
+    border-right-color: rgb(254, 144, 1);
+}
+.roomstatus-rooms-rows ul li.hascheckout {
+    background-color: rgb(222, 222, 222);
+    border-right-color: rgb(222, 222, 222);
+}
+.roomstatus-rooms-rows ul li.pitch-up {
+    background-color: rgb(105, 105, 105);
+    color: #fff;
+}
+.roomstatus-rooms-rows ul li.pitch-up > div.hascheckout {
+    color: #fff;
+}
+/*glenlzk   关房弹窗 start */
+.sendOTP-tag-mask,
+.closeroom-tag-mask,
+.sort-fliter-tag-mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 996;
+}
+.closeroom-tag-box {
+    width: 430px;
+    height: 260px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -215px;
+    margin-top: -130px;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.7);
+}
+.sort-fliter-tag-box {
+    width: 610px;
+    min-height: 330px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -305px;
+    margin-top: -165px;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.7);
+}
+
+.closeroom-tag-title,
+.sort-fliter-tag-title {
+    margin: 0px 10px;
+    border-bottom: 1px solid #dddddd;
+}
+.sort-fliter-tag-title {
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.closeroom-tag-title h3,
+.sort-fliter-tag-title h3 {
+    line-height: 50px;
+}
+
+.closeroom-tag-title  .closeroom-tag-close,
+.sort-fliter-tag-title .closeroom-tag-close {
+    font-size: 30px;
+    color: #999;
+}
+
+.closeroom-tag-content,
+.sort-fliter-tag-content {
+    height: 162px;
+    padding: 0px 15px;
+}
+.sort-fliter-tag-content {
+    height: auto;
+    min-height: 162px;
+}
+.closeroom-tag-content .closeroom-tag-reason {
+    height: 40px;
+    text-align: center;
+    padding-top: 25px;
+}
+.sort-fliter-tag-content .closeroom-tag-reason {
+    padding: 12px 0px 10px;
+    border-bottom: 1px solid #dddddd;
+}
+.sort-fliter-tag-content .closeroom-tag-reason h3 {
+    margin-bottom: 10px;
+}
+.closeroom-tag-reason label{
+    font-size: 12px;
+    margin-left: 25px;
+}
+.sort-fliter-tag-content .sort-fliter-selectAll {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dddddd;
+}
+.sort-fliter-tag-content .sort-fliter-sell {
+    border-bottom: none;
+    padding-top: 10px;
+}
+.sort-fliter-tag-content .sort-fliter-selectAll ul li {
+    float: left;
+    width: 25%;
+    font-size: 12px;
+    color: #0f0f0f;
+    padding-left: 20px;
+}
+.sort-fliter-selectList li div.check-box {
+    float: left;
+    line-height:20px;
+    width:16%;
+}
+.sort-fliter-selectList li p.para-text {
+    float: left;
+    line-height: 20px;
+    width:80%;
+}
+.closeroom-tag-content .closeroom-tag-remark {
+    height: 70px;
+    padding-top: 27px;
+}
+.closeroom-tag-remark label {
+    vertical-align: top;
+}
+.closeroom-tag-remark textarea {
+    margin-left: 4px;
+    font-size: 12px;
+}
+.sort-fliter-btn {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+.closeroom-tag-btn button {
+    width: 180px;
+    height: 33px;
+    background-color: #3ca4f9;
+    line-height: 33px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*glenlzk   关房弹窗 end */
+/* glenlzk  新增关闭房间 start */
+.shutDown-addRoom-tag {
+    width: 60px !important;
+    /*height: 70px !important;*/
+    border: 1px solid #3fa4f9;
+    position: absolute;
+    background: #fff;
+    left: 52px;
+    top: 34px;
+    z-index: 1;
+}
+.shutDown-addRoom-tag p {
+    height: 35px;
+    font-size: 12px;
+    line-height: 35px;
+    color: #696969;
+    cursor: pointer;
+}
+.shutDown-addRoom-tag p:hover {
+    background-color: #3fa4f9;
+    color: #fff;
+}
+/* glenlzk  新增关闭房间 end */
+
+/* glenlzk 新增房间 start*/
+.addneworder-tag-mask {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+}
+
+/*   订单信息弹窗 start   */
+.occupy-room-msg-tag,
+.forbidroom-room-msg-tag {
+    /*width: 232px;*/
+    border: 1px solid #3ca4f9;
+    position: fixed;
+    background: #fff;
+    left: 600px;
+    top: 500px;
+    border-radius: 5px;
+    color: #696969;
+    display: none;
+    padding: 0px 10px 3px 0;
+}
+.forbidroom-room-msg-tag .triangle_border_left,
+.occupy-room-msg-tag .triangle_border_left {
+    width: 0;
+    height: 0;
+    border-width: 12px 12px 12px 0;
+    border-style: solid;
+    border-color: transparent #3ca4f9 transparent transparent;
+    margin: 40px auto;
+    position: absolute;
+    left: -12px;
+    top: -22px;
+}
+.forbidroom-room-msg-tag .triangle_border_left i,
+.occupy-room-msg-tag .triangle_border_left i {
+    display: block;
+    width: 0;
+    height: 0;
+    border-width: 11px 11px 11px 0;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+    position: absolute;
+    top: -11px;
+    left: 2px;
+}
+.occupy-room-msg-tag div + div {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+}
+.forbidroom-room-msg-tag {
+    line-height: 30px;
+    font-size: 14px;
+}
+.forbidroom-room-msg-tag div.forbidroom-room-tag-roommsg,
+.occupy-room-msg-tag div.occupy-room-tag-platform {
+    margin: 0 10px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.occupy-room-msg-tag div.occupy-room-tag-platform span:nth-of-type(2) {
+    margin-left: 10px;
+}
+.forbidroom-room-msg-tag div.forbidroom-room-tag-roommsg span:nth-of-type(2) {
+    margin-left: 20px;
+}
+.forbidroom-room-msg-tag .forbidroom-room-tag-closedate,
+.forbidroom-room-msg-tag .forbidroom-room-tag-remark {
+    padding-left: 10px;
+}
+.forbidroom-room-msg-tag .forbidroom-room-tag-remark div {
+    width: 168px;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.occupy-room-msg-tag div.occupy-room-tag-checkinstatus  {
+    padding: 0 10px 0 38px;
+}
+.occupy-room-msg-tag div.occupy-room-tag-checkinstatus span:nth-of-type(1) {
+    padding-right: 20px;
+}
+.occupy-room-msg-tag div.occupy-room-tag-checkinstatus span:nth-of-type(2).uncheckin {
+    color: #41d698;
+}
+.occupy-room-msg-tag div.occupy-room-tag-checkinstatus span:nth-of-type(2).hascheckin {
+    color: #fe9001;
+}
+.occupy-room-msg-tag div.occupy-room-tag-checkinstatus span:nth-of-type(2).hascheckout {
+    color: #dedede;
+}
+.occupy-room-msg-tag div.occupy-room-tag-mobile,
+.occupy-room-msg-tag div.occupy-room-tag-deposit {
+    padding-left: 39px;
+}
+.occupy-room-msg-tag div.occupy-room-tag-orderfee {
+    padding-left: 12px;
+}
+.occupy-room-msg-tag div.occupy-room-tag-makemoney {
+    padding-left: 25px;
+}
+/*   订单信息弹窗 end  */
+
+/* 拖拽批量操作房间 start */
+.drag-rooms-operate-tag {
+    width: 60px !important;
+    border: 1px solid #3fa4f9;
+    position: fixed;
+    background: #fff;
+    left: 500px;
+    top: 500px;
+    z-index: 1;
+    display: none;
+}
+.drag-rooms-operate-tag p {
+    height: 35px;
+    font-size: 12px;
+    line-height: 35px;
+    color: #696969;
+    cursor: pointer;
+}
+.drag-rooms-operate-tag p:hover {
+    background-color: #3fa4f9;
+    color: #fff;
+}
+/* 拖拽批量操作房间 end */
+
+/*发送动态密码 start*/
+.sendOTP-tag-box{
+	width: 658px;
+    min-height: 456px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -329px;
+    margin-top: -228px;
+}
+.sendOTP-tag-title{
+    position: relative;
+    color: #fff;
+}
+.sendOTP-tag-title .sendOTP-tag-close{
+	color: #fff;
+	font-size: 26px;
+}
+.sendOTP-tag-content{
+	margin-bottom: 12px;
+}
+.sendOTP-tag-box input[type = "text"]{
+	margin:10px 0 10px 10px;
+}
+::-webkit-input-placeholder { /* WebKit browsers */ 
+	color: #ccc; 
+} 
+.sendOTP-tag-box input[type = "radio"]{
+	margin-right: 5px;
+}
+.sendOTP-tag-box textarea{
+	display: block;
+	height: 62px;
+	margin: 2px auto;
+	width: 96.5%;
+	padding: 5px 8px;
+}
+.sendOTP-tag-checkLabel label{
+	cursor: pointer;
+	display: inline-block;
+	width: 49%;
+	color: #666;
+	padding-left: 124px;
+	margin-top: 12px;
+}
+.sendOTP-tag-checkLabel .active{
+	color: #21BCF5;
+	border-bottom: 2px solid #21BCF5;
+}
+.sendOTP-tag-ul{
+	margin-top: 20px;
+	padding: 5px 20px;
+	height: 110px;
+}
+.sendOTP-tag-ul span{
+    display: inline-block;
+    width: 12.5%;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    margin: 4px 6%;
+    font-size: 14px;
+    color: #c5c5c5;
+   	box-sizing: border-box;
+}
+.sendOTP-tag-ul .active{
+	background:#3ca3f9;
+	color:#fff;
+	border-radius: 10px;
+	box-sizing: border-box;
+}
+.sendOTP-confirm-btn{
+	width: 98px;
+    height: 32px;
+	margin: 5px auto;
+	border-radius: 4px;
+	color: #fff;
+	background: #3ca3f9;
+	margin-top: 50px;
+}
+.sendOTP-tag{
+	border-bottom: 1px solid #ccc;
+	margin: 5px 12px;
+}
+.sendOTP-tag span{
+	display: inline-block;
+	width: 78px;
+	height: 30px;
+	line-height: 30px;
+	color: #696969;
+	cursor: pointer;
+	text-align: center;
+}
+.sendOTP-tag span.active{
+	color: #21BCF5;
+	border-bottom: 1px solid #0099FF;
+}
+.sendOTPInfo{
+    width: 96%;
+    margin: 20px 14px;
+    border-radius: 14px 14px 0 0;
+    border: 1px solid #ccc;
+    color: #696969;
+    font-size: 14px;
+}
+.sendOTPInfo-header-tel{
+	color: #0099FF;
+}
+.sendOTPInfo-header {
+    border-bottom: 1px dashed #ccc;
+    line-height: 30px;
+    padding: 0 10px;
+    background: #CDCDCD;
+    border-radius: 12px 12px 0 0;
+}
+.sendOTPInfo-mid{
+	padding: 6px 10px;
+	line-height: 26px;	
+	color: #c5c5c5;
+}
+.sendOTPInfo-footer{
+	padding: 0 10px;
+	line-height: 24px;	
+	background: #CDCDCD;
+}
+.sendOTPInfoLayout{
+	max-height: 376px;
+	overflow-x: auto;
+}
+.sendOTPInfo-loading,
+.sendOTPInfo-loading-more {
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+}
+.sendOTPInfo-loading-more {
+    background: #ccc;
+    cursor: pointer;
+}
+.sendOTPInfo-loading img {
+    margin-right: 10px;
+}
+/*发送动态密码 end*/
+/*返回顶部 start*/
+.righttool-box-layout{
+	position: fixed;
+	right: 50%;
+    margin: 0 -665px 0 0;
+    bottom: 145px;
+	box-shadow:0 0 6px rgba(0, 204, 204, .3);   
+}
+.righttool-box-layout .back-to-top,
+.righttool-box-layout .reload {
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    border: 1px solid #EBEBE4;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 36px;
+	font-family: monospace;
+	color: #333;
+	font-weight: bold;
+}
+.righttool-box-layout .back-to-top span{
+	display: inline-block;
+	background: url(../../../images/page_template/roomstatus/backtotp.png) no-repeat center;
+	width: 16px;
+	height: 16px;
+}
+.righttool-box-layout .reload span{
+	display: inline-block;
+	background: url(../../../images/page_template/roomstatus/reload.png) no-repeat center;
+	width: 16px;
+	height: 16px;
+}
+/*返回顶部 end*/
+
